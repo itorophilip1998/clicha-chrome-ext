@@ -1,0 +1,15 @@
+{
+  "name": "bookmarlet",
+  "version": "1.0.0",
+  "description": "Clisha Extention",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "clisha",
+    "extention"
+  ],
+  "author": "itoro philip",
+  "license": "ISC"
+}
