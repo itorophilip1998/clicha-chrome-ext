@@ -3,35 +3,18 @@
     "name": "Clisha App",
     "description": "Clisha app extention",
     "version": "0.1",
-<<<<<<< HEAD
-    
-    "icons": {
-        "16": "icon.png",
-        "48": "icon.png",
-        "128":"icon.png"
-    },
-
-=======
     "icons": {
          "16": "./images/icon16.png",
            "48": "./images/icon48.png",
           "128": "./images/icon48.png" 
     },
->>>>>>> 7a3c1dde77e500bbcc8bce92e54a8771f9f5d22d
     "content_scripts": [
         {
             "matches": [
                 "<all_urls>"
             ], 
             "js": [
-<<<<<<< HEAD
-                "content.js"
-            ],
-            "css": [
-                "index.css"
-=======
                 "./scripts/content.js"
->>>>>>> 7a3c1dde77e500bbcc8bce92e54a8771f9f5d22d
             ]
         }
     ],
@@ -39,25 +22,15 @@
     "background":{
         "service_worker":"./scripts/background.js"
     },
-<<<<<<< HEAD
-
     "action": {
-        "default_icon": "icon.png" 
+        "default_icon": "./images/icon.png" ,
+        "default_popup":"index.html"
     },
-
     "permissions": [
         "tabs",
-        "activeTab"
-=======
- "action": {
-   "default_icon": "./images/icon.png" ,
-   "default_popup":"index.html"
-  },
-    "permissions": [
         "activeTab",
         "storage",
         "notifications",
         "contextMenus" 
->>>>>>> 7a3c1dde77e500bbcc8bce92e54a8771f9f5d22d
     ]
 }
