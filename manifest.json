@@ -3,23 +3,37 @@
     "name": "Clisha App",
     "description": "Clisha app extention",
     "version": "0.1",
+    
+    "icons": {
+        "16": "icon.png",
+        "48": "icon.png",
+        "128":"icon.png"
+    },
+
     "content_scripts": [
         {
             "matches": [
                 "<all_urls>"
-            ],
+            ], 
             "js": [
                 "content.js"
+            ],
+            "css": [
+                "index.css"
             ]
         }
     ],
+
     "background":{
         "service_worker":"background.js"
     },
+
     "action": {
-   "default_icon": "icon.png" 
-  },
+        "default_icon": "icon.png" 
+    },
+
     "permissions": [
+        "tabs",
         "activeTab"
     ]
 }

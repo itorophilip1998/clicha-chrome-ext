@@ -1,5 +1,5 @@
 {
-  "name": "bookmarlet",
+  "name": "clisha-extension",
   "version": "1.0.0",
   "description": "Clisha Extention",
   "main": "background.js",
