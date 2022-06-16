@@ -9,7 +9,11 @@ if (currentUrl.href === "https://www.google.com/") {
 
 
 // check if a user is typing on the google input box
-const inputbox = document.querySelector("input")
-inputbox.addEventListener("change", (e) => {
-    console.log(e)
-}) 
+// const inputbox = document.querySelector("input")
+// inputbox.addEventListener("change", (e) => {
+//     console.log(e)
+// }) 
+
+// chrome.runtime.onMessage.addListener(function(request, sender, response) {
+//     console.log(request);
+// })
