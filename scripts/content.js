@@ -1,19 +1,26 @@
 console.log("Extention Loaded yes 2")
 
-const currentUrl = window.location
-// is the user currently in the google chrome task
-if (currentUrl.href === "https://www.google.com/") {
-    console.log("hello you are currently on the Google search bar")
-    alert("hello you are currently on the Google search bar")
+chrome.storage.sync.get('task', (item) => {
+    let task = item.task;
+    console.log(task)
+    if(task){
+        if(task.task_type == "google_search") activateGoogleSearch(task)
+        if(task.task_type == "journey") activateJourneyTask(task)
+    }
+})
+
+
+
+function activateGoogleSearch(task){
+    const currentUrl = window.location
+    console.log(currentUrl, task);
+    // is the user currently in the google chrome task
+    if (currentUrl.href === "https://www.google.com/") {
+        console.log("hello you are currently on the Google search bar")
+        alert("hello you are currently on the Google search bar")
+    }
 }
-
-
-// check if a user is typing on the google input box
-// const inputbox = document.querySelector("input")
-// inputbox.addEventListener("change", (e) => {
-//     console.log(e)
-// }) 
-
-// chrome.runtime.onMessage.addListener(function(request, sender, response) {
-//     console.log(request);
-// })
+ 
+function activateJourneyTask(task){
+    console.log(task);
+}
