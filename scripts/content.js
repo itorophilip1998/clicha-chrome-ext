@@ -1,9 +1,9 @@
-console.log("Extention Loaded yes 2")
+console.log("Reading Page")
 
 chrome.storage.sync.get('task', (item) => {
-    let task = item.task;
-    console.log(task)
-    if(task){
+    if(Object.keys(item).length) {
+        console.log('Task Currently Running');
+        let task = item.task;
         if(task.task_type == "google_search") activateGoogleSearch(task)
         if(task.task_type == "journey") activateJourneyTask(task)
     }
@@ -12,7 +12,9 @@ chrome.storage.sync.get('task', (item) => {
 
 
 function activateGoogleSearch(task){
-    const currentUrl = window.location
+    console.log('Google Search Task');
+    console.log('Google Search Task Details', task.google_search)
+    const currentUrl = window.location;
     console.log(currentUrl, task);
     // is the user currently in the google chrome task
     if (currentUrl.href === "https://www.google.com/") {
@@ -22,5 +24,11 @@ function activateGoogleSearch(task){
 }
  
 function activateJourneyTask(task){
-    console.log(task);
+    console.log('Journey Task Active');
+    console.log(`Journey Task Details, Total step is ${task.journey.length} on`, task.journey );
+    const currentUrl = window.location;
+
+
+    chrome.runtime.sendMessage({});
+
 }

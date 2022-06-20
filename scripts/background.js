@@ -21,8 +21,8 @@ function getTaskDetails(taskId){
         .then(response => response.json())
         .then((data) =>{
             if(data.status) {
+                console.log('Task Loaded');
                 chrome.storage.sync.set({ task_active: true,task: data.data}, function(items){
-                //    console.log(items);
                 }); 
             }
         })
@@ -33,16 +33,18 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
     chrome.storage.sync.get('task_active', (item) =>{
         // console.log(item, Object.keys(item).length); 
         if( Object.keys(item).length == 0) {
-            console.log('Activating Task')
             chrome.tabs.get(activeInfo.tabId, function(tab){
                 url = tab.url;
                 url = url.split('?');
-                let query = parseQueryParam(url[1]);
+                if(Array.isArray(url) && url.length > 0){
+                    console.log('Activating Task', url[1]);
+                    let query = parseQueryParam(url[1]);
             
-                // Confirm if Url include Clisha code
-                if(code.includes(query.cd)){ 
-                    // console.log('Task activated for ', query.tk); 
-                    getTaskDetails(query.tk)
+                    // Confirm if Url include Clisha code
+                    if(code.includes(query.cd)){ 
+                        // console.log('Task activated for ', query.tk); 
+                        getTaskDetails(query.tk)
+                    }
                 }
             }); 
         }

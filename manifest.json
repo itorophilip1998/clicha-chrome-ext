@@ -18,14 +18,16 @@
             ]
         }
     ],
-
     "background":{
         "service_worker":"./scripts/background.js"
     },
+    
     "action": {
+        "default_title": "Clisha App",
         "default_icon": "./images/icon.png" ,
         "default_popup":"index.html"
     },
+
     "permissions": [
         "tabs",
         "activeTab",
