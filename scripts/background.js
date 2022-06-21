@@ -1,8 +1,5 @@
 console.log("Background Extention Runing");
 
-
-
-
 const baseUrl = 'https://shielded-savannah-41389.herokuapp.com/api',
     code  = ['7e6dtw78egubdihisudjxhbijskhduhjnfc', 'rtyfghvd6tygsdyghbdghdcghjbhjdbcjhnd', 'ws6d7tygvwsf7yduhsudghjbduhcbj']
 
