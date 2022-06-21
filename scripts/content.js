@@ -1,9 +1,10 @@
 // import axios from "axios";
 // import { config, keyword } from "../config";
 
+// taskid = 728362863 & code=hw8wg238362hi2gkg
 (() => {
     console.log("Extention Loaded ")
-    const keyword = "hello"
+    const keyword = "hi"
     const currentUrl = window.location
     // is the user currently in the google chrome task
     if (currentUrl.href.match("https://www.google.com/")) {
