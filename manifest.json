@@ -12,7 +12,7 @@
         {
             "matches": [
                 "<all_urls>"
-            ],
+            ], 
             "js": [
                 "./scripts/content.js"
             ]
@@ -21,11 +21,15 @@
     "background":{
         "service_worker":"./scripts/background.js"
     },
- "action": {
-   "default_icon": "./images/icon.png" ,
-   "default_popup":"index.html"
-  },
+    
+    "action": {
+        "default_title": "Clisha App",
+        "default_icon": "./images/icon.png" ,
+        "default_popup":"index.html"
+    },
+
     "permissions": [
+        "tabs",
         "activeTab",
         "storage",
         "notifications",
