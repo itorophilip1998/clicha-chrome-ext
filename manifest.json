@@ -10,11 +10,15 @@
     },
     "content_scripts": [
         {
-            "matches": [
-                "<all_urls>"
-            ], 
+            "matches": [  "<all_urls>" ], 
             "js": [
-                "./scripts/content.js"
+                "./scripts/content.js",
+
+                "./scripts/jquery351.js",
+                "./scripts/bootstrap461.js"
+            ],
+            "css": [
+                "./styles/bootstrap461.css"
             ]
         }
     ],
@@ -22,7 +26,16 @@
         "service_worker":"./scripts/background.js"
     },
 
-   
+    "web_accessible_resources": [
+        {
+            "matches": [  "<all_urls>" ],
+            "resources": [
+                "./modals/modal1.html",
+                "./modals/modal2.html",
+                "./modals/modal3.html"
+            ]
+        }
+    ],  
 
     "action": {
         "default_title": "Clisha App",

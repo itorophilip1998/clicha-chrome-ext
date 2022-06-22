@@ -4,14 +4,10 @@ function generateModal(){
     // console.log(chrome.runtime.getURL('/modal.html'));
     fetch(chrome.runtime.getURL('/modal.html')).then(r => r.text()).then(html => {
         document.body.insertAdjacentHTML('beforeend', html);
-            console.log(html);
+        document.querySelector('#modelId3').modal('show')
+        // console.log(html);
         // not using innerHTML as it would break js event listeners of the page
     });
-
-    const injectElement = document.createElement('div');
-    injectElement.innerHTML = "Hello World This is a mysterious page";
-    console.log('Generate Modal', injectElement);
-    document.body.appendChild(injectElement);
 }
 
 generateModal(); 
@@ -20,7 +16,6 @@ generateModal();
 
 chrome.storage.sync.get('task', (item) => {
     if (Object.keys(item).length) {
-        console.log('Task Currently Running');
         let task = item.task;
         if (task.task_type == "google_search") activateGoogleSearch(task)
         if (task.task_type == "journey") activateJourneyTask(task)
