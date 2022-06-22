@@ -1,15 +1,14 @@
 console.log("Reading Page")
 
 function generateModal(){
-    // console.log(chrome.runtime.getURL('/modal.html'));
-    fetch(chrome.runtime.getURL('/modal.html')).then(r => r.text()).then(html => {
-        document.body.insertAdjacentHTML('beforeend', html);
-        document.querySelector('#modelId3').modal('show')
-        // console.log(html);
-        // not using innerHTML as it would break js event listeners of the page
+    console.log(chrome.runtime.getURL('/templates/modal3.html'));
+    fetch(chrome.runtime.getURL('/templates/modal3.html'))
+        .then(r => r.text()).then(html => {
+            document.body.insertAdjacentHTML('beforeend', html);
+            $('#modelId3').modal('show');
     });
 }
-
+ 
 generateModal(); 
 
 
