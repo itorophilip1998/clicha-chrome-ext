@@ -1,17 +1,32 @@
 console.log("Reading Page")
 
-function generateModal(){
-    console.log(chrome.runtime.getURL('/templates/modal3.html'));
-    fetch(chrome.runtime.getURL('/templates/modal3.html'))
-        .then(r => r.text()).then(html => {
+function showModal(open = 1, content = null){
+   let template = `/templates/modal${open}.html`,
+       modalId = `#clishaModelId${open}`;
+
+    fetch(chrome.runtime.getURL(template)).then(r => r.text()).then(html => {
             document.body.insertAdjacentHTML('beforeend', html);
-            $('#modelId3').modal('show');
+            $(modalId).modal('show');
+            if(content){
+                let entry = document.querySelector('#boost-entry');
+                console.log('Open Extended Modal');
+                if(content.head){
+                    let headerElem = document.createElement('h4');
+                    headerElem.innerHTML = content.head;
+                    entry.appendChild(headerElem);
+                }
+
+                if(content.body ){
+                    let paramElem = document.createElement('p');
+                    paramElem.innerHTML = content.body;
+                    entry.appendChild(paramElem);
+                }
+
+            }
     });
 }
+   
  
-generateModal(); 
-
-
 
 chrome.storage.sync.get('task', (item) => {
     if (Object.keys(item).length) {
@@ -26,17 +41,41 @@ chrome.storage.sync.get('task', (item) => {
 //         var activeTab = tabs[0];
 //         chrome.tabs.sendMessage(activeTab.id, { command: 'openModal'}); 
 //       })
-// })
+// })search?q=
 
 function activateGoogleSearch(task){
     console.log('Google Search Task');
-    console.log('Google Search Task Details', task.google_search)
     const currentUrl = window.location;
-    console.log(currentUrl, task);
-    // is the user currently in the google chrome task
-    if (currentUrl.href === "https://www.google.com/") {
-        console.log("hello you are currently on the Google search bar")
-        alert("hello you are currently on the Google search bar")
+    let clisha_search =  JSON.parse(task.google_search);
+    console.log("Google Search Task Details >>",  clisha_search);
+    // Google Query Page
+    if(currentUrl.href == task.url){
+        let timeout = 20;
+        console.log('Reach Destination');
+        console.log(`Deactivating Task after ${timeout} seconds`)
+        setTimeout(()=> {
+            deactivateExtensionTask();
+        }, 20 * 1000)
+
+    }else if(currentUrl.href.includes('search?q=')){
+        let url = currentUrl.href.split('?'),
+            query = parseQueryParam(url[1]);
+
+        let searched_phrase = query.q.replaceAll('+', ' ')
+        
+        console.log(url, query, searched_phrase);
+        if(clisha_search.search_phrase.toLowerCase() === searched_phrase.toLowerCase()){
+            showModal(1, {
+                head: `Click ${clisha_search.title}`,
+                body: `Find "${clisha_search.title}" from the result, and click on the title that include "${task.url}" as the link`,
+            }); 
+        }else{
+            showModal(1, {head: `Kindly Re-enter "${clisha_search.search_phrase}" in the Google Search bar`});
+        }
+
+    // Google Search Page
+    }else if(currentUrl.href.includes('google.com')) {
+        showModal(1, {head: `Enter ${clisha_search.search_phrase} in the Google Search bar`});
     }
 }
  
@@ -56,3 +95,23 @@ function activateJourneyTask(task) {
 
 }
 
+
+function parseQueryParam(url) {
+    var query = {};
+    var pairs = (url[0] === '?' ? url.substr(1) : url).split('&');
+    for (var i = 0; i < pairs.length; i++) {
+        var pair = pairs[i].split('=');
+        query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
+    }
+    return query;
+} 
+
+
+function deactivateExtensionTask(){
+    chrome.storage.local.clear(function() {
+        var error = chrome.runtime.lastError;
+        if (error) {
+            console.error(error);
+        }
+    });
+}

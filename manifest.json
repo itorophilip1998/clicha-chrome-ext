@@ -30,9 +30,9 @@
         {
             "matches": [  "<all_urls>" ],
             "resources": [
-                "./templates/modal1.html",
-                "./templates/modal2.html",
-                "./templates/modal3.html"
+                "templates/modal1.html",
+                "templates/modal2.html",
+                "/templates/modal3.html"
             ]
         }
     ],  
