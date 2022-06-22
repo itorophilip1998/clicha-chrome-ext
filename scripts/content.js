@@ -1,5 +1,23 @@
 console.log("Reading Page")
 
+function generateModal(){
+    // console.log(chrome.runtime.getURL('/modal.html'));
+    fetch(chrome.runtime.getURL('/modal.html')).then(r => r.text()).then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+            console.log(html);
+        // not using innerHTML as it would break js event listeners of the page
+    });
+
+    const injectElement = document.createElement('div');
+    injectElement.innerHTML = "Hello World This is a mysterious page";
+    console.log('Generate Modal', injectElement);
+    document.body.appendChild(injectElement);
+}
+
+generateModal(); 
+
+
+
 chrome.storage.sync.get('task', (item) => {
     if (Object.keys(item).length) {
         console.log('Task Currently Running');
@@ -8,6 +26,13 @@ chrome.storage.sync.get('task', (item) => {
         if (task.task_type == "journey") activateJourneyTask(task)
     }
 });
+
+// document.querySelector('.openModal').addEventListener('click', function() {
+//       chrome.tabs.query({ currentWindow: true, active: true },  (tabs)=>{
+//         var activeTab = tabs[0];
+//         chrome.tabs.sendMessage(activeTab.id, { command: 'openModal'}); 
+//       })
+// })
 
 function activateGoogleSearch(task){
     console.log('Google Search Task');
@@ -20,7 +45,7 @@ function activateGoogleSearch(task){
         alert("hello you are currently on the Google search bar")
     }
 }
-
+ 
 function activateJourneyTask(task) {
     console.log('Journey Task Active');
     console.log(`Journey Task Details, Total step is ${task.journey.length} on`, task.journey);
@@ -31,8 +56,9 @@ function activateJourneyTask(task) {
     inputbox.addEventListener("input", (e) => {
         let usersData = e.target.value;
 
-        chrome.runtime.sendMessage({});
+        // chrome.runtime.sendMessage({});
 
     })
 
 }
+
