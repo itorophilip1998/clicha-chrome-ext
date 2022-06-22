@@ -1,15 +1,28 @@
 console.log("Reading Page")
+// Run Task
+chrome.storage.sync.get('task', (item) => {
+    if (Object.keys(item).length) {
+        let task = item.task;
+        if (task.task_type == "google_search") activateGoogleSearch(task)
+        if (task.task_type == "journey") activateJourneyTask(task)
+    }
+});
 
+
+// Task Functionalities
 function showModal(open = 1, content = null){
    let template = `/templates/modal${open}.html`,
        modalId = `#clishaModelId${open}`;
 
-    fetch(chrome.runtime.getURL(template)).then(r => r.text()).then(html => {
+    fetch(chrome.runtime.getURL(template))
+        .then(r => r.text())
+        .then(html => {
+            console.log('Modal Template Loaded');
             document.body.insertAdjacentHTML('beforeend', html);
             $(modalId).modal('show');
             if(content){
                 let entry = document.querySelector('#boost-entry');
-                console.log('Open Extended Modal');
+                console.log('Opening Extended Modal');
                 if(content.head){
                     let headerElem = document.createElement('h4');
                     headerElem.innerHTML = content.head;
@@ -25,38 +38,23 @@ function showModal(open = 1, content = null){
             }
     });
 }
-   
- 
-
-chrome.storage.sync.get('task', (item) => {
-    if (Object.keys(item).length) {
-        let task = item.task;
-        if (task.task_type == "google_search") activateGoogleSearch(task)
-        if (task.task_type == "journey") activateJourneyTask(task)
-    }
-});
-
-// document.querySelector('.openModal').addEventListener('click', function() {
-//       chrome.tabs.query({ currentWindow: true, active: true },  (tabs)=>{
-//         var activeTab = tabs[0];
-//         chrome.tabs.sendMessage(activeTab.id, { command: 'openModal'}); 
-//       })
-// })search?q=
 
 function activateGoogleSearch(task){
     console.log('Google Search Task');
     const currentUrl = window.location;
     let clisha_search =  JSON.parse(task.google_search);
     console.log("Google Search Task Details >>",  clisha_search);
-    // Google Query Page
-    if(currentUrl.href == task.url){
+    
+    
+    if(currentUrl.href.includes(task.url)){
         let timeout = 20;
         console.log('Reach Destination');
         console.log(`Deactivating Task after ${timeout} seconds`)
         setTimeout(()=> {
             deactivateExtensionTask();
-        }, 20 * 1000)
-
+        }, timeout * 1000);
+        
+    // Google Result Page  
     }else if(currentUrl.href.includes('search?q=')){
         let url = currentUrl.href.split('?'),
             query = parseQueryParam(url[1]);
@@ -95,7 +93,6 @@ function activateJourneyTask(task) {
 
 }
 
-
 function parseQueryParam(url) {
     var query = {};
     var pairs = (url[0] === '?' ? url.substr(1) : url).split('&');
@@ -106,9 +103,10 @@ function parseQueryParam(url) {
     return query;
 } 
 
-
 function deactivateExtensionTask(){
-    chrome.storage.local.clear(function() {
+    // ["task", "task_active"]
+    chrome.storage.sync.clear(function() {
+        console.log('Task Deactivated');
         var error = chrome.runtime.lastError;
         if (error) {
             console.error(error);
