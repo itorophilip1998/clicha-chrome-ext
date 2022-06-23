@@ -7,7 +7,22 @@ chrome.storage.sync.get('task', (item) => {
         if (task.task_type == "journey") activateJourneyTask(task)
     }
 });
+// Backround Message
+chrome.runtime.onMessage.addListener({msg, sender, response }, function () {
+    console.log('Background Message Received ',msg);
 
+    return true;
+})
+ 
+// Current Domain
+let domain = window.location.hostname
+domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0]
+
+
+// Send Message
+chrome.runtime.sendMessage({ command: "fetch", data: {domain: domain}, function (response) {
+    console.log(response);
+}})
 
 // Task Functionalities
 function showModal(open = 1, content = null){

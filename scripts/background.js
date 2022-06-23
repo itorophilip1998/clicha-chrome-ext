@@ -3,6 +3,10 @@ console.log("Background Extention Runing");
 const baseUrl = 'https://shielded-savannah-41389.herokuapp.com/api',
     code  = ['7e6dtw78egubdihisudjxhbijskhduhjnfc', 'rtyfghvd6tygsdyghbdghdcghjbhjdbcjhnd', 'ws6d7tygvwsf7yduhsudghjbduhcbj']
 
+chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+    chrome.tabs.sendMessage(tabs[0].id, {action: "open_dialog_box"}, function(response) {});  
+});
+
 function parseQueryParam(url) {
     var query = {};
     var pairs = (url[0] === '?' ? url.substr(1) : url).split('&');
