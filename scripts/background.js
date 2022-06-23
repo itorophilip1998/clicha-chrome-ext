@@ -1,11 +1,8 @@
 console.log("Background Extention Runing");
 
-const baseUrl = 'https://shielded-savannah-41389.herokuapp.com/api',
-    code  = ['7e6dtw78egubdihisudjxhbijskhduhjnfc', 'rtyfghvd6tygsdyghbdghdcghjbhjdbcjhnd', 'ws6d7tygvwsf7yduhsudghjbduhcbj']
+const baseUrl = 'https://shielded-savannah-41389.herokuapp.com/api';
 
-chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-    chrome.tabs.sendMessage(tabs[0].id, {action: "open_dialog_box"}, function(response) {});  
-});
+
 
 function parseQueryParam(url) {
     var query = {};
@@ -15,7 +12,7 @@ function parseQueryParam(url) {
         query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
     }
     return query;
-} 
+}  
 
 function getTaskDetails(taskId){
     fetch(`${baseUrl}//task/${taskId}`)
@@ -40,12 +37,7 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
                 if(Array.isArray(url) && url.length > 0){
                     console.log('Activating Task', url[1]);
                     let query = parseQueryParam(url[1]);
-            
-                    // Confirm if Url include Clisha code
-                    if(code.includes(query.cd)){ 
-                        // console.log('Task activated for ', query.tk); 
-                        getTaskDetails(query.tk)
-                    }
+                    getTaskDetails(query.tk)
                 }
             }); 
         }

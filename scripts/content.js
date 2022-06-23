@@ -8,7 +8,7 @@ chrome.storage.sync.get('task', (item) => {
     }
 });
 // Backround Message
-chrome.runtime.onMessage.addListener({msg, sender, response }, function () {
+chrome.runtime.onMessage.addListener(function (msg, sender, response ) {
     console.log('Background Message Received ',msg);
 
     return true;
