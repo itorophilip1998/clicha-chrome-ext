@@ -1,7 +1,6 @@
 console.log("Background Extention Runing");
 
-const baseUrl = 'https://shielded-savannah-41389.herokuapp.com/api',
-    code  = ['7e6dtw78egubdihisudjxhbijskhduhjnfc', 'rtyfghvd6tygsdyghbdghdcghjbhjdbcjhnd', 'ws6d7tygvwsf7yduhsudghjbduhcbj']
+const baseUrl = 'https://shielded-savannah-41389.herokuapp.com/api';
 
 function parseQueryParam(url) {
     var query = {};
@@ -11,15 +10,18 @@ function parseQueryParam(url) {
         query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
     }
     return query;
-} 
+}  
 
-function getTaskDetails(taskId){
-    fetch(`${baseUrl}//task/${taskId}`)
+function getTaskDetails(query){
+    fetch(`${baseUrl}/task/${query.tk}?code=${query.cd}`)
         .then(response => response.json())
         .then((data) =>{
             if(data.status) {
-                console.log('Task Loaded');
                 chrome.storage.sync.set({ task_active: true,task: data.data}, function(items){
+                    console.log('Task Activated');
+                    chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
+                        chrome.tabs.sendMessage(tabs[0].id, {action: "open_dialog_box"}, function(response) { 			}); 		
+                    });
                 }); 
             }
         })
@@ -34,14 +36,9 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
                 url = tab.url;
                 url = url.split('?');
                 if(Array.isArray(url) && url.length > 0){
-                    console.log('Activating Task', url[1]);
+                    console.log('Activating', url);
                     let query = parseQueryParam(url[1]);
-            
-                    // Confirm if Url include Clisha code
-                    if(code.includes(query.cd)){ 
-                        // console.log('Task activated for ', query.tk); 
-                        getTaskDetails(query.tk)
-                    }
+                    getTaskDetails(query)
                 }
             }); 
         }
