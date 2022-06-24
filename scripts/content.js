@@ -8,21 +8,20 @@ chrome.storage.sync.get('task', (item) => {
     }
 });
 // Backround Message
-chrome.runtime.onMessage.addListener(function (msg, sender, response ) {
-    console.log('Background Message Received ',msg);
-
+chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
+    console.log('Background Message Received ',message);
     return true;
-})
- 
+});
+
 // Current Domain
 let domain = window.location.hostname
 domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0]
 
 
 // Send Message
-chrome.runtime.sendMessage({ command: "fetch", data: {domain: domain}, function (response) {
-    console.log(response);
-}})
+// chrome.runtime.sendMessage({ command: "fetch", data: {domain: domain}, function (response) {
+//     console.log(response);
+// }})
 
 // Task Functionalities
 function showModal(open = 1, content = null){
@@ -60,13 +59,14 @@ function activateGoogleSearch(task){
     let clisha_search =  JSON.parse(task.google_search);
     console.log("Google Search Task Details >>",  clisha_search);
     
-    
+    console.log(currentUrl.href.includes(task.url));
     if(currentUrl.href.includes(task.url)){
         let timeout = 20;
         console.log('Reach Destination');
-        console.log(`Deactivating Task after ${timeout} seconds`)
+        console.log(`Deactivating Task after ${timeout} seconds`);
+
         setTimeout(()=> {
-            deactivateExtensionTask();
+            deactivateExtensionTask(task);
         }, timeout * 1000);
         
     // Google Result Page  
@@ -118,10 +118,10 @@ function parseQueryParam(url) {
     return query;
 } 
 
-function deactivateExtensionTask(){
-    // ["task", "task_active"]
+function deactivateExtensionTask(task){
     chrome.storage.sync.clear(function() {
         console.log('Task Deactivated');
+        window.location.href = `https://clisha-stagging.netlify.app/dashboard/reward?t=${task.id}&p=${task.points}`
         var error = chrome.runtime.lastError;
         if (error) {
             console.error(error);

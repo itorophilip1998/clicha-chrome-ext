@@ -20,4 +20,6 @@ document.querySelector('#clisha-task').addEventListener('click', function () {
 //         console.log(response)
 //     });
 // })
- 
+chrome.storage.sync.get('task', (item) => {
+    
+});
