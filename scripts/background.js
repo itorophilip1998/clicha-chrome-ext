@@ -4,7 +4,6 @@ const baseUrl = 'https://shielded-savannah-41389.herokuapp.com/api';
 
 
 chrome.tabs.onActivated.addListener( function(activeInfo){
-    console.log(activeInfo);
     chrome.storage.sync.get('task_active', (item) =>{
         if( Object.keys(item).length == 0) {
             chrome.tabs.get(activeInfo.tabId, function(tab){
@@ -36,24 +35,21 @@ function getTaskDetails(query){
         .then((data) =>{
             if(data.status) {
                 chrome.storage.sync.set({ task_active: true,task: data.data}, function(items){
-                    console.log('Task Activated');
+                    console.log('Task Activated', data.data);
                     chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
-                        chrome.tabs.sendMessage(tabs[0].id, {action: data.data}, function(response) { 			}); 		
+                        chrome.tabs.sendMessage(tabs[0].id, {task: data.data}, function(response) { 			}); 		
                     });
+
+                    chrome.alarms.create('deactivateTask', { delayInMinutes: 15 } )
                 }); 
             }
         })
         .catch(err => { console.error(err); throw err; } );
 }
 
-// Run Task
-chrome.storage.sync.get('task', (item) => {
-    if (Object.keys(item).length) {
-        console.log('Task Available');
-        setTimeout(()=> {
-            deactivateExtensionTask();
-        }, 60 * 1000);
-    }
+chrome.alarms.onAlarm.addListener(function(alarm) {
+    console.log('Alarm ', alarm);
+    deactivateExtensionTask();
 });
  
 function deactivateExtensionTask(){

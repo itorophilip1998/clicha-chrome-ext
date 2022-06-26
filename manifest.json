@@ -47,6 +47,7 @@
     "host_permissions": [ "<all_urls>"],
     "permissions": [
         "tabs",
+        "alarms",
         "activeTab",
         "storage",
         "notifications",
