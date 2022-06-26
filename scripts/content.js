@@ -7,9 +7,12 @@ chrome.storage.sync.get('task', (item) => {
         if (task.task_type == "journey") activateJourneyTask(task)
     }
 });
-// Backround Message
+// Sync Task with Backround 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
-    console.log('Background Message Received ',message);
+    console.log('Background Message Received ',message, sender);
+    let task = message;
+    if (task.task_type == "google_search") activateGoogleSearch(task)
+    if (task.task_type == "journey") activateJourneyTask(task)
     return true;
 });
 
