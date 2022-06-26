@@ -71,32 +71,30 @@ function activateGoogleSearch(task){
             if(clisha_search.search_phrase.toLowerCase() === searched_phrase.toLowerCase()){
                 showModal(1, {
                     head: `Click ${clisha_search.title}`,
-                    body: `Find "${clisha_search.title}" from the result, and click on the title that include "${task.url}" as the link`,
+                    body: `Please go through the Google Search results and click on the result with the website title ${clisha_search.title}`,
                 }); 
             }else{
-                showModal(1, {head: `Kindly Re-enter "${clisha_search.search_phrase}" in the Google Search bar`});
+                showModal(1, {head: `Oops you have entered the wrong phrase please try again by entering "${clisha_search.title}"`});
             }
-    
+            return true;
         }
-        showModal(1, {head: `Enter ${clisha_search.search_phrase} in the Google Search bar`});
+        showModal(1, {head: `Please enter the copied search Phrase into the Google Search Bar and hit the Enter`});
     } else{
-        console.log(currentUrl.href.includes(task.url));
-        if(currentUrl.href.includes(task.url)){
-            let timeout = 20;
-            console.log('Reach Destination');
+        console.log('Destination', task.url);
+        if(currentUrl.href == task.url){
+            showModal(1, {head: `You have clicked on the right page! Please interact with this page until the timer went down `});
+            let timeout = 40;
             console.log(`Deactivating Task after ${timeout} seconds`);
      
             setTimeout(()=> {
-                // deactivateExtensionTask(task);
+                deactivateExtensionTask(task);
             }, timeout * 1000);
-            
-        // Google Result Page  
         }else {
-            console.log('No Destination');
+            showModal(1, {head: `You have clicked on the wrong page! Please go back to Google search result and click on  ${clisha_search.title}`});
         }
     }
 }
- 
+  
 function activateJourneyTask(task) {
     console.log('Journey Task Active');
     console.log(`Journey Task Details, Total step is ${task.journey.length} on`, task.journey);

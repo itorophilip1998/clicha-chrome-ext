@@ -48,7 +48,6 @@ function getTaskDetails(query){
 }
 
 chrome.alarms.onAlarm.addListener(function(alarm) {
-    console.log('Alarm ', alarm);
     deactivateExtensionTask();
 });
  
