@@ -1,4 +1,5 @@
 console.log("Reading Page")
+
 // Run Task
 chrome.storage.sync.get('task', (item) => {
     if (Object.keys(item).length) {
@@ -7,15 +8,17 @@ chrome.storage.sync.get('task', (item) => {
         if (task.task_type == "journey") activateJourneyTask(task)
     }
 });
-// Backround Message
+// Sync Task with Backround 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
-    console.log('Background Message Received ',message);
+    let task = message.task;
+    if (task.task_type == "google_search") activateGoogleSearch(task)
+    if (task.task_type == "journey") activateJourneyTask(task)
     return true;
 });
-
+ 
 // Current Domain
-let domain = window.location.hostname
-domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0]
+let domain = window.location.href
+domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
 
 
 // Send Message
@@ -57,41 +60,41 @@ function activateGoogleSearch(task){
     console.log('Google Search Task');
     const currentUrl = window.location;
     let clisha_search =  JSON.parse(task.google_search);
-    console.log("Google Search Task Details >>",  clisha_search);
     
-    console.log(currentUrl.href.includes(task.url));
-    if(currentUrl.href.includes(task.url)){
-        let timeout = 20;
-        console.log('Reach Destination');
-        console.log(`Deactivating Task after ${timeout} seconds`);
-
-        setTimeout(()=> {
-            deactivateExtensionTask(task);
-        }, timeout * 1000);
-        
-    // Google Result Page  
-    }else if(currentUrl.href.includes('search?q=')){
-        let url = currentUrl.href.split('?'),
-            query = parseQueryParam(url[1]);
-
-        let searched_phrase = query.q.replaceAll('+', ' ')
-        
-        console.log(url, query, searched_phrase);
-        if(clisha_search.search_phrase.toLowerCase() === searched_phrase.toLowerCase()){
-            showModal(1, {
-                head: `Click ${clisha_search.title}`,
-                body: `Find "${clisha_search.title}" from the result, and click on the title that include "${task.url}" as the link`,
-            }); 
-        }else{
-            showModal(1, {head: `Kindly Re-enter "${clisha_search.search_phrase}" in the Google Search bar`});
+    if(domain[0] == 'google.com') {
+        if(domain[0] == 'google.com' && currentUrl.href.includes('search?q=')){
+            let url = currentUrl.href.split('?'),
+                query = parseQueryParam(url[1]);
+    
+            let searched_phrase = query.q.replaceAll('+', ' ')
+            
+            if(clisha_search.search_phrase.toLowerCase() === searched_phrase.toLowerCase()){
+                showModal(1, {
+                    head: `Click ${clisha_search.title}`,
+                    body: `Please go through the Google Search results and click on the result with the website title ${clisha_search.title}`,
+                }); 
+            }else{
+                showModal(1, {head: `Oops you have entered the wrong phrase please try again by entering "${clisha_search.title}"`});
+            }
+            return true;
         }
-
-    // Google Search Page
-    }else if(currentUrl.href.includes('google.com')) {
-        showModal(1, {head: `Enter ${clisha_search.search_phrase} in the Google Search bar`});
+        showModal(1, {head: `Please enter the copied search Phrase into the Google Search Bar and hit the Enter`});
+    } else{
+        console.log('Destination', task.url);
+        if(currentUrl.href == task.url){
+            showModal(1, {head: `You have clicked on the right page! Please interact with this page until the timer went down `});
+            let timeout = 40;
+            console.log(`Deactivating Task after ${timeout} seconds`);
+     
+            setTimeout(()=> {
+                deactivateExtensionTask(task);
+            }, timeout * 1000);
+        }else {
+            showModal(1, {head: `You have clicked on the wrong page! Please go back to Google search result and click on  ${clisha_search.title}`});
+        }
     }
 }
- 
+  
 function activateJourneyTask(task) {
     console.log('Journey Task Active');
     console.log(`Journey Task Details, Total step is ${task.journey.length} on`, task.journey);
