@@ -80,8 +80,8 @@ function activateGoogleSearch(task){
         }
         showModal(1, {head: `Please enter the copied search Phrase into the Google Search Bar and hit the Enter`});
     } else{
-        console.log('Destination', task.url);
-        if(currentUrl.href == task.url){
+        console.log('Destination', task.url, currentUrl.href.match(task.url));
+        if(currentUrl.href.match(task.url) || currentUrl.href+'/' == task.url){
             showModal(1, {head: `You have clicked on the right page! Please interact with this page until the timer went down `});
             let timeout = 40;
             console.log(`Deactivating Task after ${timeout} seconds`);
