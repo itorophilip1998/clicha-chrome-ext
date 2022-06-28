@@ -63,4 +63,6 @@ function deactivateExtensionTask(){
 chrome.runtime.onMessage.addListener( function(request, sender) {
     console.log('Background Refreshing ',request)
     if(request.reload == "true") chrome.runtime.reload()
+
+    return true
 });

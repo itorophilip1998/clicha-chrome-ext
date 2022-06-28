@@ -53,8 +53,9 @@ function showModal(open = 1, content = null){
                     entry.appendChild(paramElem);
                 }
 
-                error.style.display = (content.error) ? "block" : "none";
+                error.style.display = (content.error) ? "block" : "none";  
 
+                document.getElementById('task-deactivate').addEventListener('click', handleDeactivate(modalId), false);
             }
     });
 }
@@ -124,11 +125,12 @@ function parseQueryParam(url) {
 } 
 
 
-function deactivateExtensionTask(){
+function completeExtensionTask(task){
     chrome.storage.sync.clear(function() {
-        chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  	
-            chrome.tabs.sendMessage(tabs[0].id, { reload: 'true' }, (response) => { console.log('Message Sent ') });
-        });
+        console.log('Task Deactivated');
+        chrome.runtime.sendMessage( { reload: 'true' }, (response) => { console.log('Message Sent ') });
+
+        window.location.href = `https://clisha-stagging.netlify.app/dashboard/reward?t=${task.id}&p=${task.points}`
         var error = chrome.runtime.lastError;
         if (error) {
             console.error(error);
@@ -136,16 +138,14 @@ function deactivateExtensionTask(){
     });
 }
 
-function completeExtensionTask(task){
+function handleDeactivate(modalId) {
     chrome.storage.sync.clear(function() {
-        console.log('Task Deactivated');
-        chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  	
-            chrome.tabs.sendMessage(tabs[0].id, { reload: 'true' }, (response) => { console.log('Message Sent ') });
-        });
-        window.location.href = `https://clisha-stagging.netlify.app/dashboard/reward?t=${task.id}&p=${task.points}`
+        chrome.runtime.sendMessage( { reload: 'true' }, (response) => {    $(modalId).modal('show');  });
+
         var error = chrome.runtime.lastError;
         if (error) {
             console.error(error);
         }
     });
+ 
 }
