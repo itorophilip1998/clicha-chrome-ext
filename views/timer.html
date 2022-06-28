@@ -44,13 +44,13 @@
                 let warning=document.getElementById("clisha_warning");
                 let clisha_timer=document.getElementById("clisha_timer");
           
-                    var timeValue = 30; // this is the duration in second
-                    setInterval(()=> {
+                    var timeValue = 5; // this is the duration in second
+                  let intervalId=  setInterval(()=> {
                         timeValue--;
                         warning.innerText =  "Hello! do not close or leave this window ";
                         clisha_timer.innerText =  timeValue;
                         if (timeValue==0) {
-                        
+                        clearInterval(intervalId)
                             // logic to return the user to reward page to earn coin
                             
                         }
