@@ -9,9 +9,8 @@
             background-size: cover;
             border: 0!important;
             margin: 10px 0;
-            min-height: 150px;
+            min-height: 130px;
             width: 300px;padding: 10px;
-            background: #fdce38;
         }
         hr{
             margin: 5px auto;
@@ -48,37 +47,56 @@
     
         .clisha-task-detail {
            /* font-weight: bold; */
-            padding: .75rem  0;
+            padding: .55rem  0;
         }
-        .pr-2{
+        .icon{
             padding-right: 6px;
             width: 15px;
+        }
+        .font-normal{
+            font-size: 14px;
         }
     </style> 
     <div class="clisha_diaiwushdn" >
         <div class="clisha_preview">
-            <h2 style="margin-bottom: 8px;">Clisha</h2>
+            <h2 style="margin: 8px auto;">Clisha</h2>
 
-            <p id="popInfo" style="font-size: 14px;"> No active task <a href="#" id="clisha-task">click here</a>  to get and activate a task</p>
+            <div id="taskInactive">
+                <p class="font-normal"> No active task. <a href="#" id="clisha-task">Click here</a>  to get and activate a task</p>
+            </div>
             
-            <div style="margin-top: 10px">
+            <div id="taskActive" style="display: none;">
+                <p class="font-normal"> Task is currently active. <a href="#" id="clisha-deactivate">Click here</a>  to deactivate </p>
                 <hr>
                 <div class="row header text-clisha-red">
                     <div class="col-6 pr-0">
-                        <!-- <img class="pr-2" src="https://clisha-stagging.netlify.app/images/Task/finger.png" alt=""> -->
+                        <!-- <img class="icon" src="https://clisha-stagging.netlify.app/images/Task/finger.png" alt=""> -->
                         <span>Task ID </span>
                     </div>
-                    <div class=" col-6 "><img class="pr-2" src="https://clisha-stagging.netlify.app/images/Task/copy.png"  alt="" >PRHAXD084691</div>
+                    <div class=" col-6 "><img class="icon" src="https://clisha-stagging.netlify.app/images/Task/copy.png"  alt="" >
+                        <span id="task-code-ied7yghfubj">PRHAXD084691</span>
+                    </div>
                 </div>
                 <hr>
-                <div class="row header  clisha-task-detail ">
-                    <div class="col-6">Duration</div>
-                    <div class="col-6 text-righ"><img class="pr-2" src="https://clisha-stagging.netlify.app/images/Task/timer.png" class="ml-2" alt="">30 sec</div>
+                <div class="row font-normal clisha-task-detail ">
+                    <div class="col-6">Point</div>
+                    <div class="col-6 text-righ">
+                        <img class="icon" src="https://clisha-stagging.netlify.app/images/Task/db.png" class="ml-2" alt="">
+                        <span id="task-point-askjdcn">308 Pts</span>
+                    </div>
                 </div>
-                <div class="row header  clisha-task-detail ">
-                    <div class="col-6">Duration</div>
-                    <div class="col-6 text-righ"><img class="pr-2" src="https://clisha-stagging.netlify.app/images/Task/timer.png" class="ml-2" alt="">30 sec</div>
+                <div class="row font-normal clisha-task-detail ">
+                    <div class="col-6">Search Phrase</div>
+                    <div class="col-6 text-righ">  <span id="task-search-idhfonksdx"></span>
+                    </div>
                 </div>
+                <!-- <div class="row font-normal clisha-task-detail ">
+                    <div class="col-6">URL</div> 
+                    <div class="col-6 text-righ">
+                        <img class="icon" src="https://clisha-stagging.netlify.app/images/Task/timer.png" class="ml-2" alt="">
+                        <span id="task-link-pw9oijsednf"></span>
+                    </div>
+                </div> -->
             </div>
             
         </div>
