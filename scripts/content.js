@@ -55,8 +55,8 @@ function showModal(open = 1, content = null){
 
                 error.style.display = (content.error) ? "block" : "none";  
 
-                document.getElementById('task-deactivate').addEventListener('click', handleDeactivate(modalId), false);
             }
+            document.getElementById('task-deactivate').addEventListener('click', handleDeactivate(modalId), false);
     });
 }
 
@@ -96,7 +96,7 @@ function activateGoogleSearch(task){
             showModal(1, { error: true, head: `You have clicked on the wrong page! Please go back to Google search result and click on  ${clisha_search.title}`});
         }
     }
-}
+} 
   
 function activateJourneyTask(task) {
     console.log('Journey Task Active');
@@ -132,20 +132,14 @@ function completeExtensionTask(task){
 
         window.location.href = `https://clisha-stagging.netlify.app/dashboard/reward?t=${task.id}&p=${task.points}`
         var error = chrome.runtime.lastError;
-        if (error) {
-            console.error(error);
-        }
+        if (error) console.error(error);  throw error; 
     });
 }
 
 function handleDeactivate(modalId) {
     chrome.storage.sync.clear(function() {
-        chrome.runtime.sendMessage( { reload: 'true' }, (response) => {    $(modalId).modal('show');  });
-
+        chrome.runtime.sendMessage( { reload: 'true' }, (response) => {    $(modalId).modal('hide');  });
         var error = chrome.runtime.lastError;
-        if (error) {
-            console.error(error);
-        }
+        if (error) console.error(error);  throw error; 
     });
- 
 }
