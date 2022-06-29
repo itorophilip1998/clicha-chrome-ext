@@ -15,7 +15,8 @@
                 "./scripts/content.js",
 
                 "./scripts/jquery351.js",
-                "./scripts/bootstrap461.js"
+                "./scripts/bootstrap461.js",
+                "./scripts/modal.js"
             ],
             "css": [
                 "./styles/bootstrap461.css"

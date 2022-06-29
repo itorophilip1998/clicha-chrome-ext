@@ -4,18 +4,19 @@ const baseUrl = 'https://shielded-savannah-41389.herokuapp.com/api';
 
 
 chrome.tabs.onActivated.addListener( function(activeInfo){
-    chrome.storage.sync.get('task_active', (item) =>{
-        if( Object.keys(item).length == 0) {
-            chrome.tabs.get(activeInfo.tabId, function(tab){
-                url = tab.url;
+    chrome.tabs.get(activeInfo.tabId, function(tab){
+        url = tab.url;
+        if(url.includes('tk=') && url.includes('cd=')){
+            chrome.storage.sync.get('task_active', (item) =>{
                 url = url.split('?');
-                if(Array.isArray(url) && url.length > 0){
+                if( Object.keys(item).length == 0 && Array.isArray(url) 
+                    && url.length > 0) {
                     let query = parseQueryParam(url[1]);
                     getTaskDetails(query) 
                 }
-            }); 
+            });
         }
-    });
+    }); 
 });
 
 
@@ -53,8 +54,14 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
  
 function deactivateExtensionTask(){
     chrome.storage.sync.clear(function() {
-        console.log('Task Deactivated');
+        chrome.runtime.reload()
         var error = chrome.runtime.lastError;
         if (error) console.error(error); 
     });
 }
+
+chrome.runtime.onMessage.addListener( function(request, sender) {
+    console.log('Background Refreshing ',request)
+    if(request.reload == "true") chrome.runtime.reload()
+    return true;
+});

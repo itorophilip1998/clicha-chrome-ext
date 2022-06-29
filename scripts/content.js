@@ -1,4 +1,8 @@
 console.log("Reading Page")
+// Current Domain
+let domain = window.location.href
+domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
+
 
 // Run Task
 chrome.storage.sync.get('task', (item) => {
@@ -15,16 +19,13 @@ chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
     if (task.task_type == "journey") activateJourneyTask(task)
     return true;
 });
- 
-// Current Domain
-let domain = window.location.href
-domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
+
+// ACtions
+function uyasvghdxyhvdxchgvdxjbcv_was(e){
+   
+}
 
 
-// Send Message
-// chrome.runtime.sendMessage({ command: "fetch", data: {domain: domain}, function (response) {
-//     console.log(response);
-// }})
 
 // Task Functionalities
 function showModal(open = 1, content = null){
@@ -34,11 +35,11 @@ function showModal(open = 1, content = null){
     fetch(chrome.runtime.getURL(template))
         .then(r => r.text())
         .then(html => {
-            console.log('Modal Template Loaded');
             document.body.insertAdjacentHTML('beforeend', html);
             $(modalId).modal('show');
             if(content){
-                let entry = document.querySelector('#boost-entry');
+                let entry = document.querySelector('#boost-entry'),
+                    error = document.querySelector('#boost-error');
                 console.log('Opening Extended Modal');
                 if(content.head){
                     let headerElem = document.createElement('h4');
@@ -52,12 +53,14 @@ function showModal(open = 1, content = null){
                     entry.appendChild(paramElem);
                 }
 
+                error.style.display = (content.error) ? "block" : "none";  
+
             }
+            document.getElementById('task-deactivate').addEventListener('click', handleDeactivate(modalId), false);
     });
 }
 
 function activateGoogleSearch(task){
-    console.log('Google Search Task');
     const currentUrl = window.location;
     let clisha_search =  JSON.parse(task.google_search);
     
@@ -74,11 +77,11 @@ function activateGoogleSearch(task){
                     body: `Please go through the Google Search results and click on the result with the website title ${clisha_search.title}`,
                 }); 
             }else{
-                showModal(1, {head: `Oops you have entered the wrong phrase please try again by entering "${clisha_search.title}"`});
+                showModal(1, { error: true, head: `Oops you have entered the wrong phrase please try again by entering "${clisha_search.title}"`});
             }
             return true;
         }
-        showModal(1, {head: `Please enter the copied search Phrase into the Google Search Bar and hit the Enter`});
+        showModal(1, {head: `Please enter the copied Search Phrase into the Google Search Bar and hit the Enter`});
     } else{
         console.log('Destination', task.url, currentUrl.href.match(task.url));
         if(currentUrl.href.match(task.url) || currentUrl.href+'/' == task.url){
@@ -87,13 +90,13 @@ function activateGoogleSearch(task){
             console.log(`Deactivating Task after ${timeout} seconds`);
      
             setTimeout(()=> {
-                deactivateExtensionTask(task);
+                completeExtensionTask(task);
             }, timeout * 1000);
         }else {
-            showModal(1, {head: `You have clicked on the wrong page! Please go back to Google search result and click on  ${clisha_search.title}`});
+            showModal(1, { error: true, head: `You have clicked on the wrong page! Please go back to Google search result and click on  ${clisha_search.title}`});
         }
     }
-}
+} 
   
 function activateJourneyTask(task) {
     console.log('Journey Task Active');
@@ -121,13 +124,22 @@ function parseQueryParam(url) {
     return query;
 } 
 
-function deactivateExtensionTask(task){
+
+function completeExtensionTask(task){
     chrome.storage.sync.clear(function() {
         console.log('Task Deactivated');
+        chrome.runtime.sendMessage( { reload: 'true' }, (response) => { console.log('Message Sent ') });
+
         window.location.href = `https://clisha-stagging.netlify.app/dashboard/reward?t=${task.id}&p=${task.points}`
         var error = chrome.runtime.lastError;
-        if (error) {
-            console.error(error);
-        }
+        if (error) console.error(error);  throw error; 
+    });
+}
+
+function handleDeactivate(modalId) {
+    chrome.storage.sync.clear(function() {
+        chrome.runtime.sendMessage( { reload: 'true' }, (response) => {    $(modalId).modal('hide');  });
+        var error = chrome.runtime.lastError;
+        if (error) console.error(error);  throw error; 
     });
 }
