@@ -20,12 +20,6 @@ chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
     return true;
 });
 
-// ACtions
-function uyasvghdxyhvdxchgvdxjbcv_was(e){
-   
-}
-
-
 
 // Task Functionalities
 function showModal(open = 1, content = null){
@@ -54,9 +48,9 @@ function showModal(open = 1, content = null){
                 }
 
                 error.style.display = (content.error) ? "block" : "none";  
-
+ 
             }
-            document.getElementById('task-deactivate').addEventListener('click', handleDeactivate(modalId), false);
+            // document.getElementById('task-deactivate').addEventListener('click', handleDeactivate(modalId), false);
     });
 }
 
@@ -136,10 +130,3 @@ function completeExtensionTask(task){
     });
 }
 
-function handleDeactivate(modalId) {
-    chrome.storage.sync.clear(function() {
-        chrome.runtime.sendMessage( { reload: 'true' }, (response) => {    $(modalId).modal('hide');  });
-        var error = chrome.runtime.lastError;
-        if (error) console.error(error);  throw error; 
-    });
-}

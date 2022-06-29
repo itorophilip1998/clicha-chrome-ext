@@ -1,23 +1,66 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Extension</title>
+    <title>Timer</title>
+
+    <style>
+        .clisha_overlay{
+            background:rgba(0,0,0,0.8) !important;
+            position: fixed !important;
+            /* top:0 !important; */
+            bottom:0 !important;
+            padding-bottom: 10px;
+            right:0 !important;
+            left:0 !important;
+            height: 70px;
+            text-align: center !important;
+            /* position: fixed; */
+
+        }
+        .clisha_timer{
+            color: rgba(250, 190, 26, 0.945);
+            font-size: 50px;
+            text-align: center !important;
+           width: 100%;
+        }
+        #clisha_warning{
+            color: rgba(250, 190, 26, 0.945);
+            font-size: 12px; 
+        }
+    </style>
+  
 </head>
 <body>
+    
     <div> 
         <a href="https://www.google.com?tk=I3FMKC0776EY&cd=rtyfghvd6tygsdyghbdghdcghjbhjdbcjhnd" target="_blank">Open Now</a>
     </div>
-    <script>
 
-     // chrome.storage.local.remove(["Key1","key2"],function(){
-    //     var error = chrome.runtime.lastError;
-    //        if (error) {
-    //            console.error(error);
-    //        }
-    //  })
+    <div class="clisha_overlay">
+        <div class="clisha_timer" id="clisha_timer"></div>
+        <small id="clisha_warning"></small>
+    </div>
+
+   <script>
+        let warning=document.getElementById("clisha_warning");
+        let clisha_timer=document.getElementById("clisha_timer");
+    
+            var timeValue = 30; // this is the duration in second
+            let intervalId=  setInterval(()=> {
+                timeValue--;
+                warning.innerText =  "Hello! do not close or leave this window ";
+                clisha_timer.innerText =  timeValue;
+                if (timeValue==0) {
+                    clearInterval(intervalId)
+                    // logic to return the user to reward page to earn coin
+                    
+                }
+            }, 1000);
+
     </script>
 </body>
 </html>
