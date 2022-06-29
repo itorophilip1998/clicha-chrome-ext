@@ -39,7 +39,6 @@ function getTaskDetails(query){
                     chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
                         chrome.tabs.sendMessage(tabs[0].id, {task: data.data}, function(response) { 			}); 		
                     });
-
                     chrome.alarms.create('deactivateTask', { delayInMinutes: 15 } )
                 }); 
             }
