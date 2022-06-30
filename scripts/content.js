@@ -19,13 +19,7 @@ chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
     if (task.task_type == "journey") activateJourneyTask(task)
     return true;
 });
-
-// ACtions
-function uyasvghdxyhvdxchgvdxjbcv_was(e){
-   
-}
-
-
+// console.log(chrome.runtime.getURL("images/logo.png"))
 
 // Task Functionalities
 function showModal(open = 1, content = null){
@@ -36,13 +30,13 @@ function showModal(open = 1, content = null){
         .then(r => r.text())
         .then(html => {
             document.body.insertAdjacentHTML('beforeend', html);
-            $(modalId).modal('show');
+           
             if(content){
                 let entry = document.querySelector('#boost-entry'),
                     error = document.querySelector('#boost-error');
-                console.log('Opening Extended Modal');
+                    
                 if(content.head){
-                    let headerElem = document.createElement('h4');
+                    let headerElem = document.createElement('h5');
                     headerElem.innerHTML = content.head;
                     entry.appendChild(headerElem);
                 }
@@ -52,12 +46,18 @@ function showModal(open = 1, content = null){
                     paramElem.innerHTML = content.body;
                     entry.appendChild(paramElem);
                 }
+                
+                if(content.question){
+                    let questionElem = document.createElement('h4');
+                    questionElem.innerHTML = content.question;
+                    entry.appendChild(questionElem);
+                }
 
-                error.style.display = (content.error) ? "block" : "none";  
-
-            }
-            document.getElementById('task-deactivate').addEventListener('click', handleDeactivate(modalId), false);
-    });
+                if(content.error) error.style.display = (content.error) ? "block" : "none";  
+ 
+            }    
+            $(modalId).modal('show');
+        });
 }
 
 function activateGoogleSearch(task){
@@ -77,23 +77,28 @@ function activateGoogleSearch(task){
                     body: `Please go through the Google Search results and click on the result with the website title ${clisha_search.title}`,
                 }); 
             }else{
-                showModal(1, { error: true, head: `Oops you have entered the wrong phrase please try again by entering "${clisha_search.title}"`});
+                showModal(2, { error: true, head: `Oops you have entered the wrong phrase please try again by entering "${clisha_search.title}"`});
             }
             return true;
         }
-        showModal(1, {head: `Please enter the copied Search Phrase into the Google Search Bar and hit the Enter`});
+        showModal(1, {head: `Please enter the copied Search Phrase into the Google Search Bar and hit enter`});
     } else{
-        console.log('Destination', task.url, currentUrl.href.match(task.url));
         if(currentUrl.href.match(task.url) || currentUrl.href+'/' == task.url){
-            showModal(1, {head: `You have clicked on the right page! Please interact with this page until the timer went down `});
-            let timeout = 40;
-            console.log(`Deactivating Task after ${timeout} seconds`);
-     
-            setTimeout(()=> {
-                completeExtensionTask(task);
-            }, timeout * 1000);
+
+            console.log('Decider', task.interaction)
+            if(task.interactionId && task.interaction && task.interaction.interaction_type == 'multistep'){
+                showModal(1, {
+                    head: `Great! Please read the question below and click on the button to answer it `,
+                    question: task.interaction.question
+                });
+                multistepInteraction(task)
+            }else{
+                showModal(1, {head: `You have clicked on the right page! Please interact with this page until the timer went down `});
+                timerInteraction(task)
+            }
+
         }else {
-            showModal(1, { error: true, head: `You have clicked on the wrong page! Please go back to Google search result and click on  ${clisha_search.title}`});
+            showModal(2, { error: true, head: `You have clicked on the wrong page! Please go back to Google search result and click on  "${clisha_search.title}"`});
         }
     }
 } 
@@ -123,6 +128,43 @@ function parseQueryParam(url) {
     }
     return query;
 } 
+ 
+function multistepInteraction(task) {
+    console.log('Multistep Interaction Started');
+    let multistep = `/templates/interaction_multistep.html`;
+    fetch(chrome.runtime.getURL(multistep))
+    .then(r => r.text())
+    .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+    });
+}    
+
+function timerInteraction(task) {
+    console.log('Timer Interaction Started');
+    let timer = `/templates/interaction_timer.html`;
+    fetch(chrome.runtime.getURL(timer))
+    .then(r => r.text())
+    .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+
+        let warning=document.getElementById("clisha_warning");
+        let clisha_timer=document.getElementById("clisha_timer");
+
+        var timeValue = (task.interaction) ? task.interaction.duration: 30; 
+        let intervalId=  setInterval(()=> {
+            timeValue--;
+            warning.innerText =  "Hello! Do not close or leave this window ";
+            clisha_timer.innerText =  timeValue;
+            if (timeValue==0) {
+                clearInterval(intervalId)
+                completeExtensionTask(task);
+            }
+        }, 1000);
+
+    });
+}    
+
+
 
 
 function completeExtensionTask(task){
@@ -136,10 +178,3 @@ function completeExtensionTask(task){
     });
 }
 
-function handleDeactivate(modalId) {
-    chrome.storage.sync.clear(function() {
-        chrome.runtime.sendMessage( { reload: 'true' }, (response) => {    $(modalId).modal('hide');  });
-        var error = chrome.runtime.lastError;
-        if (error) console.error(error);  throw error; 
-    });
-}

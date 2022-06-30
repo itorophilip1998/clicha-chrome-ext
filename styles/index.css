@@ -1,0 +1,61 @@
+
+.cbtn-primary,.cbtn-primary:hover,.cbtn-primary:focus{
+    background:  #FABE28;
+    border:0px;
+
+}
+/* a,a:hover,a.focus{
+    color:#74019B;
+} */
+.text-summary{
+    /* font-size: 6px; */
+    line-height: 7px;
+    color: #6c757d!important;
+}
+.clisha_content{
+    background-image: url("chrome-extension://hchmeojdknmlfngphlmnjncmcfaglhdn/images/layer.png") !important;
+    background:  #74019B;
+    color: #fff;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.clisha_overlay{
+    background:rgba(0,0,0,0.8) !important;
+    position: fixed !important;
+    /* top:0 !important; */
+    bottom:0 !important;
+    padding-bottom: 10px;
+    right:0 !important;
+    left:0 !important;
+    height: 70px;
+    text-align: center !important;
+}
+.clisha_timer{
+    color: rgba(250, 190, 26, 0.945);
+    font-size: 50px;
+    text-align: center !important;
+    width: 100%;
+}
+#clisha_warning{
+    color: rgba(250, 190, 26, 0.945);
+    font-size: 12px; 
+}
+
+.clisha_answer{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:rgba(250, 190, 26, 0.945);
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+    z-index: 99;
+}
+
+.clisha_answer .floater{
+	margin-top:22px;
+}

@@ -1,4 +1,4 @@
-console.log("Background Extention Runing");
+console.log("Extention Started Successfully");
 
 const baseUrl = 'https://shielded-savannah-41389.herokuapp.com/api';
 
@@ -6,6 +6,7 @@ const baseUrl = 'https://shielded-savannah-41389.herokuapp.com/api';
 chrome.tabs.onActivated.addListener( function(activeInfo){
     chrome.tabs.get(activeInfo.tabId, function(tab){
         url = tab.url;
+        console.log('Opened Tab URL', url)
         if(url.includes('tk=') && url.includes('cd=')){
             chrome.storage.sync.get('task_active', (item) =>{
                 url = url.split('?');
@@ -13,6 +14,8 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
                     && url.length > 0) {
                     let query = parseQueryParam(url[1]);
                     getTaskDetails(query) 
+                }else{
+                    reloadExtension();
                 }
             });
         }
@@ -36,12 +39,11 @@ function getTaskDetails(query){
         .then((data) =>{
             if(data.status) {
                 chrome.storage.sync.set({ task_active: true,task: data.data}, function(items){
-                    console.log('Task Activated', data.data);
                     chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
                         chrome.tabs.sendMessage(tabs[0].id, {task: data.data}, function(response) { 			}); 		
                     });
 
-                    chrome.alarms.create('deactivateTask', { delayInMinutes: 15 } )
+                    chrome.alarms.create('deactivateTask', { delayInMinutes: 25 } )
                 }); 
             }
         })
@@ -50,18 +52,24 @@ function getTaskDetails(query){
 
 chrome.alarms.onAlarm.addListener(function(alarm) {
     deactivateExtensionTask();
+    return true;
 });
  
 function deactivateExtensionTask(){
     chrome.storage.sync.clear(function() {
-        chrome.runtime.reload()
+        reloadExtension()
         var error = chrome.runtime.lastError;
         if (error) console.error(error); 
     });
 }
 
+function reloadExtension(){
+    console.log('Reload Extenion Refreshing ')
+    chrome.runtime.reload()
+}
+
 chrome.runtime.onMessage.addListener( function(request, sender) {
-    console.log('Background Refreshing ',request)
-    if(request.reload == "true") chrome.runtime.reload()
+   
+    if(request.reload == "true") reloadExtension()
     return true;
 });
