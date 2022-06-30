@@ -1,17 +1,21 @@
-  <!-- Modal2 -->
-  <div class="modal fade" id="clishaModelId2" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+   <!-- Modal1-->
+   <div class="modal fade" id="clishaModelId2" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog mt-5" role="document">
-        <div class="modal-content mt-5"> 
+        <div class="modal-content clisha_content mt-5"> 
             <div class="modal-body">
                 <div class="text-center mt-4">
-                    <img src="https://i.ibb.co/0tdRgqZ/clishalogo.png" alt="clishalogo" border="0">
+                    <img src="chrome-extension://hchmeojdknmlfngphlmnjncmcfaglhdn/images/logo.png" alt="clishalogo" border="0">
+                    <div >
+                        <img src="chrome-extension://hchmeojdknmlfngphlmnjncmcfaglhdn/images/boost.png" alt="clishalogo" border="0">
+                        <div id="boost-entry" class="mt-2 mb-5"> </div>
 
-                    <div class="boost mt-4 font-weight-bold">
-                    <p>Your Next Digital Marketing Solutions</p>
                     </div>
-                <button type="button" class="btn btn-primary px-5 shadow border-0">Access Data</button>
+                    <button type="button" data-dismiss="modal"  class="btn cbtn-primary px-5 shadow border-0">OK</button>
+                    <!-- <button type="button" data-dismiss="modal" class="cbtn cbtn-primary px-5 shadow border-0">OK</button> -->
+                    <div class="boost mt-4 font-weight-bold">
+                        <p id="boost-error" class="" style="display: none">Dont want to receive further error messages? Deactivate <a href="#" id="task-deactivate">task here</a>.</p>
+                    </div>
                 </div>
-
             </div> 
         </div>
     </div>

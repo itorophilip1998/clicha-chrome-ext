@@ -19,7 +19,7 @@ chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
     if (task.task_type == "journey") activateJourneyTask(task)
     return true;
 });
-
+// console.log(chrome.runtime.getURL("images/logo.png"))
 
 // Task Functionalities
 function showModal(open = 1, content = null){
@@ -34,9 +34,9 @@ function showModal(open = 1, content = null){
             if(content){
                 let entry = document.querySelector('#boost-entry'),
                     error = document.querySelector('#boost-error');
-                console.log('Opening Extended Modal');
+                    
                 if(content.head){
-                    let headerElem = document.createElement('h4');
+                    let headerElem = document.createElement('h5');
                     headerElem.innerHTML = content.head;
                     entry.appendChild(headerElem);
                 }
@@ -70,11 +70,11 @@ function activateGoogleSearch(task){
                     body: `Please go through the Google Search results and click on the result with the website title ${clisha_search.title}`,
                 }); 
             }else{
-                showModal(1, { error: true, head: `Oops you have entered the wrong phrase please try again by entering "${clisha_search.title}"`});
+                showModal(2, { head: `Oops you have entered the wrong phrase please try again by entering "${clisha_search.title}"`});
             }
             return true;
         }
-        showModal(1, {head: `Please enter the copied Search Phrase into the Google Search Bar and hit the Enter`});
+        showModal(2, {head: `Please enter the copied Search Phrase into the Google Search Bar and hit enter`});
     } else{
         console.log('Destination', task.url, currentUrl.href.match(task.url));
         if(currentUrl.href.match(task.url) || currentUrl.href+'/' == task.url){
@@ -88,7 +88,7 @@ function activateGoogleSearch(task){
             }
 
         }else {
-            showModal(1, { error: true, head: `You have clicked on the wrong page! Please go back to Google search result and click on  ${clisha_search.title}`});
+            showModal(1, { error: true, head: `You have clicked on the wrong page! Please go back to Google search result and click on  "${clisha_search.title}"`});
         }
     }
 } 

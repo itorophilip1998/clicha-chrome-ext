@@ -4,9 +4,9 @@
     "description": "Clisha app extention",
     "version": "0.1",
     "icons": {
-         "16": "./images/icon16.png",
-           "48": "./images/icon48.png",
-          "128": "./images/icon48.png" 
+        "16": "./images/icon16.png",
+        "48": "./images/icon48.png",
+        "128": "./images/icon48.png" 
     },
     "content_scripts": [
         {
@@ -34,9 +34,12 @@
             "resources": [
                 "templates/modal1.html",
                 "templates/modal2.html",
-                "/templates/modal3.html",
-                "/templates/interaction_timer.html",
-                "/templates/interaction_multistep.html"
+                "templates/interaction_timer.html",
+                "templates/interaction_multistep.html",
+                
+                "images/layer.png",
+                "images/boost.png",
+                "images/logo.png"
             ]
         }
     ],  

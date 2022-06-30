@@ -1,4 +1,25 @@
 
+.cbtn-primary,.cbtn-primary:hover,.cbtn-primary:focus{
+    background:  #FABE28;
+    border:0px;
+
+}
+/* a,a:hover,a.focus{
+    color:#74019B;
+} */
+.text-summary{
+    /* font-size: 6px; */
+    line-height: 7px;
+    color: #6c757d!important;
+}
+.clisha_content{
+    background-image: url("chrome-extension://hchmeojdknmlfngphlmnjncmcfaglhdn/images/layer.png") !important;
+    background:  #74019B;
+    color: #fff;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
 .clisha_overlay{
     background:rgba(0,0,0,0.8) !important;
     position: fixed !important;
@@ -32,6 +53,7 @@
 	border-radius:50px;
 	text-align:center;
 	box-shadow: 2px 2px 3px #999;
+    z-index: 99;
 }
 
 .clisha_answer .floater{
