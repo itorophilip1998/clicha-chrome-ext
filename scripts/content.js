@@ -47,7 +47,13 @@ function showModal(open = 1, content = null){
                     entry.appendChild(paramElem);
                 }
 
-                error.style.display = (content.error) ? "block" : "none";  
+                if(content.question){
+                    let questionElem = document.createElement('p');
+                    questionElem.innerHTML = content.question;
+                    entry.appendChild(questionElem);
+                }
+
+                if(content.error) error.style.display = (content.error) ? "block" : "none";  
  
             }    
         });
@@ -70,25 +76,28 @@ function activateGoogleSearch(task){
                     body: `Please go through the Google Search results and click on the result with the website title ${clisha_search.title}`,
                 }); 
             }else{
-                showModal(2, { head: `Oops you have entered the wrong phrase please try again by entering "${clisha_search.title}"`});
+                showModal(2, { error: true, head: `Oops you have entered the wrong phrase please try again by entering "${clisha_search.title}"`});
             }
             return true;
         }
-        showModal(2, {head: `Please enter the copied Search Phrase into the Google Search Bar and hit enter`});
+        showModal(1, {head: `Please enter the copied Search Phrase into the Google Search Bar and hit enter`});
     } else{
-        console.log('Destination', task.url, currentUrl.href.match(task.url));
         if(currentUrl.href.match(task.url) || currentUrl.href+'/' == task.url){
 
-            showModal(1, {head: `You have clicked on the right page! Please interact with this page until the timer went down `});
             
             if(task.interactionId && task.interaction && task.interaction.interaction_type == 'multistep'){
+                showModal(1, {
+                    head: `Great! Please read the question below and click on the button to answer it `,
+                    question: task.interaction.question
+                });
                 multistepInteraction(task)
             }else{
+                showModal(1, {head: `You have clicked on the right page! Please interact with this page until the timer went down `});
                 timerInteraction(task)
             }
 
         }else {
-            showModal(1, { error: true, head: `You have clicked on the wrong page! Please go back to Google search result and click on  "${clisha_search.title}"`});
+            showModal(2, { error: true, head: `You have clicked on the wrong page! Please go back to Google search result and click on  "${clisha_search.title}"`});
         }
     }
 } 
@@ -125,11 +134,11 @@ function multistepInteraction(task) {
     .then(r => r.text())
     .then(html => {
         document.body.insertAdjacentHTML('beforeend', html);
-
     });
 }    
 
 function timerInteraction(task) {
+    console.log('Timer Interaction Started');
     let timer = `/templates/interaction_timer.html`;
     fetch(chrome.runtime.getURL(timer))
     .then(r => r.text())
@@ -142,7 +151,7 @@ function timerInteraction(task) {
         var timeValue = (task.interaction) ? task.interaction.duration: 30; 
         let intervalId=  setInterval(()=> {
             timeValue--;
-            warning.innerText =  "Hello! do not close or leave this window ";
+            warning.innerText =  "Hello! Do not close or leave this window ";
             clisha_timer.innerText =  timeValue;
             if (timeValue==0) {
                 clearInterval(intervalId)
