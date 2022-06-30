@@ -30,7 +30,7 @@ function showModal(open = 1, content = null){
         .then(r => r.text())
         .then(html => {
             document.body.insertAdjacentHTML('beforeend', html);
-            $(modalId).modal('show');
+           
             if(content){
                 let entry = document.querySelector('#boost-entry'),
                     error = document.querySelector('#boost-error');
@@ -46,9 +46,9 @@ function showModal(open = 1, content = null){
                     paramElem.innerHTML = content.body;
                     entry.appendChild(paramElem);
                 }
-
+                
                 if(content.question){
-                    let questionElem = document.createElement('p');
+                    let questionElem = document.createElement('h4');
                     questionElem.innerHTML = content.question;
                     entry.appendChild(questionElem);
                 }
@@ -56,6 +56,7 @@ function showModal(open = 1, content = null){
                 if(content.error) error.style.display = (content.error) ? "block" : "none";  
  
             }    
+            $(modalId).modal('show');
         });
 }
 
@@ -84,7 +85,7 @@ function activateGoogleSearch(task){
     } else{
         if(currentUrl.href.match(task.url) || currentUrl.href+'/' == task.url){
 
-            
+            console.log('Decider', task.interaction)
             if(task.interactionId && task.interaction && task.interaction.interaction_type == 'multistep'){
                 showModal(1, {
                     head: `Great! Please read the question below and click on the button to answer it `,
@@ -129,8 +130,9 @@ function parseQueryParam(url) {
 } 
  
 function multistepInteraction(task) {
-    let timer = `/templates/interaction_multistep.html`;
-    fetch(chrome.runtime.getURL(timer))
+    console.log('Multistep Interaction Started');
+    let multistep = `/templates/interaction_multistep.html`;
+    fetch(chrome.runtime.getURL(multistep))
     .then(r => r.text())
     .then(html => {
         document.body.insertAdjacentHTML('beforeend', html);
