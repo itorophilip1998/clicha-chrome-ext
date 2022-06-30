@@ -3,10 +3,16 @@ console.log('Modal Extension Loaded')
 
 
 document.body.addEventListener( 'click', function ( e ) {
-    console.log('Modal Event ',e.target.id);
+    // console.log('Modal Event ',e.target.id);
     if(e.target && e.target.id == 'task-deactivate' ) {
         handleDeactivateModal1();
     };
+
+    if(e.target && e.target.id == 'clisha-answer') {
+        $('#clishaModelMulti').modal('show');
+    }
+
+
 } );
 
 function handleDeactivateModal1() {

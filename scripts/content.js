@@ -49,9 +49,8 @@ function showModal(open = 1, content = null){
 
                 error.style.display = (content.error) ? "block" : "none";  
  
-            }
-            // document.getElementById('task-deactivate').addEventListener('click', handleDeactivate(modalId), false);
-    });
+            }    
+        });
 }
 
 function activateGoogleSearch(task){
@@ -79,13 +78,15 @@ function activateGoogleSearch(task){
     } else{
         console.log('Destination', task.url, currentUrl.href.match(task.url));
         if(currentUrl.href.match(task.url) || currentUrl.href+'/' == task.url){
+
             showModal(1, {head: `You have clicked on the right page! Please interact with this page until the timer went down `});
-            let timeout = 40;
-            console.log(`Deactivating Task after ${timeout} seconds`);
-     
-            setTimeout(()=> {
-                completeExtensionTask(task);
-            }, timeout * 1000);
+            
+            if(task.interactionId && task.interaction && task.interaction.interaction_type == 'multistep'){
+                multistepInteraction(task)
+            }else{
+                timerInteraction(task)
+            }
+
         }else {
             showModal(1, { error: true, head: `You have clicked on the wrong page! Please go back to Google search result and click on  ${clisha_search.title}`});
         }
@@ -117,6 +118,42 @@ function parseQueryParam(url) {
     }
     return query;
 } 
+ 
+function multistepInteraction(task) {
+    let timer = `/templates/interaction_multistep.html`;
+    fetch(chrome.runtime.getURL(timer))
+    .then(r => r.text())
+    .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+
+    });
+}    
+
+function timerInteraction(task) {
+    let timer = `/templates/interaction_timer.html`;
+    fetch(chrome.runtime.getURL(timer))
+    .then(r => r.text())
+    .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+
+        let warning=document.getElementById("clisha_warning");
+        let clisha_timer=document.getElementById("clisha_timer");
+
+        var timeValue = (task.interaction) ? task.interaction.duration: 30; 
+        let intervalId=  setInterval(()=> {
+            timeValue--;
+            warning.innerText =  "Hello! do not close or leave this window ";
+            clisha_timer.innerText =  timeValue;
+            if (timeValue==0) {
+                clearInterval(intervalId)
+                completeExtensionTask(task);
+            }
+        }, 1000);
+
+    });
+}    
+
+
 
 
 function completeExtensionTask(task){

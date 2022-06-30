@@ -19,7 +19,8 @@
                 "./scripts/modal.js"
             ],
             "css": [
-                "./styles/bootstrap461.css"
+                "./styles/bootstrap461.css",
+                "./styles/index.css"
             ]
         }
     ],
@@ -33,7 +34,9 @@
             "resources": [
                 "templates/modal1.html",
                 "templates/modal2.html",
-                "/templates/modal3.html"
+                "/templates/modal3.html",
+                "/templates/interaction_timer.html",
+                "/templates/interaction_multistep.html"
             ]
         }
     ],  

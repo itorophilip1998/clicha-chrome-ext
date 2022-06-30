@@ -41,7 +41,7 @@ function getTaskDetails(query){
                         chrome.tabs.sendMessage(tabs[0].id, {task: data.data}, function(response) { 			}); 		
                     });
 
-                    chrome.alarms.create('deactivateTask', { delayInMinutes: 15 } )
+                    chrome.alarms.create('deactivateTask', { delayInMinutes: 25 } )
                 }); 
             }
         })
@@ -50,6 +50,7 @@ function getTaskDetails(query){
 
 chrome.alarms.onAlarm.addListener(function(alarm) {
     deactivateExtensionTask();
+    return true;
 });
  
 function deactivateExtensionTask(){
