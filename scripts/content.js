@@ -84,8 +84,6 @@ function activateGoogleSearch(task){
         showModal(1, {head: `Please enter the copied Search Phrase into the Google Search Bar and hit enter`});
     } else{
         if(currentUrl.href.match(task.url) || currentUrl.href+'/' == task.url){
-
-            console.log('Decider', task.interaction)
             if(task.interactionId && task.interaction && task.interaction.interaction_type == 'multistep'){
                 showModal(1, {
                     head: `Great! Please read the question below and click on the button to answer it `,
@@ -96,7 +94,6 @@ function activateGoogleSearch(task){
                 showModal(1, {head: `You have clicked on the right page! Please interact with this page until the timer went down `});
                 timerInteraction(task)
             }
-
         }else {
             showModal(2, { error: true, head: `You have clicked on the wrong page! Please go back to Google search result and click on  "${clisha_search.title}"`});
         }
@@ -129,16 +126,6 @@ function parseQueryParam(url) {
     return query;
 } 
  
-function multistepInteraction(task) {
-    console.log('Multistep Interaction Started');
-    let multistep = `/templates/interaction_multistep.html`;
-    fetch(chrome.runtime.getURL(multistep))
-    .then(r => r.text())
-    .then(html => {
-        document.body.insertAdjacentHTML('beforeend', html);
-    });
-}    
-
 function timerInteraction(task) {
     console.log('Timer Interaction Started');
     let timer = `/templates/interaction_timer.html`;
@@ -164,8 +151,38 @@ function timerInteraction(task) {
     });
 }    
 
+function multistepInteraction(task) {
+    console.log('Multistep Interaction Started');
+    let multistep = `/templates/interaction_multistep.html`;
+    fetch(chrome.runtime.getURL(multistep))
+    .then(r => r.text())
+    .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        let question = document.querySelector('#multistep-question'),
+            option1 = document.querySelector('#option1'),
+            option2 = document.querySelector('#option2'),
+            option3 = document.querySelector('#option3'),
+            option4 = document.querySelector('#option4'),
+            option5 = document.querySelector('#option5');
 
+        question.innerHTML = task.interaction.question;
+        option1.innerHTML = task.interaction.option1;
+        option2.innerHTML = task.interaction.option2;
 
+        if(task.interaction.option3){
+            document.querySelector('.option3').style.display = "block";
+            option3.innerHTML = task.interaction.option3;
+        }
+        if(task.interaction.option4){
+            document.querySelector('.option4').style.display = "block";
+            option4.innerHTML = task.interaction.option4;
+        }
+        if(task.interaction.option5){
+            document.querySelector('.option5').style.display = "block";
+            option5.innerHTML = task.interaction.option5;
+        }
+    });
+}    
 
 function completeExtensionTask(task){
     chrome.storage.sync.clear(function() {
