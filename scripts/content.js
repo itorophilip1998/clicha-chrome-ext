@@ -77,7 +77,7 @@ function activateGoogleSearch(task){
                     body: `Please go through the Google Search results and click on the result with the website title ${clisha_search.title}`,
                 }); 
             }else{
-                showModal(2, { error: true, head: `Oops you have entered the wrong phrase please try again by entering "${clisha_search.title}"`});
+                showModal(2, { error: true, head: `Oops you have entered the wrong phrase please try again by entering "${clisha_search.search_phrase}"`});
             }
             return true;
         }
@@ -86,7 +86,7 @@ function activateGoogleSearch(task){
         if(currentUrl.href.match(task.url) || currentUrl.href+'/' == task.url){
             if(task.interactionId && task.interaction && task.interaction.interaction_type == 'multistep'){
                 showModal(1, {
-                    head: `Great! Please read the question below and click on the button to answer it `,
+                    head: `Great! Please read the question below and click on the answer button to answer it `,
                     question: task.interaction.question
                 });
                 multistepInteraction(task)
@@ -131,13 +131,14 @@ function timerInteraction(task) {
     let timer = `/templates/interaction_timer.html`;
     fetch(chrome.runtime.getURL(timer))
     .then(r => r.text())
-    .then(html => {
+    .then(html => { 
         document.body.insertAdjacentHTML('beforeend', html);
+        console.log(html);
 
         let warning=document.getElementById("clisha_warning");
         let clisha_timer=document.getElementById("clisha_timer");
 
-        var timeValue = (task.interaction) ? task.interaction.duration: 30; 
+        var timeValue = (task.interaction) ? task.interaction.duration: 45; 
         let intervalId=  setInterval(()=> {
             timeValue--;
             warning.innerText =  "Hello! Do not close or leave this window ";
@@ -165,6 +166,7 @@ function multistepInteraction(task) {
             option4 = document.querySelector('#option4'),
             option5 = document.querySelector('#option5');
 
+        console.log(task.interaction);
         question.innerHTML = task.interaction.question;
         option1.innerHTML = task.interaction.option1;
         option2.innerHTML = task.interaction.option2;
