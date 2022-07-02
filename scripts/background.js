@@ -4,22 +4,24 @@ const baseUrl = 'https://shielded-savannah-41389.herokuapp.com/api';
 
 
 chrome.tabs.onActivated.addListener( function(activeInfo){
-    chrome.tabs.get(activeInfo.tabId, function(tab){
-        url = tab.url;
-        console.log('Opened Tab URL', url)
-        if(url.includes('tk=') && url.includes('cd=')){
-            chrome.storage.sync.get('task_active', (item) =>{
-                url = url.split('?');
-                if( Object.keys(item).length == 0 && Array.isArray(url) 
-                    && url.length > 0) {
-                    let query = parseQueryParam(url[1]);
-                    getTaskDetails(query) 
-                }else{
-                    reloadExtension();
-                }
-            });
-        }
-    }); 
+    setTimeout(()=> {
+        chrome.tabs.get(activeInfo.tabId, function(tab){
+            url = tab.url;
+            console.log('Opened Tab URL', url)
+            if(url.includes('tk=') && url.includes('cd=')){
+                chrome.storage.sync.get('task_active', (item) =>{
+                    url = url.split('?');
+                    if( Object.keys(item).length == 0 && Array.isArray(url) 
+                        && url.length > 0) {
+                        let query = parseQueryParam(url[1]);
+                        getTaskDetails(query) 
+                    }else{
+                        reloadExtension();
+                    }
+                });
+            }
+        }); 
+    }, 2000)
 });
 
 
