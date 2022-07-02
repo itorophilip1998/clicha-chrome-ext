@@ -24,7 +24,7 @@ function activateTask(task) {
 
     taskActive.style.display = "block";
     taskInactive.style.display = "none";
-    taskId.innerHTML = `${task.task_code}`;
+    taskId.innerHTML = `${task.task_code}`; 
     taskPoint.innerHTML = `${task.points}`;
     taskSeach.innerHTML = `${JSON.parse(task.google_search).search_phrase}`;
 }

@@ -62,7 +62,7 @@ function deactivateExtensionTask(){
         if (error) console.error(error); 
     });
 }
-
+ 
 function reloadExtension(){
     console.log('Reload Extenion Refreshing ')
     chrome.runtime.reload()
