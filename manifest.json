@@ -58,7 +58,6 @@
         "alarms",
         "activeTab",
         "storage",
-        "notifications",
-        "contextMenus" 
+        "notifications"
     ]
 }
