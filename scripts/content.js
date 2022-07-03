@@ -1,6 +1,6 @@
 console.log("Reading Page")
 // Current Domain
-let domain = window.location.href
+let domain = window.location.href;
 domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
 
 
@@ -133,7 +133,6 @@ function timerInteraction(task) {
     .then(r => r.text())
     .then(html => { 
         document.body.insertAdjacentHTML('beforeend', html);
-        console.log(html);
 
         let warning=document.getElementById("clisha_warning");
         let clisha_timer=document.getElementById("clisha_timer");
@@ -166,7 +165,7 @@ function multistepInteraction(task) {
             option4 = document.querySelector('#option4'),
             option5 = document.querySelector('#option5');
 
-        console.log(task.interaction);
+        // console.log(task.interaction);
         question.innerHTML = task.interaction.question;
         option1.innerHTML = task.interaction.option1;
         option2.innerHTML = task.interaction.option2;

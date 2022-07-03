@@ -3,13 +3,13 @@
         <div class="modal-content clisha_content mt-5"> 
             <div class="modal-body">
                 <div class=" my-4">
-                    <form action="">
+                    <!-- <form action="">        </form> -->
                         <div class="text-center">
                             <img src="chrome-extension://hchmeojdknmlfngphlmnjncmcfaglhdn/images/logo.png" alt="clishalogo" border="0">
                             <div>
                                 <img src="chrome-extension://hchmeojdknmlfngphlmnjncmcfaglhdn/images/boost.png" alt="clishalogo" border="0">
                                 <div class="mt-2"> 
-                                    <h4 id="multistep-question" class="text-white">What is the definition of everything?</h4>
+                                    <h4 id="multistep-question" class="text-white"></h4>
                                 </div>
                             </div>
                         </div>
@@ -37,16 +37,16 @@
                         </ul>
     
                         <div class="text-center my-2">
-                            <button type="button" class="btn cbtn-primary px-5 shadow border-0">Submit</button>
+                            <button id="clisha-submit-answer" disabled="true" type="button" class="btn cbtn-primary px-5 shadow border-0">Submit</button>
                         </div>
-                    </form>
+            
 
                     <p class="text-center text-summary">
                         <small class="">
                             Click one of the options above and then answer to complete task.
                         </small> 
                     </p>
-                    <p class="text-center text-summary" id="boost-error">Dont want to attempt question? Deactivate <a href="#" id="task-deactivate">task here</a>.</p>
+                    <p class="text-center text-summary" id="boost-error">Dont want to attempt this question? Deactivate <a href="#" id="task-deactivate">task here</a>.</p>
                 </div>
 
             </div> 
@@ -54,5 +54,7 @@
     </div>
 </div>
 <a href="#" class="clisha_answer" id="clisha-answer">
-    <i class="floater"></i>
+    <span class="floater">
+        <img src="https://clisha-stagging.netlify.app/images/Task/pointer.png" style="    width: 20px; margin-top: 15px;" class=" " alt="">
+    </span>
 </a>
