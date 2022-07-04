@@ -20,13 +20,25 @@ chrome.storage.sync.get('task', (item) => {
 function activateTask(task) {
     let taskId = document.querySelector('#task-code-ied7yghfubj'),
         taskPoint = document.querySelector('#task-point-askjdcn'),
-        taskSeach = document.querySelector('#task-search-idhfonksdx');
+        taskSeach = document.querySelector('#task-search-idhfonksdx'),
+        taskStep = document.querySelector('#task-step-djcfhbfcuvjbn'),
+        taskDescription = document.querySelector('#task-description-udhjcgbjshbdx');
 
     taskActive.style.display = "block";
     taskInactive.style.display = "none";
     taskId.innerHTML = `${task.task_code}`; 
-    taskPoint.innerHTML = `${task.points}`;
-    taskSeach.innerHTML = `${JSON.parse(task.google_search).search_phrase}`;
+    if(task.task_type == 'google_search'){
+        document.querySelector('#clisha-task-search').style.display = 'block';
+        taskPoint.innerHTML = `${task.points}`;
+        taskSeach.innerHTML = `${JSON.parse(task.google_search).search_phrase}`;
+    }
+
+    if(task.task_type == 'journey'){
+        document.querySelector('#clisha-task-step').style.display = 'flex';
+        document.querySelector('#clisha-task-detail').style.display = 'flex';
+        taskStep.innerHTML = `Step 1 of ${task.journey.length}`;
+        taskDescription.innerHTML = 'Importance of StatUp';
+    }
 }
 
 taskUrl.addEventListener('click', function () {

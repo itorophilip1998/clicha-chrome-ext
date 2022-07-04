@@ -7,6 +7,7 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
     setTimeout(()=> {
         chrome.tabs.get(activeInfo.tabId, function(tab){
             url = tab.url;
+            console.log('Tab Opened', url)
             if(url.includes('tk=') && url.includes('cd=')){
                 chrome.storage.sync.get('task_active', (item) =>{
                     url = url.split('?');
@@ -41,7 +42,7 @@ function getTaskDetails(query){
             let task = data.data;
             if(data.status) {
                 chrome.storage.sync.set({ task_active: true,task: task}, function(items){
-                    console.log('Task Activated')
+                    console.log('Task Activated', task)
                     chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
                         chrome.tabs.sendMessage(tabs[0].id, {task: task}, function(response) { 			}); 		
                     });
