@@ -7,7 +7,6 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
     setTimeout(()=> {
         chrome.tabs.get(activeInfo.tabId, function(tab){
             url = tab.url;
-            console.log('Opened Tab URL', url)
             if(url.includes('tk=') && url.includes('cd=')){
                 chrome.storage.sync.get('task_active', (item) =>{
                     url = url.split('?');
@@ -39,13 +38,16 @@ function getTaskDetails(query){
     fetch(`${baseUrl}/task/${query.tk}?code=${query.cd}`)
         .then(response => response.json())
         .then((data) =>{
+            let task = data.data;
             if(data.status) {
-                chrome.storage.sync.set({ task_active: true,task: data.data}, function(items){
+                chrome.storage.sync.set({ task_active: true,task: task}, function(items){
+                    console.log('Task Activated')
                     chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
-                        chrome.tabs.sendMessage(tabs[0].id, {task: data.data}, function(response) { 			}); 		
+                        chrome.tabs.sendMessage(tabs[0].id, {task: task}, function(response) { 			}); 		
                     });
-
-                    chrome.alarms.create('deactivateTask', { delayInMinutes: 25 } )
+                    let timer = (task.task_type == 'google_search') ? 25
+                                : (task.task_type == 'google_search') ? 60 : 10;
+                    chrome.alarms.create('deactivat÷eTask', { delayInMinutes: timer } );
                 }); 
             }
         })
