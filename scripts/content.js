@@ -1,22 +1,25 @@
 console.log("Reading Page")
-// Current Domain
+// Global Variable
 let domain = window.location.href;
 domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
-
+let task,step = null;
 
 // Run Task
-chrome.storage.sync.get('task', (item) => {
+chrome.storage.sync.get(null, (item) => {
     if (Object.keys(item).length) {
-        let task = item.task;
-        if (task.task_type == "google_search") activateGoogleSearch(task)
-        if (task.task_type == "journey") activateJourneyTask(task)
+        console.log(item)
+        task = item.task;
+        step = item.step;
+        if (task.task_type == "google_search") activateGoogleSearch()
+        if (task.task_type == "journey") activateJourneyTask()
     }
 });
 // Sync Task with Backround 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
-    let task = message.task;
-    if (task.task_type == "google_search") activateGoogleSearch(task)
-    if (task.task_type == "journey") activateJourneyTask(task)
+    task = message.task;
+    step = message.step;
+    if (task.task_type == "google_search") activateGoogleSearch()
+    if (task.task_type == "journey") activateJourneyTask()
     return true;
 });
 // console.log(chrome.runtime.getURL("images/logo.png"))
@@ -60,7 +63,7 @@ function showModal(open = 1, content = null){
         });
 }
 
-function activateGoogleSearch(task){
+function activateGoogleSearch(){
     const currentUrl = window.location;
     let clisha_search =  JSON.parse(task.google_search);
     
@@ -100,20 +103,13 @@ function activateGoogleSearch(task){
     }
 } 
   
-function activateJourneyTask(task) {
+function activateJourneyTask() {
     console.log('Journey Task Active');
     console.log(`Journey Task Details, Total step is ${task.journey.length} on`, task.journey);
     const currentUrl = window.location;
+    // let journey_task =  JSON.parse(task.journey);
 
-    // check if a user is typing on the google input box
-    const inputbox = document.querySelector("input")
-    inputbox.addEventListener("input", (e) => {
-        let usersData = e.target.value;
-
-        // chrome.runtime.sendMessage({});
-
-    })
-
+    console.log(task, step);
 }
 
 function parseQueryParam(url) {

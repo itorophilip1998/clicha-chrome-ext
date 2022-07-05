@@ -37,7 +37,7 @@ function activateTask(task) {
         document.querySelector('#clisha-task-step').style.display = 'flex';
         document.querySelector('#clisha-task-detail').style.display = 'flex';
         taskStep.innerHTML = `Step 1 of ${task.journey.length}`;
-        taskDescription.innerHTML = 'Importance of StatUp';
+        taskDescription.innerHTML = 'Expectoo Developers';
     }
 }
 

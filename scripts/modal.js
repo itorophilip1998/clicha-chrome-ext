@@ -1,7 +1,7 @@
 
 console.log('Modal Extension Loaded')
 
-let task = null;
+
 document.body.addEventListener( 'click', function ( e ) {
     console.log('Modal Event ',e.target.id);
 
