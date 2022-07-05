@@ -107,12 +107,17 @@ function activateJourneyTask() {
     console.log('Journey Task Active');
     console.log(`Journey Task Details, Total step is ${task.journey.length} on`, task.journey);
     const currentUrl = window.location;
-    // let journey_task =  JSON.parse(task.journey);
+    let journey_task = task.journey;
+    console.log(domain);
 
-    console.log(task, step);
+    if(currentUrl.href.match(journey_task[step].link) || currentUrl.href+'/' == journey_task[step].link){
+        showModal(2, { error: true, step, head: `You have clicked on the wrong page! Please go back to Google search result and click on  "${clisha_search.title}"`});
+    }else{
+        showModal(2, { step, head: `You have clicked on the wrong page! Please go back to Google search result and click on  "${clisha_search.title}"`});
+    }
 }
 
-function parseQueryParam(url) {
+function parseQueryParam(url) { 
     var query = {};
     var pairs = (url[0] === '?' ? url.substr(1) : url).split('&');
     for (var i = 0; i < pairs.length; i++) {
