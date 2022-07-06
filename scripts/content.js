@@ -37,7 +37,13 @@ function showModal(open = 1, content = null){
             if(content){
                 let entry = document.querySelector('#boost-entry'),
                     error = document.querySelector('#boost-error');
-                    
+
+                if(content.step){
+                    let stepElem = document.createElement('h4');
+                    stepElem.innerHTML = `Step ${content.step} of  ${task.journey.length}`;
+                    entry.appendChild(stepElem);
+                }
+
                 if(content.head){
                     let headerElem = document.createElement('h5');
                     headerElem.innerHTML = content.head;
@@ -107,17 +113,33 @@ function activateJourneyTask() {
     console.log('Journey Task Active');
     console.log(`Journey Task Details, Total step is ${task.journey.length} on`, task.journey);
     const currentUrl = window.location;
-    let journey_task = task.journey;
-    console.log(domain);
+    let journeyTask = task.journey;
+    let currentJourney = journeyTask[step - 1];
 
-    if(currentUrl.href.match(journey_task[step].link) || currentUrl.href+'/' == journey_task[step].link){
-        showModal(2, { error: true, step, head: `You have clicked on the wrong page! Please go back to Google search result and click on  "${clisha_search.title}"`});
+    if(currentUrl.href.match(currentJourney.link) || currentUrl.href+'/' == currentJourney.link){
+        let start = (step == 1) ? "Great! Let's go," : (step == task.journey.length) ? "Great! Almost done," : "Let's continue";
+        let type =  "";
+        if(currentJourney.link_type == "content") type = "Please go through the page  to attempt the question below. You can click on the answer button to answer it";
+        if(currentJourney.link_type == "video") type = "Kindly watch the video on this page. Watch the complete video to complete this step. Thanks ";
+        if(currentJourney.link_type == "form") type = "Kindly watch the video on this page. Watch the complete video to complete this step. Thanks ";
+
+        showModal(1, { step,  head: start, body: type })
+
+        setTimeout(() =>  {
+            if(step == task.journey.length) {
+                completeExtensionTask(task);
+            }else{
+                chrome.storage.sync.set(({ "step": step + 1 }));
+                window.location.reload();
+            } 
+        }, 20 * 1000)
+        // "${clisha_search.title}"
     }else{
-        showModal(2, { step, head: `You have clicked on the wrong page! Please go back to Google search result and click on  "${clisha_search.title}"`});
+        showModal(2, { error: true,step,  head: `You have clicked on the wrong page! Please visit "${currentJourney.link}" to continue.`});
     }
 }
 
-function parseQueryParam(url) { 
+function parseQueryParam(url) {  
     var query = {};
     var pairs = (url[0] === '?' ? url.substr(1) : url).split('&');
     for (var i = 0; i < pairs.length; i++) {

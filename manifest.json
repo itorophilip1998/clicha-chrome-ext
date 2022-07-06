@@ -35,12 +35,7 @@
                 "templates/modal1.html",
                 "templates/modal2.html",
                 "templates/interaction_timer.html",
-                "templates/interaction_multistep.html",
-                
-                "images/layer.png",
-                "images/boost.png",
-                "images/error.png",
-                "images/logo.png"
+                "templates/interaction_multistep.html"
             ]
         }
     ],  
