@@ -93,12 +93,12 @@ function activateGoogleSearch(){
         showModal(1, {head: `Please enter the copied Search Phrase into the Google Search Bar and hit enter`});
     } else{
         if(currentUrl.href.match(task.url) || currentUrl.href+'/' == task.url){
-            if(task.interactionId && task.interaction && task.interaction.interaction_type == 'multistep'){
+            if(task.interactionId && task.interaction && task.interaction.interaction_type == 'multichoice'){
                 showModal(1, {
                     head: `Great! Please read the question below and click on the answer button to answer it `,
                     question: task.interaction.question
                 });
-                multistepInteraction(task)
+                multiChoiceInteraction(task)
             }else{
                 showModal(1, {head: `You have clicked on the right page! Please interact with this page until the timer went down `});
                 timerInteraction(task)
@@ -118,21 +118,27 @@ function activateJourneyTask() {
 
     if(currentUrl.href.match(currentJourney.link) || currentUrl.href+'/' == currentJourney.link){
         let start = (step == 1) ? "Great! Let's go," : (step == task.journey.length) ? "Great! Almost done," : "Let's continue";
-        let type =  "";
-        if(currentJourney.link_type == "content") type = "Please go through the page  to attempt the question below. You can click on the answer button to answer it";
+        let type =  "", question = null; 
+
         if(currentJourney.link_type == "video") type = "Kindly watch the video on this page. Watch the complete video to complete this step. Thanks ";
         if(currentJourney.link_type == "form") type = "Kindly watch the video on this page. Watch the complete video to complete this step. Thanks ";
 
-        showModal(1, { step,  head: start, body: type })
+        if(currentJourney.link_type == "content"){
+            type = "Please go through the page  to attempt the question below. You can click on the answer button to answer it";
+            console.log(task)
+            multiChoiceInteraction(task)
+        }
 
-        setTimeout(() =>  {
-            if(step == task.journey.length) {
-                completeExtensionTask(task);
-            }else{
-                chrome.storage.sync.set(({ "step": step + 1 }));
-                window.location.reload();
-            } 
-        }, 20 * 1000)
+        showModal(1, { step,  head: start, body: type, question })
+
+        // setTimeout(() =>  {
+        //     if(step == task.journey.length) {
+        //         completeExtensionTask(task);
+        //     }else{
+        //         chrome.storage.sync.set(({ "step": step + 1 }));
+        //         window.location.reload();
+        //     } 
+        // }, 40 * 1000)
         // "${clisha_search.title}"
     }else{
         showModal(2, { error: true,step,  head: `You have clicked on the wrong page! Please visit "${currentJourney.link}" to continue.`});
@@ -174,14 +180,14 @@ function timerInteraction(task) {
     });
 }    
 
-function multistepInteraction(task) {
-    console.log('Multistep Interaction Started');
-    let multistep = `/templates/interaction_multistep.html`;
-    fetch(chrome.runtime.getURL(multistep))
+function multiChoiceInteraction(task) {
+    console.log('Multichoice Interaction Started');
+    let multichoice = `/templates/interaction_multichoice.html`;
+    fetch(chrome.runtime.getURL(multichoice))
     .then(r => r.text())
     .then(html => {
         document.body.insertAdjacentHTML('beforeend', html);
-        let question = document.querySelector('#multistep-question'),
+        let question = document.querySelector('#multichoice-question'),
             option1 = document.querySelector('#option1'),
             option2 = document.querySelector('#option2'),
             option3 = document.querySelector('#option3'),

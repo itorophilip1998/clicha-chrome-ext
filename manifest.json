@@ -12,14 +12,12 @@
         {
             "matches": [  "<all_urls>" ], 
             "js": [
-                "./scripts/content.js",
-
                 "./scripts/jquery351.js",
                 "./scripts/bootstrap461.js",
+                "./scripts/content.js",
                 "./scripts/modal.js"
             ],
             "css": [
-                "./styles/bootstrap461.css",
                 "./styles/index.css"
             ]
         }
@@ -35,7 +33,7 @@
                 "templates/modal1.html",
                 "templates/modal2.html",
                 "templates/interaction_timer.html",
-                "templates/interaction_multistep.html"
+                "templates/interaction_multichoice.html"
             ]
         }
     ],  
