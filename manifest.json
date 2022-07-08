@@ -12,8 +12,6 @@
         {
             "matches": [  "<all_urls>" ], 
             "js": [
-                "./scripts/jquery351.js",
-                "./scripts/bootstrap461.js",
                 "./scripts/content.js",
                 "./scripts/modal.js"
             ],

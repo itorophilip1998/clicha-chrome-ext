@@ -1,51 +1,125 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timer</title>
-
+    <title>Modal</title>
+    <!-- styles -->
     <style>
-        .clisha_overlay{
-            background:rgba(0,0,0,0.8) !important;
-            position: fixed !important;
-            /* top:0 !important; */
-            bottom:0 !important;
-            padding-bottom: 10px;
-            right:0 !important;
-            left:0 !important;
-            height: 70px;
-            text-align: center !important;
-            /* position: fixed; */
-
+        .clisha_modal_content{
+            width: 300px; 
+            min-height: 300px;
+            border-radius: 10px;
+            padding: 15px;
+            background-image: url("../images/Redirecting-General.png") !important;
+            background:  #74019B;
+            color: #fff;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            transition-duration: 2s;
+            transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+            transition-delay: 1s; 
         }
-        .clisha_timer{
-            color: rgba(250, 190, 26, 0.945);
-            font-size: 50px;
-            text-align: center !important;
-           width: 100%;
+        .clisha_modal_container{
+            background:rgba(0,0,0,0.4);
+            position: fixed;
+            z-index: 5000;
+            top: 0;
+            bottom:0;
+            left:0;
+            right:0;
+           
         }
-        #clisha_warning{
-            color: rgba(250, 190, 26, 0.945);
-            font-size: 12px; 
+        .clisha_modal_body{
+            margin-top: 20px;
         }
+        .clisha_modal_close{
+             display: none;
+        }
+        .clisha_modal_open{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center; 
+           
+        }
+        .closeIcon{
+            font-family:   monospace; 
+            font-size: 17px;
+            background:rgb(189, 6, 6);
+            color:whitesmoke;
+            width: 17px;
+            height: 17px;
+            line-height: 13px;
+            text-align: center;
+            border-radius: 50%;
+            float: right;
+            cursor: pointer;
+        }
+        .closeIcon:hover{
+            opacity: 90%;
+            color:rgb(39, 39, 39);
+        }
+     .clisha_btn-primary,.clisha_btn-primary:hover,.clisha_btn-primary:focus{
+      background:  #FABE28;
+      border:none;
+       border-radius: 4px;
+            padding: 10px;
+            width:140px;
+            cursor: pointer;
+            color:white;
+            margin-top:30px;
+      }
+    a,a:hover,a.focus{
+        color:#74019B;
+    }
+ 
     </style>
   
+
 </head>
 <body>
-    
+    <!-- content -->
+
+    <!-- sample Botton opener -->
+    <button class="clisha_trigger_btn" id="clisha_trigger_btn">Open Modal</button>
+
     <div> 
         <a href="https://www.google.com?tk=GSJSQ90991HL&cd=rtyfghvd6tygsdyghbdghdcghjbhjdbcjhnd" target="_blank">Open Now</a>
     </div>
 
+    <div class="clisha_modal_container clisha_modal_open" id="clsha_modal">
+        <div class="clisha_modal_content">
+            <!-- content Header -->
+            <div class="clisha_modal_header">
+                    <div class="closeIcon close_modal_btn"  >x</div>
+            </div>
+
+            <!-- content of the modal -->
+            <div class="clisha_modal_body">
+               <div class="text-center mt-4">
+                    <img src="https://clisha-stagging.netlify.app/images/popup/Group%201948%20(1).png" alt="clishalogo" border="0">
+                    <div >
+                        <img src="https://i.ibb.co/MNhqr6Y/clisha-boost.png" alt="clishalogo" border="0">
+                        <div id="boost-entry" class="mt-3 mb-5 " style="color: white">  </div>
+                    </div>
+                    <button type="button" class="clisha_btn-primary" onclick="closeModal()">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="clisha_overlay">
         <div class="clisha_timer" id="clisha_timer"></div>
         <small id="clisha_warning"></small>
     </div>
 
-   <script>
+
+    <!-- script -->
+    <script>
         let warning=document.getElementById("clisha_warning");
         let clisha_timer=document.getElementById("clisha_timer");
     
@@ -62,5 +136,36 @@
             }, 1000);
 
     </script>
+
+     <script>  
+        // declartions
+       let clsha_modal=document.getElementById("clsha_modal")
+       let close_modal_btn=document.querySelector(".close_modal_btn")
+       let clisha_trigger_btn= document.getElementById("clisha_trigger_btn") 
+
+
+       // functions
+        const openModal=()=>{
+            clsha_modal.classList.remove("clisha_modal_close")  
+            clsha_modal.classList.add("clisha_modal_open")
+        }
+        const closeModal=()=>{
+            clsha_modal.classList.add("clisha_modal_close")  
+            clsha_modal.classList.remove("clisha_modal_open")
+        }
+
+        // functions calls
+        clisha_trigger_btn.addEventListener("click",()=>{
+            // this functions opens modal
+            openModal()
+        })
+
+        close_modal_btn.addEventListener("click",()=>{
+            // this function closes modal
+            closeModal()
+        })
+        
+    </script>
 </body>
 </html>
+ 

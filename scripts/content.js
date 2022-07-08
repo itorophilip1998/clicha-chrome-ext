@@ -65,7 +65,9 @@ function showModal(open = 1, content = null){
                 if(content.error) error.style.display = (content.error) ? "block" : "none";  
  
             }    
-            $(modalId).modal('show');
+            // $(modalId).modal('show');
+            modalId.classList.remove("clisha_modal_close")  
+            modalId.classList.add("clisha_modal_open")
         });
 }
 
