@@ -24,7 +24,11 @@ document.body.addEventListener( 'click', function ( e ) {
         $('#clishaModelMulti').modal('hide');  
         if(choice == answer){
             setTimeout(() => {
-                completeExtensionTask(task);
+                if (task.task_type == "google_search"){
+                    completeExtensionTask(task);
+                } else if(task.task_type == "journey"){
+                    handleNextJourney();
+                }
             },2000)
         }else{
             showModal(2, { error: true, head: `You have clicked on the wrong answer! Please select another task to continue "`});
@@ -60,4 +64,14 @@ function prepareAnswer(){
             }
         });
     }
+}
+
+function handleNextJourney(){
+    console.log('Handle Next Journey ',currentJourney);
+    if(step == task.journey.length) {
+        completeExtensionTask(task);
+    }else{
+        chrome.storage.sync.set(({ "step": step + 1 }));
+        // window.location.reload();
+    } 
 }

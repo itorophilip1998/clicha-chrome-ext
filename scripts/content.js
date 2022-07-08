@@ -2,7 +2,7 @@ console.log("Reading Page")
 // Global Variable
 let domain = window.location.href;
 domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
-let task,step = null;
+let task,step = null, currentJourney = {};
 
 // Run Task
 chrome.storage.sync.get(null, (item) => {
@@ -114,7 +114,7 @@ function activateJourneyTask() {
     console.log(`Journey Task Details, Total step is ${task.journey.length} on`, task.journey);
     const currentUrl = window.location;
     let journeyTask = task.journey;
-    let currentJourney = journeyTask[step - 1];
+    currentJourney = journeyTask[step - 1];
 
     if(currentUrl.href.match(currentJourney.link) || currentUrl.href+'/' == currentJourney.link){
         let start = (step == 1) ? "Great! Let's go," : (step == task.journey.length) ? "Great! Almost done," : "Let's continue";
@@ -125,22 +125,13 @@ function activateJourneyTask() {
 
         if(currentJourney.link_type == "content"){
             type = "Please go through the page  to attempt the question below. You can click on the answer button to answer it";
-            console.log(currentJourney);
+          
             question = currentJourney.step_interaction.question
-            multiChoiceJourney(currentJourney)
+            multiChoiceJourney()
         }
 
         showModal(1, { step,  head: start, body: type, question })
 
-        // setTimeout(() =>  {
-        //     if(step == task.journey.length) {
-        //         completeExtensionTask(task);
-        //     }else{
-        //         chrome.storage.sync.set(({ "step": step + 1 }));
-        //         window.location.reload();
-        //     } 
-        // }, 40 * 1000)
-        // "${clisha_search.title}"
     }else{
         showModal(2, { error: true,step,  head: `You have clicked on the wrong page! Please visit "${currentJourney.link}" to continue.`});
     }
@@ -216,7 +207,7 @@ function multiChoiceInteraction(task) {
 }   
 
 function multiChoiceJourney(currentJourney) {
-    console.log('Multichoice Journey Started');
+    console.log('Multichoice Journey Started', currentJourney);
     let multichoice = `/templates/interaction_multichoice.html`;
     fetch(chrome.runtime.getURL(multichoice))
     .then(r => r.text())
