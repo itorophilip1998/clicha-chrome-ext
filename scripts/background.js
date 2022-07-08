@@ -37,15 +37,15 @@ function parseQueryParam(url) {
 function getTaskDetails(query){
     fetch(`${baseUrl}/task/${query.tk}?code=${query.cd}`)
         .then(response => response.json())
-        .then((data) =>{
+        .then((data) => {
             console.log(data);
+
             if(data.status) {
                 let task = data.data;
-               
-
                 let step = (task.task_type == 'journey') ? 1: 0;
                 chrome.storage.sync.set({ "task": task, "step": step}, function(items){
-                    console.log('Task Activated', step,task)
+                    console.log('Task Activated', step,task);
+                    
                     chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
                         chrome.tabs.sendMessage(tabs[0].id, { "task": task, "step": step}, function(response) { 			}); 		
                     });
@@ -56,7 +56,7 @@ function getTaskDetails(query){
                 }); 
             }
         })
-        .catch(err => { console.log(err); throw err; } );
+        .catch(err => { console.error(err); throw err; } );
 }
 
 chrome.alarms.onAlarm.addListener(function(alarm) {

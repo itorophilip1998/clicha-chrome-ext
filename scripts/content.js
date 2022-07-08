@@ -125,8 +125,9 @@ function activateJourneyTask() {
 
         if(currentJourney.link_type == "content"){
             type = "Please go through the page  to attempt the question below. You can click on the answer button to answer it";
-            console.log(task)
-            multiChoiceInteraction(task)
+            console.log(currentJourney);
+            question = currentJourney.step_interaction.question
+            multiChoiceJourney(currentJourney)
         }
 
         showModal(1, { step,  head: start, body: type, question })
@@ -212,7 +213,41 @@ function multiChoiceInteraction(task) {
             option5.innerHTML = task.interaction.option5;
         }
     });
-}    
+}   
+
+function multiChoiceJourney(currentJourney) {
+    console.log('Multichoice Journey Started');
+    let multichoice = `/templates/interaction_multichoice.html`;
+    fetch(chrome.runtime.getURL(multichoice))
+    .then(r => r.text())
+    .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        let question = document.querySelector('#multichoice-question'),
+            option1 = document.querySelector('#option1'),
+            option2 = document.querySelector('#option2'),
+            option3 = document.querySelector('#option3'),
+            option4 = document.querySelector('#option4'),
+            option5 = document.querySelector('#option5');
+
+        // console.log(task.interaction);
+        question.innerHTML = currentJourney.step_interaction.question;
+        option1.innerHTML = currentJourney.step_interaction.option1;
+        option2.innerHTML = currentJourney.step_interaction.option2;
+
+        if(currentJourney.step_interaction.option3){
+            document.querySelector('.option3').style.display = "block";
+            option3.innerHTML = currentJourney.step_interaction.option3;
+        }
+        if(currentJourney.step_interaction.option4){
+            document.querySelector('.option4').style.display = "block";
+            option4.innerHTML = currentJourney.step_interaction.option4;
+        }
+        if(currentJourney.step_interaction.option5){
+            document.querySelector('.option5').style.display = "block";
+            option5.innerHTML = currentJourney.step_interaction.option5;
+        }
+    });
+}   
 
 function completeExtensionTask(task){
     chrome.storage.sync.clear(function() {
