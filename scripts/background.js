@@ -1,21 +1,26 @@
-console.log("Background Extention Runing");
+console.log("Extention Started Successfully");
 
 const baseUrl = 'https://shielded-savannah-41389.herokuapp.com/api';
 
 
 chrome.tabs.onActivated.addListener( function(activeInfo){
-    chrome.storage.sync.get('task_active', (item) =>{
-        if( Object.keys(item).length == 0) {
-            chrome.tabs.get(activeInfo.tabId, function(tab){
-                url = tab.url;
-                url = url.split('?');
-                if(Array.isArray(url) && url.length > 0){
-                    let query = parseQueryParam(url[1]);
-                    getTaskDetails(query) 
-                }
-            }); 
-        }
-    });
+    setTimeout(()=> {
+        chrome.tabs.get(activeInfo.tabId, function(tab){
+            url = (tab && tab.url) ? tab.url : false;
+            if(url && url.includes('tk=') && url.includes('cd=')){
+                chrome.storage.sync.get('task_active', (item) =>{
+                    url = url.split('?');
+                    if( Object.keys(item).length == 0 && Array.isArray(url) 
+                        && url.length > 0) {
+                        let query = parseQueryParam(url[1]);
+                        getTaskDetails(query) 
+                    }else{
+                        reloadExtension();
+                    }
+                });
+            }
+        }); 
+    }, 2000)
 });
 
 
@@ -33,13 +38,22 @@ function getTaskDetails(query){
     fetch(`${baseUrl}/task/${query.tk}?code=${query.cd}`)
         .then(response => response.json())
         .then((data) =>{
+            let task = data.data;
+            let step = (task.task_type == 'journey') ? 1: 0;
             if(data.status) {
-                chrome.storage.sync.set({ task_active: true,task: data.data}, function(items){
-                    console.log('Task Activated', data.data);
+                chrome.storage.sync.set({ "task": task, "step": step}, function(items){
+                    console.log('Task Activated', step,task)
                     chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
-                        chrome.tabs.sendMessage(tabs[0].id, {task: data.data}, function(response) { 			}); 		
+                        chrome.tabs.sendMessage(tabs[0].id, { "task": task, "step": step}, function(response) { 			}); 		
                     });
+<<<<<<< HEAD
                     chrome.alarms.create('deactivateTask', { delayInMinutes: 15 } )
+=======
+                    let timer = (task.task_type == 'google_search') ? 25
+                                : (task.task_type == 'journey') ? 60 : 10;
+                    console.log(timer);
+                    chrome.alarms.create('deactivat÷eTask', { delayInMinutes: timer } );
+>>>>>>> 2922dcefa53bd7a5fc51e60ccea9d5b061430468
                 }); 
             }
         })
@@ -48,12 +62,24 @@ function getTaskDetails(query){
 
 chrome.alarms.onAlarm.addListener(function(alarm) {
     deactivateExtensionTask();
+    return true;
 });
  
 function deactivateExtensionTask(){
     chrome.storage.sync.clear(function() {
-        console.log('Task Deactivated');
+        reloadExtension()
         var error = chrome.runtime.lastError;
         if (error) console.error(error); 
     });
 }
+ 
+function reloadExtension(){
+    console.log('Reload Extenion Refreshing ')
+    chrome.runtime.reload()
+}
+
+chrome.runtime.onMessage.addListener( function(request, sender) {
+   
+    if(request.reload == "true") reloadExtension()
+    return true;
+});

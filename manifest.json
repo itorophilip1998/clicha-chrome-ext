@@ -4,9 +4,9 @@
     "description": "Clisha app extention",
     "version": "0.1",
     "icons": {
-         "16": "./images/icon16.png",
-           "48": "./images/icon48.png",
-          "128": "./images/icon48.png" 
+        "16": "./images/icon16.png",
+        "48": "./images/icon48.png",
+        "128": "./images/icon48.png" 
     },
     "content_scripts": [
         {
@@ -15,10 +15,12 @@
                 "./scripts/content.js",
 
                 "./scripts/jquery351.js",
-                "./scripts/bootstrap461.js"
+                "./scripts/bootstrap461.js",
+                "./scripts/modal.js"
             ],
             "css": [
-                "./styles/bootstrap461.css"
+                "./styles/bootstrap461.css",
+                "./styles/index.css"
             ]
         }
     ],
@@ -31,9 +33,11 @@
             "matches": [  "<all_urls>" ],
             "resources": [
                 "templates/modal1.html",
-                "templates/modal2.html",
+                "templates/modal2.html", 
                 "/templates/modal3.html",
-                "./images/"
+                "./images/",
+                "templates/interaction_timer.html",
+                "templates/interaction_multistep.html" 
             ]
         }
     ],  
@@ -51,7 +55,6 @@
         "alarms",
         "activeTab",
         "storage",
-        "notifications",
-        "contextMenus" 
+        "notifications"
     ]
 }

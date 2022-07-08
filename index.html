@@ -3,12 +3,105 @@
 <head>
 </head>
 <body> 
-    <div style="width: 300px;padding: 10px;">
+    <style>
+        body{
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUYAAAE9CAYAAAB3MsvyAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAABfbSURBVHgB7d1rkhzVmcbxk3XpbskIBAFmuIRChBdgGDk84tOwg2EHxisYs4NhBWZWYLEDdjD4E5oJj8V8HwcKLlaACRAWNn2pqnQ+Jyv7ctStrjyXzJNZ/1+43E1L3V2d6nzqXN9TmA2U9966vljsvz6ZFf9WGPNWWa5uGlNcNwCQtfJhURSflKZ6LM3vZ7/4+MNNPqt44pesAtGY/X9fleVvCEIAI3B/Upg7+/vmgytv3r1/0V+6MBjLe/9SBaL5DwIRwAjdL0vz3uzW3Tvn/eG5wVjee/O3dSsRAMZrUpTvF2/897vuxx8LxuW9278zpXnHAMA2KM2d6a27vz79ocmZP69aioQigK1SmHeqocPfnv3Q2uJ/b79TFOZ3BgC2UVm8O7318ft61wZjee/2zWqi5b+qd28aANhKxcNJsfta8cZHD5uu9K8MoQhgq5XXF6t9O+lsW4zLP97+1BCMALZe3WqcLP7wy7cNoQgAxrYatcuvLKZvGQBAbVK8PZtOyp+XpQHQp6Ia7i/m1U25V/3HtPrf7vrj8/phTeu/5ypX1f8t1+8fVY/l+m318dV+/bZcv8WlpsXqX2dlWb5+yZZpADHZAKyCb3r1JAyPw8/n6yksJydf+yJNQCosl3+v3h7UAYozSjO5OWMvNJCYgmt6rQ7CydWwEAx9HsX6Ocyeqz+mYLRB+UMdlgSl0TjjzACIT+EzvXoShrlSSE/ndXBLuW5NLr6vW5RbimAEYlGLTC2x2VPV+3tmkPS8Z3v1z6HW4/KRMUffbV1LkmAEQqlFuPN83i1DH2pN2qCvHqt1K1KPLUAwAj6OW4fPnT9TPDY2/KvH/Pk6JA+/GXUrkmAE2ti2QHTZMclnjLlSPZbfjzYgCUZgE9seiOcZcUASjMCTEIiXG2FAEozARWbVzT5/kUDclAJy72o9i7341gwZwQi4tGRl96fjm2XugsYgd6prN3/WmP3PBtt6JBiB0zTrqgfCKCCv/KxqOVatx6O/DG6fNsEIiG0l/tO6iAOimVUtx+lTxhx8MaidNAQjoIkVdf/6Zos8HJ4Ud2gq5awW5kz1HJcdA52e7MGerCvyKOz1Z5O9fsdJ9Vz2Xqtajt/UjwEgGLG9FBa7r/Y3lqjiDat1lZuQAg62m7o6+fzzeq0KycnsZO92Hy1jDVHY1uOX2Y89EozYTgqKvVe6rXSjANPeY4Wh3nY57maLQ5i6io7YluTVk6o/XV0HBfLejSocH9TXIVMEI7ZPl8twbBg+rCYhfsgrCOzz+uEkKG0psme6CUnbtb6RddeaYMR26WrWWV1jGzwPhzEja/c/r4PbBuQ6JFPSv0NRjY0efmVyQzBie+y8VN/0KWn3x9H3WXcTL9VU0VHLTuGV8ppp1rqoYujwQVYvIAQjxi/1JItuaO300GNM56pogkSBpe5uyoDUOOfuPKtJGfY6YdxsKN5IF4pqIe5/WofHWA+bagLyxz+lq8fYTMr0deyDg2DEeB2HYoKlKRpD1JY3za5uS3Xr1AHZTMpkEI4EI8YpVSiqVahwOPhs2OOIIZqAPEzwopBJOBKMGKcUoahZ5v3/35ry/pfSddi/X++Hjuk4HPuLJ4IR46PZ55ihqFai9vrqwaH1Z2nLopbbxK6ko3Dc7S8cCUaMS+zZUzuW+OnJQmicb7Uec11EvE56cdNC/B4QjBiP2Iu3tfzmYLg1BTtnxx6/iLubxe5S6r4MHOsYMQ4qThDzBjr8Or8q1FpypAKwk5/UXUxbjWc/v2NNFYwqkLHzcpyusP5dFbod/owEI4bPVo2O1OVS2Njxsn2TjYsWqOvjxfpYU+0gyalqjZ2o+jTeDLO61LYaUTc1HelKY/hi3XwKFd3MOYWibLJA/XiBdEa3tL2ekYYimheHjn4+ghHDppZitFDMcDxR3chNZ9jt3uYXTFaihuO8XnHQAYIRw6WBeXUhQ+UaitJ2ht0WZcjstrbX937dFQ6lfdWquJ4YwYhhaiq/hMo5FCeetREVHrnReseDz+NcZ1uuLO3OGIIRwxTj5sg5FMV3kXomhRgeo3CMcb3VIk7cpSYYMTy2Cx24iPt49pk1ip2K9WKkIroJu9QEI4YlVhf68M/5h6LvmFzuP5cNxy/Dt1cm7FITjBiW+XPhN4MWIA9hi1954BceywFU/dGSqKO/mCC2S53m2FuCEcOhQAydhbZHDwzjbGM7Jtd2941+vqEMD6gqT2hlHk00JShCTDBiOEK70HYv70BCsdFsr9uE/fnyO1jqifR8Q5fxJNhLTTBiGJrjPUMMdbJFy1wu2yfcVBRPURZNXVZNdOy+VO+uUfdVe9NjOQgcb5xG+N1wsFcaw7AbuDzDnsky0BloW/NwfUD95Nr67Od1EQm1ttTdTjFmqu+hnTTu8MVkPSOs63nwILySub6OxhtD9rur1RixyATBiPypNRAy4WJvvIF1oc9jb/yOKsxscjREU2lboR0aShprnF7zP8vajj8/Ey0c6Uojf6FjSOpiYnNtz8uZR9qvHnq2dMSxRoIRefPdFtcY0ixtDnwOEYu1E8XWXAyogdm0GiMgGJG3nYBWwBBnofsUcrKiPidG8Qp1qUNeyKYEI8ZOLYCQNWpDnnDpWuhxs7Zobozyb8t6QseXxigjrGskGJGveWBrkWNONxPtDO6piUKz3CG7dyKMNRKMyFMxDSufNYZZ6C5EC0VZmmhC/v2a5UwBCEbkSQuIfX+5aS1uJmYo6prHPI8ltNUYWHmHYESeQmYXaS1eLmpLsXIUuOf53K8Z8O8YODtNMCI/IZMutBYvFzsUQ5fZXEStRt+DyQIn7ghG5CdkbHEI5cT6lCIUUy6gP/qr8Tbz389NMCI/86eNt6MELZexSBWKKZdE2QX6nrthpteNL4IReVEXqPC8cZePWLd4kSGGov0+yzocfehn9uxOE4zIyzRgcS7d6PMNNRQbi0fG25RgxBj41vlTd4tJl8cNPRTFTsJ4dqdpMWIUJj8xXlYBrYqxGkMoNny7056LvQlG5GMSsGNhQTf6jDGFooR0pz1ebAlG5CPkJl79zWBtbKEoId3p6RXTFsGIfHj8AlvLgJtmbMYYio2lZ6vRY5UDwYh8+N7MzEbXxhyK4nu2zIRgxFCpmo5vPb/Q4zfHYOyhKL5FJex6xt1Wn8JhWMhD0e4X94zQU+pypxtbuzimu+vlJ9OTSSrtJV4drfcGjzgURc9HQyY+E3S6Ni2q/xCMyIPvTR2z1FVuFHYquqq94xeFgcbPppECUXINxYYm2Xz20tNixCBNPLvR5Ui70aonqFAsOhztyj0UpVwYLy2HaQhG5GHi2ZVejqzFaA+5fzHaaXcbG0Ioiu94csseCcGIPDDxUtt52X9bpK+hhKJ4V/Vudx4Ns9LIg/cJcyOqpmPHEwnFJ/Ncr2pPMdw87ghG9K8IOF1uNZJgVNc5wul2rQwuFE1dhsz3+bZ48aUrjf4Vnr+GsW5oLYGZP1vvqVWrQktCNKmjaj1dVewZUygmv546jdCnh7H5CzDBiAx4thhDW4t2UfSrj5emst2u6mM71WNW3eAHX6ZtVam1GOOw+k2lCsWurqf+3X2WKGnlw4Y9cbrS6N+kp19Du1Pkknp9ms3cu5F22UyXM9ApW4pdXc8O9sUTjMiA7xhjwM2truumSzjsQusXTDIBp9m1dvBFmlDs9Hr6TsBs3ionGLGd2rbS1AVM0WrsMhTt94u4S+a0Lq+nJmASIxiRAc8Wo+8NYgvieozphRzrepFJh2OLVsAKgIvkdD0jIRjRP++Wg+85IJ6tphQTJEXHwZik1ZvR9YyEYAT6RIHdLBGM6F8ZsJvBh+82wiRLdtKPlyWX1fWMg2BEBjzDwXfHTHngF8bLBHUfu97rnaJMW07XMxKCEdtHkzaLb1t9ij2+M0ULp+uudIogzul6RkIwYsACfn2Pvtk8JHQDH35lorM7RV4xnVFrMVUYdXk9fSdtWvzsBCP657u1r9gxQQ4+v3zvrrp7dqdI5JZd7DNaNtG2VddWV9ezgyVO7JVGBnzHGANf19UFPHxQnxkzuWbM9OpJ0QO1fhQkKU4g7CMU1VpKXRCjr+u5qRYvwAQj+lem3+L1RDYwOqqi00coirq6XUl9PQvfa7f5CzBdafQvZNxrku8i4cf0FYrLDsundcF7QwBjjBga7+KjHYeMr75CUV3YFBNHfZkEHLPbomdCMCIPvstIMt5Wdqy3lmI11neQYOKoT749hJbrNxljRB58b14dQu95omYn+gpFTXQcfm1Gx7eHUB62+usEI/LguyMj5650H6GoVqICcaznbU89y7S1HKohGJGJdq/oxzTm1CwJyUnsUNSNrTO0J7OzX7P5uJbILB+OvyiF7wvh8sdWf51gRB5a/uKeoZulzGjfbYpQHNppfik0L4I+WnalmXxBHkKOxZx2XAX7SQjFdEKuacuhGoIR+fCdmZ5kEoyEYlrTp4wXjyo+BCPy4dudbrae9YlQTM/32npMRBGMyEdISSwd7t4XQjE933NlxOMFl2BEPjSz6jurOvPsZoUiFLsRcvb26m+mLYIRefEeZ7zWfXeaUOyO7wTb0u/FlmBEXnzLUimkulzsTSh2J6QbvfJbxkUwIi/LgCow8+dNJwjFboV0o5cEI8ZA6xl9D0nqYnaaUOyWDjybXjNedE1pMWI0VgG7WGbPmWQIxe5p7aL3Mbn+v0cEI/ITUlRVwZiq1bjzMqHYtZDhkSP/3yOCEfmxhRE8X+0VitPrJjqNc00jLQkiFDejax5yIiAtRoxOyKFJ82dNdCETAKcRipsLueZH35kQBCPyZA9kDzgkK1aQNWLsxyYUN6frHXLNl49MCIIRebKz05ks3dHMaChCsZ3dl4w3hWLgdSYYka9FwKu+bTVGmqEuPc+9Pv58QrGVkLFFCexGC8GIfNmq1AFLd9RqjDVD7fs8CMX2Qlr7gZMuDYIReQs5KF6hOH/BROFzsxGK7dkXs5DWYsDvyykEI/IW2mqcPRtn4mTxXbuAIxTbUyCGthZD1sCeQjAif6GtgJ2fmmAaZ9w06AhFPyETLhKptSgchoX8Na1G39JT2q2ilkjojdMEnr7WRcuBNJN++JVJclqfWr5ao6mivM3JiKpOrVZSpJZSbzRRFtKyj9hatE/HAEOgUJveMN4UZgrX0IF53YCHD9bP51p9cp3osKVUx5faPdqvPh4cttRa9bGdq/WQwcGXw2ylhnahJWJrUehKYxhCxxpFXbVYs9S2hfJtHZJ66P1UZzrbwhWXtKbUKt670f/ZNz5Cn3fk1qIQjBgOBVAItUx2AsexuqaW1KaFK2zLK9IsfFd2XgybhZaDwN+LcxCMGA7bMghcvKvub1cFbWNou7VRXeqhtBo1rjgL3NeuMd0I6xZdBCOGRWNJoeNoCsZpT4dnteFb0t+3sGuXdAxF6GoBO94bd2yxQTBiWLRsRrO+oWxtxV2TNd/aj6Fd09T0/PZeMcGOvks22UQwYnhUkmwRUJZMmpne3ENkbGwo3gi/7pqI04RXIgQjhunoQfgscKybNBXfo2RzXbKjF6MY11v/7ofxJ1xOIxgxTOpSH3xhguUcjuWBX/gv409GBGvOy4lxnWOMM1+CYMRwaTZyEV5iKttwVPi37S7aAr+ZtRh1XWMdIqafL2EXukEwYtjUevDtcp6Wazi2+fnsLG2EiamYmusaIxQTzkK7CEYMm+1Sfxln18nxTZzZbPXB55fv7FD32RauSLT7xkfMFxv9XB0W5iAYMXy6WWKMN4q9mV9Lez51W3aJUrP18IeT8NNbBaJ+9oPMqvlonaiuY6wWeAfjiqdRRALjoPFGdSO1xSwGLT7WhMFRN123jdhW4wCq6GgBfczdRfo36GBc8TRajBgPTcTEmIxp6Obeu8lax001y3FihqJeDHp4cSIYMS5qNcastNJUrYl9HOvYaPuius4xqqU3NOmUeL3iRehKY3yOvq4nUGLMhEpTlUeFcg+/yWssr2/NuTqhxSBcdtz4M9MXWowYHztT/XmcZTynTZ+h9Xha00pMEYo9z7ATjBinVOHYtB5jzrgOTbMMJ8W6z0zOyyEYMV6pwlHUVb/ys3VV8C0JSHWbNeuvnzvmWGIjo0PEGGPEuDXhuPOK/2FaT6Lu9ZVn1odgjXT8UYFoi8o+l64Irl68MjqzhmDE+Nlw/Kxu7cQeD2uMMSBVTHb+dPWzXU9bFVyL1A+/yGrXDsGI7WGPNV2mPdqgCUhb4GKAx5rakwdVXfv5NN1llz1Q7GuTG4IR28VuLVvG2yFzkcn6WNN59X1Wj6rvm+Zskmj0fGdPpW8dnqZA7HhHy6YIRmwf7Y5RFfAuqukoZNSK1EPd6+YYWD367G7reSkMNe7aZRiKusza353xCwXBiO3UzICqRTfr6GAshXATklLunw3J1YFJxn7vq/Vsut4WkRa/t2XHEx9kPwZLMGJ72fp+GvR/vp8jVRVOs72zlXwUlqt1SNqwPDp5rmZ5/gSFbe1N1+ODVQAW0/rtZL4uobbTbYvwIpmOJ56HYARs9Zbv8yhUq7Cc7g3jCNRN2e19D/IeY3WwwBsQ3bw//imvMmNjoFbi/qeDCkWhxQicllPrcchsZZyvBxeIDYIRcDWtRxWL0NgjAbk5jYH2UFg2NoIRuIhajppFbQIST9YEYk7nzngiGIEnUeux6V4rHCk59rgR7hMnGIFN2KU9D+qQJCDrVqF29Iy0cAbBCLRxOiC1pGb+7HaNQSoQ1V0eSZf5IgQj4EMB2QTEbL2bJUVZs1zYHTo/VI+How7EBsEIhGqq6NhtdyNqRdrw1wTUo7TbFTNEMAKxnG5F2h0sqljzdLxDubqg9Ye2Zfj3wa5BjIFgBFLQnufF/jokmwIO62o2ObUm1S1uWoRb0k3eBMEIpNZ0Sc26aG0xP1vlRi3KLoo82Jnk/XWhioP+S59ljGAEuqYwWh7VXdZGUznb1klsgnJdFcc+pua4gs5jX0+tvGX9vqrxNP+t72O/l8YHD2kNtkAwAjlQaJXrMb3TgYleUF0HABwEIwA4CEYAcBCMAOAgGAHAQTACgINgBAAHwQgADoIRABwEIwA4CEYAcBCMAOAgGAHAQTACgINgBAAHwQgADoIRABwEIwA4CEYAcBCMAOAgGAHAQTACgINgBAAHwQgADoIRABwEIwA4CEYAcBCMAOAgGAHAQTACgINgBAAHwQgADoIRABwEIwA4CEYAcBCMAOAgGAHAQTACgINgBAAHwQgADoIRABwEIwA4CEYAcBCMAOAgGAHAQTACgINgBAAHwQgADoIRABwEIwA4CEYAcBCMAOAgGAHAQTACgINgBAAHwQgADoIRABwEIwA4CEYAcBCMAOAgGAHAQTACgINgBAAHwQgADoIRABwEIwA4CEYAcBCMAOAgGAHAQTACgINgBAAHwQgADoIRABwEIwA4CEYAcBCMAOAgGAHAQTACgINgBAAHwQgADoIRABwEIwA4CEYAcBCMAOAgGAHAQTACgINgBAAHwQgADoIRABwEIwA4CEYAcBCMAOAgGAHAQTACgINgBAAHwQgADoIRABwEIwA4CEYAcBCMAOAgGAHAQTACgINgBAAHwQgADoIRABwEIwA4CEYAcBCMAOAgGAHAQTACgINgBAAHwQgADoIRABwEIwA4CEYAcBCMAOAgGAHAQTACgINgBAAHwQgADoIRABwEIwA4CEYAcBCMAOAgGAHAQTACgINgBAAHwQgADoIRABwEIwA4CEYAcBCMAOAgGAHAQTACgINgBAAHwQgAjioYy4cGALBWPFSL8b4BAFilKT+ZrMrJ7w0AwCrL4v8mZlV+aAAAVlEuP5rMZvufMM4IANb92S/+58NJ8cYnD1dl8Z8GALbcqjQf6K1drjOb7L9PqxHAlru/ODR39I4NRrUal+XkPQMAW6oszXtX3rx7X+8fL/DeufXx+3SpAWwjZd/s1t07zX8X7l9Y/PH2neqDvzIAsAVKYz6Y/fPdd05/7LEtgfoLtBwBbAPbUnRCUc7dKz2/9fFvqv72rw27YgCMUlnNqxTvKuvO+9PiiZ967/bNxcq8Myls1/qmAYBBK+3yxNlk7/3ijY8uXIlTmA0t/vDLt8ti+lZRlD8vTPl69anXDQBkzS5DvG+3Pq/KD2ezvU+eFIiNfwAAzYjZaMuCtQAAAABJRU5ErkJggg==);
+            background-size: cover;
+            border: 0!important;
+            margin: 10px 0;
+            min-height: 130px;
+            width: 310px;padding: 10px;
+        }
+        hr{
+            margin: 5px auto;
+            width: 90%;
+            color: #212529;
+        }
+        .row{
+            display: flex;
+        }
+        .col-4 {
+            flex: 0 0 33.333333%;
+            max-width: 33.333333%;
+        }
+        .col-6 {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+        .col-8 {
+            flex: 0 0 66.666667%;
+            max-width: 66.666667%;
+        }
+        .text-clisha-red{
+            color: #ee2c4c!important;
+        }
+        .text-right{
+            text-align: right;
+        }
+        .text-center{
+            text-align: center;
+        }
+        .header{
+            font-size: 16px;
+        }
+    
+        .clisha-task-detail {
+           /* font-weight: bold; */
+            padding: .55rem  0;
+        }
+        .icon{
+            padding-right: 6px;
+            width: 15px;
+        }
+        .font-normal{
+            font-size: 14px;
+        }
+    </style> 
+    <div class="clisha_diaiwushdn" >
         <div class="clisha_preview">
-            <h2 style="margin-bottom: 8px;">Clisha</h2>
+            <h2 style="margin: 8px auto;">Clisha</h2>
 
-            <p id="popInfo" style="font-size: 14px;"> No active task <a href="#" id="clisha-task">click here</a>  to get and activate a task</p>
-
+            <div id="taskInactive">
+                <p class="font-normal"> No active task. <a href="#" id="clisha-task">Click here</a>  to get and activate a task</p>
+            </div>
+            
+            <div id="taskActive" style="display: none;">
+                <p class="font-normal"> Task is currently active. <a href="#" id="clisha-deactivate">Click here</a>  to deactivate </p>
+                <hr>
+                <div class="row header text-clisha-red">
+                    <div class="col-6 pr-0">
+                        <!-- <img class="icon" src="https://clisha-stagging.netlify.app/images/Task/finger.png" alt=""> -->
+                        <span>Task ID </span>
+                    </div>
+                    <div class=" col-6 "><img class="icon" src="https://clisha-stagging.netlify.app/images/Task/copy.png"  alt="" >
+                        <span id="task-code-ied7yghfubj">PRHAXD084691</span>
+                    </div>
+                </div>
+                <hr>
+                <div class="row font-normal clisha-task-detail ">
+                    <div class="col-6">Point</div>
+                    <div class="col-6 text-righ">
+                        <img class="icon" src="https://clisha-stagging.netlify.app/images/Task/db.png" class="ml-2" alt="">
+                        <span id="task-point-askjdcn">308 Pts</span>
+                    </div>
+                </div>
+                <div class="row font-normal clisha-task-detail" id="clisha-task-search" style="display: none">
+                    <div class="col-6">Search Phrase</div>
+                    <div class="col-6 text-righ">  <span id="task-search-idhfonksdx"></span>
+                    </div>
+                </div>
+                <!-- <div class="row font-normal clisha-task-detail" id="clisha-task-step">
+                    <div class="col-6">Journey Step</div>
+                    <div class="col-6 text-righ">  <span id="task-step-djcfhbfcuvjbn"></span>
+                    </div>
+                </div>
+                <div class="row font-normal clisha-task-detail" id="clisha-task-detail">
+                    <div class="col-6">Description</div>
+                    <div class="col-6 text-righ">  <span id="task-description-udhjcgbjshbdx"></span>
+                    </div>
+                </div> -->
+            </div>
+            
         </div>
     </div>
 
