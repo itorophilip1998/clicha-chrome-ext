@@ -35,7 +35,7 @@ function showModal(open = 1, content = null){
         .then(html => {
             document.body.insertAdjacentHTML('beforeend', html);
             active_modal = document.querySelector(modalId);
-            if(content){
+            if(content){ 
                 let entry = document.querySelector('#boost-entry'),
                     error = document.querySelector('#boost-error');
 
@@ -101,10 +101,10 @@ function activateGoogleSearch(){
                     head: `Great! Please read the question below and click on the answer button to answer it `,
                     question: task.interaction.question
                 });
-                multiChoiceInteraction(task)
+                multiChoiceInteraction()
             } else{
                 showModal(1, {head: `You have clicked on the right page! Please interact with this page until the timer went down `});
-                timerInteraction(task)
+                timerInteraction()
             }
         }else {
             showModal(2, { error: true, head: `You have clicked on the wrong page! Please go back to Google search result and click on  "${clisha_search.title}"`});

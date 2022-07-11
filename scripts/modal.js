@@ -50,8 +50,10 @@ function handleDeactivateModal() {
     console.log('Deactivating Task from Modal')
     chrome.storage.sync.clear(function() {
         chrome.runtime.sendMessage( { reload: 'true' }, (response) => {  
-            if($('#clishaModelId1'))  $('#clishaModelId1').modal('hide');  
-            if($('#clishaModelId2'))  $('#clishaModelId2').modal('hide');  
+            active_modal.classList.add("clisha_modal_close")  
+            active_modal.classList.remove("clisha_modal_open")
+            // if($('#clishaModelId1'))  $('#clishaModelId1').modal('hide');  
+            // if($('#clishaModelId2'))  $('#clishaModelId2').modal('hide');  
         });
         var error = chrome.runtime.lastError;
         if (error) console.error(error);  throw error; 
