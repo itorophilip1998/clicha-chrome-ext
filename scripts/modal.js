@@ -3,11 +3,10 @@ console.log('Modal Extension Loaded')
 
 
 document.body.addEventListener( 'click', function ( e ) {
-    // console.log('Modal Event ',e.target.id);
+    console.log('Modal Event ',e.target.id);
     if(e.target && e.target.id == 'clisha_close-primary'){
-        console.log(clisha_modal)
-        clsha_modal.classList.add("clisha_modal_close")  
-        clsha_modal.classList.remove("clisha_modal_open")
+        active_modal.classList.add("clisha_modal_close")  
+        active_modal.classList.remove("clisha_modal_open")
     }
 
     if(e.target && e.target.id == 'task-deactivate' ) {

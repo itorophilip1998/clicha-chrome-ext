@@ -2,13 +2,13 @@ console.log("Reading Page")
 // Global Variable
 let domain = window.location.href;
 domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
-let task,   step = null, clisha_modal,
+let task,   step = null, 
+    active_modal,
     currentJourney = {};
 
 // Run Task
 chrome.storage.sync.get(null, (item) => {
     if (Object.keys(item).length) {
-        console.log(item)
         task = item.task;
         step = item.step;
         if (task.task_type == "google_search") activateGoogleSearch()
@@ -29,11 +29,12 @@ chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
 function showModal(open = 1, content = null){
    let template = `/templates/modal${open}.html`,
        modalId = `#clishaModelId${open}`;
+       
     fetch(chrome.runtime.getURL(template))
         .then(r => r.text())
         .then(html => {
             document.body.insertAdjacentHTML('beforeend', html);
-            clisha_modal = document.querySelector(modalId);
+            active_modal = document.querySelector(modalId);
             if(content){
                 let entry = document.querySelector('#boost-entry'),
                     error = document.querySelector('#boost-error');
@@ -63,11 +64,10 @@ function showModal(open = 1, content = null){
                 }
 
                 if(content.error) error.style.display = (content.error) ? "block" : "none";  
- 
             }    
-            
-            clisha_modal.classList.remove("clisha_modal_close")  
-            clisha_modal.classList.add("clisha_modal_open")
+
+            active_modal.classList.remove("clisha_modal_close")  
+            active_modal.classList.add("clisha_modal_open")
         });
 }
 
@@ -102,7 +102,7 @@ function activateGoogleSearch(){
                     question: task.interaction.question
                 });
                 multiChoiceInteraction(task)
-            }else{
+            } else{
                 showModal(1, {head: `You have clicked on the right page! Please interact with this page until the timer went down `});
                 timerInteraction(task)
             }
