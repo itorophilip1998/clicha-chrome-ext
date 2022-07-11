@@ -11,14 +11,6 @@
     line-height: 14px;
     color: #6c757d!important;
 }
-.clisha_content{
-    background-image: url("https://i.ibb.co/yBQP6Cb/layer.png") !important;
-    background:  #74019B;
-    color: #fff;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-}
 .clisha_overlay{
     background:rgba(0,0,0,0.8) !important;
     position: fixed !important;
@@ -61,7 +53,7 @@
  
 
 .clisha_modal_content{
-  width: 300px; 
+  width: 40px; 
   min-height: 300px;
   border-radius: 10px;
   padding: 15px;
@@ -76,6 +68,22 @@
   transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
   transition-delay: 1s; 
 }
+
+.clisha_modal-dialog{
+  position: relative;
+  width: auto;
+  margin: 0.5rem;
+  pointer-events: none;
+}
+
+.clisha_content{
+    background-image: url("https://i.ibb.co/yBQP6Cb/layer.png") !important;
+    background:  #74019B;
+    color: #fff;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
 .clisha_modal_container{
   background:rgba(0,0,0,0.4);
   position: fixed;
@@ -87,7 +95,7 @@
  
 }
 .clisha_modal_body{
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .clisha_modal_close{
    display: none;
@@ -149,7 +157,7 @@ color:#74019B;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   } */
 
-  .fade {
-    transition: opacity 0.15s linear;
-  }
+.fade {
+  transition: opacity 0.15s linear;
+}
   

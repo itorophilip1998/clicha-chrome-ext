@@ -2,7 +2,8 @@ console.log("Reading Page")
 // Global Variable
 let domain = window.location.href;
 domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
-let task,step = null, currentJourney = {};
+let task,   step = null, clisha_modal,
+    currentJourney = {};
 
 // Run Task
 chrome.storage.sync.get(null, (item) => {
@@ -28,12 +29,11 @@ chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
 function showModal(open = 1, content = null){
    let template = `/templates/modal${open}.html`,
        modalId = `#clishaModelId${open}`;
-
     fetch(chrome.runtime.getURL(template))
         .then(r => r.text())
         .then(html => {
             document.body.insertAdjacentHTML('beforeend', html);
-           
+            clisha_modal = document.querySelector(modalId);
             if(content){
                 let entry = document.querySelector('#boost-entry'),
                     error = document.querySelector('#boost-error');
@@ -65,9 +65,9 @@ function showModal(open = 1, content = null){
                 if(content.error) error.style.display = (content.error) ? "block" : "none";  
  
             }    
-            // $(modalId).modal('show');
-            modalId.classList.remove("clisha_modal_close")  
-            modalId.classList.add("clisha_modal_open")
+            
+            clisha_modal.classList.remove("clisha_modal_close")  
+            clisha_modal.classList.add("clisha_modal_open")
         });
 }
 
@@ -92,7 +92,8 @@ function activateGoogleSearch(){
             }
             return true;
         }
-        showModal(1, {head: `Please enter the copied Search Phrase into the Google Search Bar and hit enter`});
+        return showModal(1, {head: `Please enter the copied Search Phrase into the Google Search Bar and hit enter`});
+
     } else{
         if(currentUrl.href.match(task.url) || currentUrl.href+'/' == task.url){
             if(task.interactionId && task.interaction && task.interaction.interaction_type == 'multichoice'){
