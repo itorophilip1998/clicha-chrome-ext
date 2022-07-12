@@ -1,10 +1,10 @@
 console.log("Reading Page")
 // Global Variable
-let domain = window.location.href;
-domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
 let task,   step = null, 
     active_modal,
     currentJourney = {};
+let domain = window.location.href;
+domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
 
 // Run Task
 chrome.storage.sync.get(null, (item) => {
@@ -35,6 +35,7 @@ function showModal(open = 1, content = null){
         .then(html => {
             document.body.insertAdjacentHTML('beforeend', html);
             active_modal = document.querySelector(modalId);
+            console.log(modalId, active_modal)
             if(content){ 
                 let entry = document.querySelector('#boost-entry'),
                     error = document.querySelector('#boost-error');
@@ -96,7 +97,7 @@ function activateGoogleSearch(){
 
     } else{
         if(currentUrl.href.match(task.url) || currentUrl.href+'/' == task.url){
-            console.log(task);
+            console.log(task.interaction);
             if(task.interactionId && task.interaction && task.interaction.interaction_type == 'multichoice' || task.interaction.interaction_type == 'multistep'){
                 showModal(1, {
                     head: `Great! Please read the question below and click on the answer button to answer it `,
@@ -151,7 +152,7 @@ function parseQueryParam(url) {
     return query;
 } 
  
-function timerInteraction(task) {
+function timerInteraction() {
     console.log('Timer Interaction Started');
     let timer = `/templates/interaction_timer.html`;
     fetch(chrome.runtime.getURL(timer))
@@ -176,7 +177,7 @@ function timerInteraction(task) {
     });
 }    
 
-function multiChoiceInteraction(task) {
+function multiChoiceInteraction() {
     console.log('Multichoice Interaction Started');
     let multichoice = `/templates/interaction_multichoice.html`;
     fetch(chrome.runtime.getURL(multichoice))

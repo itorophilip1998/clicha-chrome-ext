@@ -5,8 +5,7 @@ console.log('Modal Extension Loaded')
 document.body.addEventListener( 'click', function ( e ) {
     console.log('Modal Event ',e.target.id);
     if(e.target && e.target.id == 'clisha_close-primary'){
-        active_modal.classList.add("clisha_modal_close")  
-        active_modal.classList.remove("clisha_modal_open")
+       closeActiveModal()
     }
 
     if(e.target && e.target.id == 'task-deactivate' ) {
@@ -14,7 +13,10 @@ document.body.addEventListener( 'click', function ( e ) {
     };
 
     if(e.target && e.target.id == 'clisha-answer') {
-        $('#clishaModelMulti').modal('show');
+        active_modal = document.querySelector('#clishaModelMulti')
+        // $('#clishaModelMulti').modal('show');;
+        active_modal.classList.remove("clisha_modal_close")  
+        active_modal.classList.add("clisha_modal_open")
     }
 
     if(e.target && e.target.name == 'task-option'){
@@ -25,7 +27,9 @@ document.body.addEventListener( 'click', function ( e ) {
         let choice = document.querySelector('input[name="task-option"]:checked').value;
         let answer = task.interaction.answer;
         console.log(choice, answer);
-        $('#clishaModelMulti').modal('hide');  
+        // $('#clishaModelMulti').modal('hide');  
+        closeActiveModal()
+        
         if(choice == answer){
             setTimeout(() => {
                 if (task.task_type == "google_search"){
@@ -45,6 +49,11 @@ document.body.addEventListener( 'click', function ( e ) {
     }  
 
 } ); 
+
+function closeActiveModal(){
+    active_modal.classList.add("clisha_modal_close")  
+    active_modal.classList.remove("clisha_modal_open")
+}
 
 function handleDeactivateModal() {
     console.log('Deactivating Task from Modal')

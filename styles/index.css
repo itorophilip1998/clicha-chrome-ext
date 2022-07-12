@@ -10,6 +10,14 @@
     line-height: 14px;
     color: #6c757d!important;
 }
+.bold{
+  font-weight: bold;
+}
+.mt-4{
+  margin-top: 1.5rem !important;
+}
+
+
 .clisha_overlay{
     background:rgba(0,0,0,0.8) !important;
     position: fixed !important;
@@ -91,6 +99,7 @@
   bottom:0; 
   left:0;
   right:0;
+  display: none;
 }
 
 .clisha_modal_body{
