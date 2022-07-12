@@ -96,7 +96,8 @@ function activateGoogleSearch(){
 
     } else{
         if(currentUrl.href.match(task.url) || currentUrl.href+'/' == task.url){
-            if(task.interactionId && task.interaction && task.interaction.interaction_type == 'multichoice'){
+            console.log(task);
+            if(task.interactionId && task.interaction && task.interaction.interaction_type == 'multichoice' || task.interaction.interaction_type == 'multistep'){
                 showModal(1, {
                     head: `Great! Please read the question below and click on the answer button to answer it `,
                     question: task.interaction.question
