@@ -1,6 +1,6 @@
 <div class="clisha_modal_container fade" id="clishaModelMulti" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-    <div class="clisha_modal-dialog mt-5" role="document">
-        <div class="clisha_modal_content clisha_content mt-5"> 
+    <div class="clisha_modal-dialog">
+        <div class="clisha_modal_content clisha_content"> 
             <div class="clisha_modal_body">
                 <div class="">
                         <div class="text-center">
@@ -8,51 +8,48 @@
                             <div>
                                 <img src="https://i.ibb.co/MNhqr6Y/clisha-boost.png" alt="clishalogo" border="0">
                                 <div class="mt-2"> 
-                                    <h4 id="multistep-question" class="text-white"></h4>
+                                    <h4 id="multichoice-question" class="text-white"></h4>
                                 </div>
                             </div>
                         </div> 
-                        <ul class="task-options my-3 mx-4 text-white">
-                            <li class="option1">
+                        <ul class="task-options">
+                            <li class="option option1">
                                 <input type="radio" name="task-option" value="option1">
                                 <label for="option1" id="option1"></label>
                             </li>
-                            <li class="option2">
+                            <li class="option option2">
                                 <input type="radio" name="task-option" value="option2">
                                 <label for="option2" id="option2"></label>
                             </li>
-                            <li class="option3" style="display: none;">
+                            <li class="option option3" style="display: none;">
                                 <input type="radio" name="task-option" value="option3">
                                 <label for="option3" id="option3"></label>
                             </li>
-                            <li class="option4" style="display: none;">
+                            <li class="option option4" style="display: none;">
                                 <input type="radio" name="task-option" value="option4">
                                 <label for="option4" id="option4"></label>
                             </li>
-                            <li class="option5" style="display: none;">
+                            <li class="option option5" style="display: none;">
                                 <input type="radio" name="task-option" value="option5">
                                 <label for="option5" id="option5"></label>
                             </li>
                         </ul>
     
-                        <div class="text-center my-2">
-                            <button id="clisha-submit-answer" disabled="true" type="button" class="btn cbtn-primary px-5 shadow border-0">Submit</button>
+                        <div class="text-center">
+                            <button id="clisha-submit-answer" disabled="true" type="button" class="clisha_btn-primary">Submit</button>
                         </div>
 
                     <p class="text-center text-summary">
-                        <small class="">
-                            Click one of the options above and then answer to complete task.
-                        </small> 
+                        <small class=""> Click one of the options above and then answer to complete task. </small> 
                     </p>
                     <p class="text-center text-summary" id="boost-error">Dont want to attempt this question? Deactivate <a href="#" id="task-deactivate">task here</a>.</p>
                 </div>
-
             </div> 
         </div>
     </div>
 </div>
 <a href="#" class="clisha_answer" id="clisha-answer">
     <span class="floater">
-        <img src="https://clisha-stagging.netlify.app/images/Task/pointer.png" style="    width: 20px; margin-top: 15px;" class=" " alt="">
+        <img src="https://clisha-stagging.netlify.app/images/Task/pointer.png" style="width: 20px; margin-top: 15px;" class=" " alt="">
     </span>
 </a>

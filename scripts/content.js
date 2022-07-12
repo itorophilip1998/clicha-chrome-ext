@@ -191,7 +191,7 @@ function multiChoiceInteraction() {
             option4 = document.querySelector('#option4'),
             option5 = document.querySelector('#option5');
 
-        // console.log(task.interaction);
+        console.log(task.interaction);
         question.innerHTML = task.interaction.question;
         option1.innerHTML = task.interaction.option1;
         option2.innerHTML = task.interaction.option2;

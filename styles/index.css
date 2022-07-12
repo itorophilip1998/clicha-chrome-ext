@@ -8,7 +8,7 @@
 }
 .text-summary{
     line-height: 14px;
-    color: #6c757d!important;
+    color: #959a9f!important;
 }
 .bold{
   font-weight: bold;
@@ -59,7 +59,7 @@
 }
  
 .clisha_modal_content{
-  width: 400px; 
+  width: 425px; 
   min-height: 300px;
   border-radius: 10px;
   padding: 15px;
@@ -76,13 +76,11 @@
   transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
   transition-delay: 1s; 
 }
-
 .clisha_modal-dialog{
   position: relative;
   width: auto;
   margin: 0.5rem;
 }
-
 .clisha_content{
     background-image: url("https://i.ibb.co/yBQP6Cb/layer.png") !important;
     background:  #74019B;
@@ -101,7 +99,6 @@
   right:0;
   display: none;
 }
-
 .clisha_modal_body{
   display: block;
   margin: 10px auto;
@@ -114,7 +111,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: center; 
- 
 }
 .closeIcon{
   font-family:   monospace; 
@@ -138,10 +134,11 @@
   border:none;
   border-radius: 4px;
   padding: 10px;
-  width: 125px;
+  width: 140px;
   cursor: pointer;
   color:white; 
-  margin-top:30px;
+  margin-top: 30px;
+  margin-bottom: 20px;
 }
 .clisha_btn-primary:not(:disabled):not(.disabled) {
   cursor: pointer;
@@ -172,4 +169,15 @@ color:#74019B;
   font-size: 1rem;
   font-weight: 500;
   color: white;
+}
+.clisha_modal_content .task-options{
+  margin: 10px 8px 0px;
+  text-align: left;
+  color: white;
+}
+.clisha_modal_content .task-options .option{
+  padding: 4px 0px;
+}
+.clisha_modal_content .task-options .option input{
+  padding-right: 12px;
 }
