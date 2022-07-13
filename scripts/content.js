@@ -1,6 +1,7 @@
-console.log("Reading Page")
+// console.log("Reading Page")
 // Global Variable
-let task,   step = null, 
+let task,   
+    step = null, 
     active_modal,
     currentJourney = {};
 let domain = window.location.href;
@@ -67,7 +68,7 @@ function showModal(open = 1, content = null){
                 if(content.error) error.style.display = (content.error) ? "block" : "none";  
             }    
 
-            active_modal.classList.remove("clisha_modal_close")  
+            // active_modal.classList.remove("clisha_modal_close")  
             active_modal.classList.add("clisha_modal_open")
         });
 }
@@ -121,6 +122,7 @@ function activateJourneyTask() {
     let journeyTask = task.journey;
     currentJourney = journeyTask[step - 1];
 
+    console.log(currentJourney);
     if(currentUrl.href.match(currentJourney.link) || currentUrl.href+'/' == currentJourney.link){
         let start = (step == 1) ? "Great! Let's go," : (step == task.journey.length) ? "Great! Almost done," : "Let's continue";
         let type =  "", question = null; 
@@ -191,7 +193,7 @@ function multiChoiceInteraction() {
             option4 = document.querySelector('#option4'),
             option5 = document.querySelector('#option5');
 
-        console.log(task.interaction);
+        
         question.innerHTML = task.interaction.question;
         option1.innerHTML = task.interaction.option1;
         option2.innerHTML = task.interaction.option2;
@@ -211,7 +213,7 @@ function multiChoiceInteraction() {
     });
 }   
 
-function multiChoiceJourney(currentJourney) {
+function multiChoiceJourney() {
     console.log('Multichoice Journey Started', currentJourney);
     let multichoice = `/templates/interaction_multichoice.html`;
     fetch(chrome.runtime.getURL(multichoice))

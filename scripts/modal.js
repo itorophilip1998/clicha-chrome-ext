@@ -14,14 +14,20 @@ document.body.addEventListener( 'click', function ( e ) {
 
     if(e.target && e.target.id == 'clisha-answer') {
         active_modal = document.querySelector('#clishaModelMulti')
-        // $('#clishaModelMulti').modal('show');;
-        active_modal.classList.remove("clisha_modal_close")  
         active_modal.classList.add("clisha_modal_open")
+        // $('#clishaModelMulti').modal('show');;
+        // active_modal.classList.remove("clisha_modal_close")  
     }
 
-    if(e.target && e.target.name == 'task-option'){
-        prepareAnswer();
+    if(e.target && e.target.id == 'clisha-next-step') {
+      console.log('Go To Next PAGE NOw')
+      window.location.href = task.journey[step].link;
     }
+
+    if(e.target && e.target.id == 'close_modal_btn') closeActiveModal()
+
+    if(e.target && e.target.name == 'task-option')  prepareAnswer();
+    
 
     if(e.target && e.target.id == 'clisha-submit-answer'){
         let choice = document.querySelector('input[name="task-option"]:checked').value;
@@ -51,7 +57,7 @@ document.body.addEventListener( 'click', function ( e ) {
 } ); 
 
 function closeActiveModal(){
-    active_modal.classList.add("clisha_modal_close")  
+    // active_modal.classList.add("clisha_modal_close")  
     active_modal.classList.remove("clisha_modal_open")
 }
 
@@ -59,7 +65,7 @@ function handleDeactivateModal() {
     console.log('Deactivating Task from Modal')
     chrome.storage.sync.clear(function() {
         chrome.runtime.sendMessage( { reload: 'true' }, (response) => {  
-            active_modal.classList.add("clisha_modal_close")  
+            // active_modal.classList.add("clisha_modal_close")  
             active_modal.classList.remove("clisha_modal_open")
             // if($('#clishaModelId1'))  $('#clishaModelId1').modal('hide');  
             // if($('#clishaModelId2'))  $('#clishaModelId2').modal('hide');  
@@ -86,7 +92,16 @@ function handleNextJourney(){
     if(step == task.journey.length) {
         completeExtensionTask(task);
     }else{
-        chrome.storage.sync.set(({ "step": step + 1 }));
-        // window.location.reload();
+        let nextstep = `/templates/journey_nextstep.html`;
+        fetch(chrome.runtime.getURL(nextstep))
+            .then(r => r.text())
+            .then(html => {
+            document.querySelector('#clisha-answer').style.display = "none"
+            document.body.insertAdjacentHTML('beforeend', html);
+            active_modal = document.querySelector('#clishaModelNextStep')
+            active_modal.classList.add("clisha_modal_open");
+            chrome.storage.sync.set(({ "step": step + 1 }));
+            // step += 1;
+        }); 
     } 
 }

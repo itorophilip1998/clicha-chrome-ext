@@ -31,7 +31,8 @@
                 "templates/modal1.html",
                 "templates/modal2.html",
                 "templates/interaction_timer.html",
-                "templates/interaction_multichoice.html"
+                "templates/interaction_multichoice.html",
+                "templates/journey_nextstep.html"
             ]
         }
     ],  
