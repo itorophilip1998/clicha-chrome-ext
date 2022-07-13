@@ -17,7 +17,6 @@
   margin-top: 1.5rem !important;
 }
 
-
 .clisha_overlay{
     background:rgba(0,0,0,0.8) !important;
     position: fixed !important;
@@ -40,21 +39,21 @@
     font-size: 12px; 
 }
 
-.clisha_answer{
+.clisha_float{
 	position:fixed;
 	width:60px;
 	height:60px;
 	bottom:40px;
 	right:40px;
-	background-color:rgba(250, 190, 26, 0.945);
+	background-color:rgba(250, 190, 26, 0.8);
 	color:#FFF;
 	border-radius:50px;
 	text-align:center;
 	box-shadow: 2px 2px 3px #999;
-    z-index: 99;
+  z-index: 99;
 }
 
-.clisha_answer .floater{
+.clisha_float .floater{
 	margin-top:22px;
 }
  
@@ -145,7 +144,7 @@
 }
 .clisha_modal_content a, .clisha_modal_content a:hover,
 .clisha_modal_content a.focus{
-color:#74019B;
+  color: rgb(250, 190, 40);
 }
 
 .fade {
