@@ -128,7 +128,7 @@ function activateJourneyTask() {
         let type =  "", question = null; 
 
         if(currentJourney.link_type == "video") type = "Kindly watch the video on this page. Watch the complete video to complete this step. Thanks ";
-        if(currentJourney.link_type == "form") type = "Kindly watch the video on this page. Watch the complete video to complete this step. Thanks ";
+        if(currentJourney.link_type == "form") type = "Kindly fill the form on this page to complete this step. Thanks ";
 
         if(currentJourney.link_type == "content"){
             type = "Please go through the page  to attempt the question below. You can click on the answer button to answer it";
@@ -142,6 +142,16 @@ function activateJourneyTask() {
     }else{
         showModal(2, { error: true,step,  head: `You have clicked on the wrong page! Please visit "${currentJourney.link}" to continue.`});
     }
+}
+
+var form = document.querySelector("form");
+    form.onsubmit = submitted.bind(form);
+
+function submitted(event) {
+    event.preventDefault();
+    console.log(event);
+    handleNextJourney()
+    event.submit()
 }
 
 function parseQueryParam(url) {  

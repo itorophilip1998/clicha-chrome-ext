@@ -96,12 +96,15 @@ function handleNextJourney(){
         fetch(chrome.runtime.getURL(nextstep))
             .then(r => r.text())
             .then(html => {
-            document.querySelector('#clisha-answer').style.display = "none"
+            if( document.querySelector('#clisha-answer'))document.querySelector('#clisha-answer').style.display = "none"
             document.body.insertAdjacentHTML('beforeend', html);
+            let step_info = document.querySelector('#next-step-info');
+            step_info.innerHTML = `Whent you are done, Find  ${task.journey[step].description} or  visit "${task.journey[step].link}" from the url bar to continue.`
             active_modal = document.querySelector('#clishaModelNextStep')
             active_modal.classList.add("clisha_modal_open");
+           
+            
             chrome.storage.sync.set(({ "step": step + 1 }));
-            // step += 1;
         }); 
     } 
 }
