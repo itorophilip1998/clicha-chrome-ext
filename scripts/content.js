@@ -87,7 +87,7 @@ function activateGoogleSearch(){
             if(clisha_search.search_phrase.toLowerCase() === searched_phrase.toLowerCase()){
                 showModal(1, {
                     head: `Click ${clisha_search.title}`,
-                    body: `Please go through the Google Search results and click on the result with the website title ${clisha_search.title}`,
+                    body: `Please go through the Google Search results and click on the result with the website title "${clisha_search.title}" and link is "${task.url}" `,
                 }); 
             }else{
                 showModal(2, { error: true, head: `Oops you have entered the wrong phrase please try again by entering "${clisha_search.search_phrase}"`});
@@ -97,7 +97,7 @@ function activateGoogleSearch(){
         return showModal(1, {head: `Please enter the copied Search Phrase into the Google Search Bar and hit enter`});
 
     } else{
-        if(currentUrl.href.match(task.url) || currentUrl.href+'/' == task.url){
+        if(currentUrl.href.match(task.url) || currentUrl.href+'/' == task.url && document.referrer == 'https://www.google.com/'){
             console.log(task.interaction);
             if(task.interactionId && task.interaction && task.interaction.interaction_type == 'multichoice' || task.interaction.interaction_type == 'multistep'){
                 showModal(1, {
@@ -122,15 +122,16 @@ function activateJourneyTask() {
     let journeyTask = task.journey;
     currentJourney = journeyTask[step - 1];
 
-    if(currentUrl.href.match(currentJourney.link) || currentUrl.href+'/' == currentJourney.link){
+    if(currentUrl.href.match(currentJourney.link) || currentUrl.href+'/' == currentJourney.link || currentJourney.link.includes(currentUrl.href)){
         let start = (step == 1) ? "Great! Let's go," : (step == task.journey.length) ? "Great! Almost done," : "Let's continue";
         let type =  "", question = null; 
 
         if(currentJourney.link_type == "video") {
              type = "Kindly watch the video on this page. Watch the complete video to complete this step. Thanks ";
+             console.log('Video Journey')
              setTimeout(() => { initiateJourneyVideo() }, 10 * 1000) 
         }
- 
+  
         if(currentJourney.link_type == "form") {
             type = "Kindly fill the form on this page to complete this step. Thanks ";
             initiateJourneyForm();
@@ -172,13 +173,19 @@ function timerInteraction() {
 
         var timeValue = (task.interaction) ? task.interaction.duration: 45; 
         let intervalId=  setInterval(()=> {
-            timeValue--;
-            warning.innerText =  "Hello! Do not close or leave this window ";
-            clisha_timer.innerText =  timeValue;
-            if (timeValue==0) {
-                clearInterval(intervalId)
-                completeExtensionTask(task);
-            }
+            chrome.tabs.query({currentWindow: true, active: true}, function(tabs){
+                let currentTab = tabs[0].url
+                console.log('URL', currentTab);
+                if(currentTab == tabs.url){
+                    timeValue--;
+                    warning.innerText =  "Hello! Do not close or leave this window ";
+                    clisha_timer.innerText =  timeValue;
+                    if (timeValue==0) {
+                        clearInterval(intervalId)
+                        completeExtensionTask(task);
+                    }
+                }
+            });
         }, 1000);
 
     });

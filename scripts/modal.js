@@ -103,32 +103,37 @@ function handleNextJourney(){
             active_modal = document.querySelector('#clishaModelNextStep')
             active_modal.classList.add("clisha_modal_open");
            
-            
-           approveNextStep()
+            chrome.storage.sync.set(({ "step": step + 1 }));
         }); 
     } 
 }
 
-let vid, watched, duration , reportedpercent ;
+let frame, vid, watched, duration , reportedpercent ;
 function initiateJourneyVideo(){
-    vid = document.getElementsByTagName("video")[0]
-    console.log('Journey Video Started', vid)
+    console.log('Video Script Started');
+    frame = document.getElementsByTagName('iframe')[0];
+    vid = document.getElementsByTagName("video")[0];
+    console.log('Journey Video Started',vid ,frame)
     duration = 0; 
     watched = new Array(0);
     reportedpercent = false;
     
+    if(!vid){
+        console.log('No Video in Document Check Frame')
+        vid = frame.contentWindow.document.getElementsByTagName('video');
+    }
+
     Array.prototype.resize = function(newSize, defaultValue) {
         while(newSize > this.length)
             this.push(defaultValue);
         this.length = newSize;
     }
 
-    // vid.addEventListener('loadedmetadata', getDuration,  false);
     getDuration();
     vid.addEventListener('timeupdate',timeupdate, false)
     
 }
-// function to round up a number
+
 function roundUp(num, precision) {
   return Math.ceil(num * precision) / precision
 } 
@@ -147,41 +152,43 @@ function timeupdate() {
     var sum = watched.reduce(function(acc, val) {return acc + val;}, 0);
  
     // take your desired action on the ?80% completion
-    if ((sum >= (duration * .9)) && !reportedpercent) {
+    if ((sum >= (duration * .8)) && !reportedpercent) {
         // set reportedpercent to true so that the action is triggered once and only once
         // could also unregister the timeupdate event to avoid calling unneeded code at this point
         // vid.removeEventListener('timeupdate',timeupdate)
         reportedpercent = true;
-        console.log("80% watched...")
-        approveNextStep();
+        console.log("Video watched. User can now Continue...")
+        handleNextJourney()
         // your ajax call to report progress could go here...   
     }
 }
 
 function getDuration() {
-    console.log("Duration:" + vid.duration)
     // get the duration in seconds, rounding up, to size the array
     duration = parseInt(roundUp(vid.duration,1));
     // resize the array, defaulting entries to zero
     console.log("resizing arrary to " + duration + " seconds.");
     watched.resize(duration,0)
     sum = watched.reduce(function(acc, val) {return acc + val;}, 0);
-    console.log('Sum' , sum)
+    console.log("Duration:" + vid.duration, 'Watch Till', (duration * .9) );
 }
 
-
+ 
 function initiateJourneyForm(){
     var form = document.querySelector("form");
+    if(form.checkValidity()){
         form.onsubmit = submitted.bind(form);
-    function submitted(event) {
-        event.preventDefault();
-        console.log(event);
-        handleNextJourney()
-        event.submit();
-       approveNextStep()
+            console.log(form);
+        function submitted(event) {
+            event.preventDefault(); 
+            event.submit();
+            handleNextJourney()
+        }
     }
 }
 
-function approveNextStep(){
-    chrome.storage.sync.set(({ "step": step + 1 }));
-}
+// chrome.history.search({text: '', maxResults: 10}, function(data) {
+//     data.forEach(function(page) {
+//         console.log(page.url);
+//     });
+// });
