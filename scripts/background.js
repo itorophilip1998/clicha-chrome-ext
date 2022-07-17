@@ -20,7 +20,7 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
                     }
                 });
             }
-        }); 
+        });   
     }, 2000)
 });
 
