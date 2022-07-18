@@ -97,8 +97,8 @@ function activateGoogleSearch(){
         return showModal(1, {head: `Please enter the copied Search Phrase into the Google Search Bar and hit enter`});
 
     } else{
-        if(currentUrl.href.match(task.url) || currentUrl.href+'/' == task.url && document.referrer == 'https://www.google.com/'){
-            console.log(task.interaction);
+        console.log(document.referrer, currentUrl.href+'/' , task.url)
+        if(currentUrl.href.match(task.url) && document.referrer == 'https://www.google.com/'){
             if(task.interactionId && task.interaction && task.interaction.interaction_type == 'multichoice' || task.interaction.interaction_type == 'multistep'){
                 showModal(1, {
                     head: `Great! Please read the question below and click on the answer button to answer it `,
@@ -173,24 +173,21 @@ function timerInteraction() {
 
         var timeValue = (task.interaction) ? task.interaction.duration: 45; 
         let intervalId=  setInterval(()=> {
-            chrome.tabs.query({currentWindow: true, active: true}, function(tabs){
-                let currentTab = tabs[0].url
-                console.log('URL', currentTab);
-                if(currentTab == tabs.url){
-                    timeValue--;
-                    warning.innerText =  "Hello! Do not close or leave this window ";
-                    clisha_timer.innerText =  timeValue;
-                    if (timeValue==0) {
-                        clearInterval(intervalId)
-                        completeExtensionTask(task);
-                    }
+            let currentTab = window.location.href;
+            if(currentTab.match(task.url)){
+                timeValue--;
+                warning.innerText =  "Hello! Do not close or leave this window ";
+                clisha_timer.innerText =  timeValue;
+                if (timeValue==0) {
+                    clearInterval(intervalId)
+                    completeExtensionTask(task);
                 }
-            });
+            }
         }, 1000);
 
     });
 }    
-
+ 
 function multiChoiceInteraction() {
     console.log('Multichoice Interaction Started');
     let multichoice = `/templates/interaction_multichoice.html`;

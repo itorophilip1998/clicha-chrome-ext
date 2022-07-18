@@ -20,8 +20,9 @@ document.body.addEventListener( 'click', function ( e ) {
     }
 
     if(e.target && e.target.id == 'clisha-next-step') {
-      console.log('Go To Next PAGE NOw')
-      window.location.href = task.journey[step].link;
+      console.log('Go To Next PAGE NOw');
+      active_modal.classList.add("clisha_modal_open");
+        //   window.location.href = task.journey[step].link;
     }
 
     if(e.target && e.target.id == 'close_modal_btn') closeActiveModal()
@@ -178,14 +179,14 @@ function initiateJourneyForm(){
     var form = document.querySelector("form");
     if(form.checkValidity()){
         form.onsubmit = submitted.bind(form);
-            console.log(form);
+        console.log(form);
         function submitted(event) {
             event.preventDefault(); 
-            event.submit();
+            // event.submit();
             handleNextJourney()
         }
     }
-}
+} 
 
 // chrome.history.search({text: '', maxResults: 10}, function(data) {
 //     data.forEach(function(page) {

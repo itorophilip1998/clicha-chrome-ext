@@ -2,7 +2,6 @@ console.log("Extention Started Successfully");
 
 const baseUrl = 'https://shielded-savannah-41389.herokuapp.com/api';
 
-
 chrome.tabs.onActivated.addListener( function(activeInfo){
     setTimeout(()=> {
         chrome.tabs.get(activeInfo.tabId, function(tab){
@@ -10,7 +9,6 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
             if(url && url.includes('tk=') && url.includes('cd=')){
                 chrome.storage.sync.get('task', (item) =>{
                     url = url.split('?');
-                    console.log(Object.keys(item).length);
                     if( Object.keys(item).length == 0 && Array.isArray(url) 
                         && url.length > 0) {
                         let query = parseQueryParam(url[1]);
