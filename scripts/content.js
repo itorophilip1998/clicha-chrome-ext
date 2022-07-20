@@ -187,7 +187,7 @@ function timerInteraction() {
 
     });
 }    
- 
+  
 function multiChoiceInteraction() {
     console.log('Multichoice Interaction Started');
     let multichoice = `/templates/interaction_multichoice.html`;

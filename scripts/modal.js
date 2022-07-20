@@ -109,19 +109,45 @@ function handleNextJourney(){
     } 
 }
 
-let frame, vid, watched, duration , reportedpercent ;
+let frame, vid, watched, duration , reportedpercent, player ;
 function initiateJourneyVideo(){
     console.log('Video Script Started');
-    frame = document.getElementsByTagName('iframe')[0];
+   
     vid = document.getElementsByTagName("video")[0];
-    console.log('Journey Video Started',vid ,frame)
+    console.log('Journey Video Started')
     duration = 0; 
     watched = new Array(0);
     reportedpercent = false;
     
     if(!vid){
-        console.log('No Video in Document Check Frame')
-        vid = frame.contentWindow.document.getElementsByTagName('video');
+        frame = document.getElementsByTagName('iframe')[0];
+        console.log('No Video in Document Checking Frame')
+        console.log(frame.contentDocument);
+        $('iframe').each(function(i) {
+            var ifr = $(this)[0];
+            console.log(ifr.getAttribute("src"));
+            var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            var match = ifr.getAttribute("src").match(regExp);  // get youtube video id
+            var match2 = frame.getAttribute("src").match(regExp);  // get youtube video id
+            console.log(match, match2);
+
+            if (match && match[2].length == 11) {
+                var youtubeUrl = "https://www.googleapis.com/youtube/v3/videos?id=" + match[2] 
+                + "&key=AIzaSyDYwPzLevXauI-kTSVXTLroLyHEONuF9Rw&part=snippet,contentDetails";
+                $.ajax({
+                    async: false,
+                    type: 'GET',
+                    url: youtubeUrl,
+                    success: function(data) {
+                      var youtube_time = data.items[0].contentDetails.duration;
+                      var duration = formatISODate(youtube_time); 
+                      if(ifr.next().is('.time')) {
+                        ifr.next().html(duration);
+                      }
+                    }
+                });
+            }
+        });
     }
 
     Array.prototype.resize = function(newSize, defaultValue) {
@@ -133,6 +159,21 @@ function initiateJourneyVideo(){
     getDuration();
     vid.addEventListener('timeupdate',timeupdate, false)
     
+
+}
+
+function formatISODate(youtube_time){
+    array = youtube_time.match(/(\d+)(?=[MHS])/ig)||[]; 
+    var formatted = array.map(function(item){
+        if(item.length<2) return '0'+item;
+        return item;
+    }).join(':');
+    return formatted;
+}
+
+
+function onYouTubeIframeAPIReady() {
+    console.log('--- The YT player API is ready from content script! ---');
 }
 
 function roundUp(num, precision) {
