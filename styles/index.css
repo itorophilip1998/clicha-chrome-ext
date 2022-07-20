@@ -153,14 +153,14 @@
   
 /* Text Formating */
 .clisha_modal_content  h4, .clisha_modal_content  h5, .clisha_modal_content h6 {
-  margin-top: 0;
+  margin-top: 10px;
   margin-bottom: 0.5rem;
   font-weight: 500;
   line-height: 1.2;
   color: white;
 }
 .clisha_modal_content  h5, .clisha_modal_content  .h5 {
-  font-size: 1.25rem;
+  font-size: 1.25em;
 }
 .clisha_modal_content  p {
   margin-top: 0;

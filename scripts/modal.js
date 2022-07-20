@@ -109,7 +109,10 @@ function handleNextJourney(){
     } 
 }
 
-let frame, vid, watched, duration , reportedpercent, player ;
+let 
+    frame, vid, watched, 
+    duration , reportedpercent, 
+    videotTime ;
 function initiateJourneyVideo(){
     console.log('Video Script Started');
    
@@ -120,34 +123,29 @@ function initiateJourneyVideo(){
     reportedpercent = false;
     
     if(!vid){
-        frame = document.getElementsByTagName('iframe')[0];
-        console.log('No Video in Document Checking Frame')
-        console.log(frame.contentDocument);
-        $('iframe').each(function(i) {
-            var ifr = $(this)[0];
-            console.log(ifr.getAttribute("src"));
-            var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-            var match = ifr.getAttribute("src").match(regExp);  // get youtube video id
-            var match2 = frame.getAttribute("src").match(regExp);  // get youtube video id
-            console.log(match, match2);
-
+        frame = document.getElementsByTagName('iframe')[1]; 
+        frame.addEventListener('click', frameupdate, false);
+        
+        var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/,
+            youtube = frame.getAttribute('src');
+        if(youtube){
+            var match = yout.match(regExp);
             if (match && match[2].length == 11) {
                 var youtubeUrl = "https://www.googleapis.com/youtube/v3/videos?id=" + match[2] 
-                + "&key=AIzaSyDYwPzLevXauI-kTSVXTLroLyHEONuF9Rw&part=snippet,contentDetails";
+                + "&key=AIzaSyBt2NoMgus5sWhWrZeG1b9kEn2saSP0wcs&part=snippet,contentDetails";
                 $.ajax({
                     async: false,
                     type: 'GET',
                     url: youtubeUrl,
                     success: function(data) {
                       var youtube_time = data.items[0].contentDetails.duration;
-                      var duration = formatISODate(youtube_time); 
-                      if(ifr.next().is('.time')) {
-                        ifr.next().html(duration);
-                      }
+                        duration = formatISODate(youtube_time); 
+                        console.log(duration);
                     }
                 });
             }
-        });
+            return;
+        }
     }
 
     Array.prototype.resize = function(newSize, defaultValue) {
@@ -158,8 +156,6 @@ function initiateJourneyVideo(){
 
     getDuration();
     vid.addEventListener('timeupdate',timeupdate, false)
-    
-
 }
 
 function formatISODate(youtube_time){
@@ -171,7 +167,6 @@ function formatISODate(youtube_time){
     return formatted;
 }
 
-
 function onYouTubeIframeAPIReady() {
     console.log('--- The YT player API is ready from content script! ---');
 }
@@ -180,14 +175,33 @@ function roundUp(num, precision) {
   return Math.ceil(num * precision) / precision
 } 
 
+function formatSeconds(dur){
+    a = dur.split(':');
+    return s = (+a[0]) * 60 + (+a[1])
+    return(s- (s%=60)) / 60 + (9 < s ? ':'  : ':0'  ) + s
+}
+
+function frameupdate(){
+    document.addEventListener("visibilitychange", function(e){ 
+        console.log(e);
+    }, false);
+
+    videotTime = 0;
+    duration = formatSeconds(duration)
+    setInterval( () => {
+        videotTime++
+        if ((videotTime >= (duration * .8)) && !reportedpercent) {
+            reportedpercent = true;
+            console.log("Video watched. User can now Continue...")
+            handleNextJourney()
+        }
+    }, 1000);
+}
+
+
 function timeupdate() {
     currentTime = parseInt(vid.currentTime);
-    // set the current second to "1" to flag it as watched
     watched[currentTime] = 1;
-
-    // show the array of seconds so you can track what has been watched
-    // you'll note that simply looping over the same few seconds never gets
-    // the user closer to the magic 80%...
     // console.log(watched);
 
     // sum the value of the array (add up the "watched" seconds)
@@ -195,24 +209,18 @@ function timeupdate() {
  
     // take your desired action on the ?80% completion
     if ((sum >= (duration * .8)) && !reportedpercent) {
-        // set reportedpercent to true so that the action is triggered once and only once
-        // could also unregister the timeupdate event to avoid calling unneeded code at this point
-        // vid.removeEventListener('timeupdate',timeupdate)
         reportedpercent = true;
         console.log("Video watched. User can now Continue...")
         handleNextJourney()
-        // your ajax call to report progress could go here...   
     }
 }
 
 function getDuration() {
     // get the duration in seconds, rounding up, to size the array
     duration = parseInt(roundUp(vid.duration,1));
-    // resize the array, defaulting entries to zero
     console.log("resizing arrary to " + duration + " seconds.");
     watched.resize(duration,0)
     sum = watched.reduce(function(acc, val) {return acc + val;}, 0);
-    console.log("Duration:" + vid.duration, 'Watch Till', (duration * .9) );
 }
 
  

@@ -159,7 +159,10 @@ function parseQueryParam(url) {
     }
     return query;
 } 
- 
+document.addEventListener("visibilitychange", function(e){ 
+    console.log(e);
+}, false);
+
 function timerInteraction() {
     console.log('Timer Interaction Started');
     let timer = `/templates/interaction_timer.html`;
@@ -174,13 +177,14 @@ function timerInteraction() {
         var timeValue = (task.interaction) ? task.interaction.duration: 45; 
         let intervalId=  setInterval(()=> {
             let currentTab = window.location.href;
-            if(currentTab.match(task.url)){
+            console.log(document.visibilityState);
+            if(currentTab.match(task.url) && document.visibilityState === 'visible'){
                 timeValue--;
                 warning.innerText =  "Hello! Do not close or leave this window ";
                 clisha_timer.innerText =  timeValue;
                 if (timeValue==0) {
                     clearInterval(intervalId)
-                    completeExtensionTask(task);
+                    completeExtensionTask();
                 }
             }
         }, 1000);
@@ -254,9 +258,9 @@ function multiChoiceJourney() {
             option5.innerHTML = currentJourney.step_interaction.option5;
         }
     });
-}   
+}    
 
-function completeExtensionTask(task){
+function completeExtensionTask(){
     chrome.storage.sync.clear(function() {
         console.log('Task Deactivated');
         chrome.runtime.sendMessage( { reload: 'true' }, (response) => { console.log('Message Sent ') });

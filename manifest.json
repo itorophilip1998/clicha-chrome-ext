@@ -33,8 +33,7 @@
                 "templates/modal2.html",
                 "templates/interaction_timer.html",
                 "templates/interaction_multichoice.html",
-                "templates/journey_nextstep.html",
-                "templates/script.js"
+                "templates/journey_nextstep.html"
             ]
         }
     ],  

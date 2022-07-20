@@ -24,18 +24,18 @@ function activateTask(task) {
         taskStep = document.querySelector('#task-step-djcfhbfcuvjbn'),
         taskDescription = document.querySelector('#task-description-udhjcgbjshbdx');
 
-    taskActive.style.display = "flex";
+    taskActive.style.display = "block"; 
     taskInactive.style.display = "none";
     taskId.innerHTML = `${task.task_code}`; 
     if(task.task_type == 'google_search'){
-        document.querySelector('#clisha-task-search').style.display = 'flex';
+        document.querySelector('#clisha-task-search').style.display = 'block'; 
         taskPoint.innerHTML = `${task.points}`;
         taskSeach.innerHTML = `${JSON.parse(task.google_search).search_phrase}`;
     }
 
     if(task.task_type == 'journey'){
-        document.querySelector('#clisha-task-step').style.display = 'flex';
-        document.querySelector('#clisha-task-detail').style.display = 'flex';
+        document.querySelector('#clisha-task-step').style.display = 'block'; 
+        document.querySelector('#clisha-task-detail').style.display = 'block'; 
         taskStep.innerHTML = `Step 1 of ${task.journey.length}`;
         taskDescription.innerHTML = 'Expectoo Developers';
     }
@@ -50,13 +50,12 @@ deactivateButton.addEventListener('click', function () {
     chrome.storage.sync.clear(function() {
         
         taskActive.style.display = "none";
-        taskInactive.style.display = "flex";
+        taskInactive.style.display = "block"; 
         chrome.runtime.reload()
         //popDetail.innerHTML=`No active task <a href="#" id="clisha-task">click here</a>  to get and activate a task`;
         var error = chrome.runtime.lastError;
         if (error) console.log(error); throw error;
     });
-
 });
 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
