@@ -48,7 +48,6 @@ taskUrl.addEventListener('click', function () {
 
 deactivateButton.addEventListener('click', function () {
     chrome.storage.sync.clear(function() {
-        
         taskActive.style.display = "none";
         taskInactive.style.display = "block"; 
         chrome.runtime.reload()

@@ -124,12 +124,14 @@ function initiateJourneyVideo(){
     
     if(!vid){
         frame = document.getElementsByTagName('iframe')[1]; 
-        frame.addEventListener('click', frameupdate, false);
         
         var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/,
-            youtube = frame.getAttribute('src');
-        if(youtube){
-            var match = yout.match(regExp);
+            youtube = frame.getAttribute('data-src');
+        if(youtube){ 
+            var match = youtube.match(regExp);
+            frame.addEventListener('click', frameupdate);
+
+            
             if (match && match[2].length == 11) {
                 var youtubeUrl = "https://www.googleapis.com/youtube/v3/videos?id=" + match[2] 
                 + "&key=AIzaSyBt2NoMgus5sWhWrZeG1b9kEn2saSP0wcs&part=snippet,contentDetails";
@@ -140,7 +142,8 @@ function initiateJourneyVideo(){
                     success: function(data) {
                       var youtube_time = data.items[0].contentDetails.duration;
                         duration = formatISODate(youtube_time); 
-                        console.log(duration);
+                        console.log('Duration', duration, frame);
+
                     }
                 });
             }
@@ -182,12 +185,9 @@ function formatSeconds(dur){
 }
 
 function frameupdate(){
-    document.addEventListener("visibilitychange", function(e){ 
-        console.log(e);
-    }, false);
-
     videotTime = 0;
     duration = formatSeconds(duration)
+    console.log('Frame Clicked', duration);
     setInterval( () => {
         videotTime++
         if ((videotTime >= (duration * .8)) && !reportedpercent) {

@@ -1,12 +1,12 @@
-// console.log("Reading Page")
+console.log("Content Reading Page >>>", window.top != window.self);
 // Global Variable
-let task,   
+let task,    
     step = null, 
     active_modal,
     currentJourney = {};
 let domain = window.location.href;
 domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
-
+ 
 // Run Task
 chrome.storage.sync.get(null, (item) => {
     if (Object.keys(item).length) {
@@ -14,7 +14,7 @@ chrome.storage.sync.get(null, (item) => {
         step = item.step;
         if (task.task_type == "google_search") activateGoogleSearch()
         if (task.task_type == "journey") activateJourneyTask()
-    }
+    } 
 });
 // Sync Task with Backround 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
@@ -142,7 +142,6 @@ function activateJourneyTask() {
             question = currentJourney.step_interaction.question
             multiChoiceJourney()
         }
-
         showModal(1, { step,  head: start, body: type, question })
 
     }else{
@@ -159,9 +158,9 @@ function parseQueryParam(url) {
     }
     return query;
 } 
-document.addEventListener("visibilitychange", function(e){ 
-    console.log(e);
-}, false);
+// document.addEventListener("visibilitychange", function(e){ 
+//     console.log(e);
+// }, false);
 
 function timerInteraction() {
     console.log('Timer Interaction Started');
