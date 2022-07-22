@@ -1,11 +1,9 @@
 
 console.log('Modal Extension Loaded')
-
-
 document.body.addEventListener( 'click', function ( e ) {
     console.log('Modal Event ',e.target.id);
     if(e.target && e.target.id == 'clisha_close-primary'){
-       closeActiveModal()
+        closeActiveModal()
     }
 
     if(e.target && e.target.id == 'task-deactivate' ) {
@@ -20,7 +18,7 @@ document.body.addEventListener( 'click', function ( e ) {
     }
 
     if(e.target && e.target.id == 'clisha-next-step') {
-      active_modal.classList.add("clisha_modal_open");
+        active_modal.classList.add("clisha_modal_open");
         //   window.location.href = task.journey[step].link;
     }
 
@@ -102,12 +100,12 @@ function handleNextJourney(){
             step_info.innerHTML = `Whent you are done,  and click  ${task.journey[step].description} or  visit "${task.journey[step].link}" from the url bar to continue.`
             active_modal = document.querySelector('#clishaModelNextStep')
             active_modal.classList.add("clisha_modal_open");
-           
+            
             chrome.storage.sync.set(({ "step": step + 1 }));
         }); 
     } 
 }
-
+ 
 let 
     frame, vid, watched, 
     duration , reportedpercent, 
@@ -131,7 +129,6 @@ function initiateJourneyVideo(){
 }
 
 function startVideoPlayer(){
-    console.log(vid);
     getDuration();
 
     vid.addEventListener('timeupdate',timeupdate, false)
@@ -148,7 +145,7 @@ function formatISODate(youtube_time){
 
 
 function roundUp(num, precision) {
-  return Math.ceil(num * precision) / precision
+    return Math.ceil(num * precision) / precision
 } 
 
 function formatSeconds(dur){
@@ -171,7 +168,6 @@ function frameupdate(){
     }, 1000);
 }
 
-
 function timeupdate() {
     currentTime = parseInt(vid.currentTime);
     watched[currentTime] = 1;
@@ -179,8 +175,7 @@ function timeupdate() {
 
     // sum the value of the array (add up the "watched" seconds)
     var sum = watched.reduce(function(acc, val) {return acc + val;}, 0);
- 
-    // take your desired action on the ?80% completion
+    
     if ((sum >= (duration * .8)) && !reportedpercent) {
         reportedpercent = true;
         console.log("Video watched. User can now Continue...")
@@ -199,7 +194,7 @@ function getDuration() {
 function onYouTubeIframeAPIReady() {
     console.log('--- The YT player API is ready from content script! ---');
 }
- 
+    
 function initiateJourneyForm(){
     var form = document.querySelector("form");
     if(form.checkValidity()){
@@ -231,7 +226,7 @@ function youtubeVideoTask(){
                 type: 'GET',
                 url: youtubeUrl,
                 success: function(data) {
-                  var youtube_time = data.items[0].contentDetails.duration;
+                    var youtube_time = data.items[0].contentDetails.duration;
                     duration = formatISODate(youtube_time); 
                     console.log('Duration', duration, frame);
 
@@ -241,8 +236,8 @@ function youtubeVideoTask(){
         return;
     }
 }
-// chrome.history.search({text: '', maxResults: 10}, function(data) {
-//     data.forEach(function(page) {
-//         console.log(page.url);
-//     });
-// });
+    // chrome.history.search({text: '', maxResults: 10}, function(data) {
+    //     data.forEach(function(page) {
+    //         console.log(page.url);
+    //     });
+    // });

@@ -1,4 +1,5 @@
 console.log("Content Reading Page >>>", window.self !== window.top);
+
 // Global Variable
 let task,    
     step = null, 
@@ -6,27 +7,30 @@ let task,
     currentJourney = {};
 let domain = window.location.href;
 domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
-document.addEventListener("DOMContentLoaded", function() {
-    console.log('Started')
-    // Run Task
-    chrome.storage.sync.get(null, (item) => {
-        if (Object.keys(item).length) {
-            task = item.task;
-            step = item.step;
-            if (task.task_type == "google_search") activateGoogleSearch()
-            if (task.task_type == "journey") activateJourneyTask()
-        } 
-    });
-    // Sync Task with Backround 
-    chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
-        task = message.task;
-        step = message.step;
+// Run Task
+chrome.storage.sync.get(null, (item) => {
+    if (Object.keys(item).length) {
+        task = item.task;
+        step = item.step;
         if (task.task_type == "google_search") activateGoogleSearch()
         if (task.task_type == "journey") activateJourneyTask()
-        return true;
-    });
+    } 
 });
-// console.log(chrome.runtime.getURL("images/logo.png"))
+
+chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
+    console.log('Message Sent',response);
+});
+// Sync Task with Backround 
+chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
+    task = message.task;
+    step = message.step;
+    if (task.task_type == "google_search") activateGoogleSearch()
+    if (task.task_type == "journey") activateJourneyTask()
+    return true;
+});
+
+
+
 
 // Task Functionalities
 function showModal(open = 1, content = null){
@@ -99,7 +103,7 @@ function activateGoogleSearch(){
         return showModal(1, {head: `Please enter the copied Search Phrase into the Google Search Bar and hit enter`});
 
     } else{
-        console.log(document.referrer, currentUrl.href+'/' , task.url)
+        // console.log(document.referrer, currentUrl.href+'/' , task.url)
         if(currentUrl.href.match(task.url) && document.referrer == 'https://www.google.com/'){
             if(task.interactionId && task.interaction && task.interaction.interaction_type == 'multichoice' || task.interaction.interaction_type == 'multistep'){
                 showModal(1, {
@@ -144,7 +148,7 @@ function activateJourneyTask() {
             question = currentJourney.step_interaction.question
             multiChoiceJourney()
         }
-        showModal(1, { step,  head: start, body: type, question })
+        return  showModal(1, { step,  head: start, body: type, question })
 
     }else{
         showModal(2, { error: true,step,  head: `You have clicked on the wrong page! Please visit "${currentJourney.link}" to continue.`});

@@ -21,7 +21,7 @@
             ],
             "run_at": "document_end"
         },{
-            "matches": [ "*://*.youtube.com/*" ],
+            "matches": [  "<all_urls>" ], 
             "all_frames": true,
             "js": ["./scripts/videotask.js"],
             "run_at": "document_end"
