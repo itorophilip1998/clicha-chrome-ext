@@ -1,4 +1,4 @@
-console.log("Content Reading Page >>>", window.top != window.self);
+console.log("Content Reading Page >>>", window.self !== window.top);
 // Global Variable
 let task,    
     step = null, 
@@ -6,23 +6,25 @@ let task,
     currentJourney = {};
 let domain = window.location.href;
 domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
- 
-// Run Task
-chrome.storage.sync.get(null, (item) => {
-    if (Object.keys(item).length) {
-        task = item.task;
-        step = item.step;
+document.addEventListener("DOMContentLoaded", function() {
+    console.log('Started')
+    // Run Task
+    chrome.storage.sync.get(null, (item) => {
+        if (Object.keys(item).length) {
+            task = item.task;
+            step = item.step;
+            if (task.task_type == "google_search") activateGoogleSearch()
+            if (task.task_type == "journey") activateJourneyTask()
+        } 
+    });
+    // Sync Task with Backround 
+    chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
+        task = message.task;
+        step = message.step;
         if (task.task_type == "google_search") activateGoogleSearch()
         if (task.task_type == "journey") activateJourneyTask()
-    } 
-});
-// Sync Task with Backround 
-chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
-    task = message.task;
-    step = message.step;
-    if (task.task_type == "google_search") activateGoogleSearch()
-    if (task.task_type == "journey") activateJourneyTask()
-    return true;
+        return true;
+    });
 });
 // console.log(chrome.runtime.getURL("images/logo.png"))
 
@@ -128,8 +130,8 @@ function activateJourneyTask() {
 
         if(currentJourney.link_type == "video") {
              type = "Kindly watch the video on this page. Watch the complete video to complete this step. Thanks ";
-             console.log('Video Journey')
-             setTimeout(() => { initiateJourneyVideo() }, 10 * 1000) 
+             console.log('Video Journey');
+            //  setTimeout(() => { initiateJourneyVideo() }, 5 * 1000) 
         }
   
         if(currentJourney.link_type == "form") {

@@ -20,7 +20,6 @@ document.body.addEventListener( 'click', function ( e ) {
     }
 
     if(e.target && e.target.id == 'clisha-next-step') {
-      console.log('Go To Next PAGE NOw');
       active_modal.classList.add("clisha_modal_open");
         //   window.location.href = task.journey[step].link;
     }
@@ -113,51 +112,28 @@ let
     frame, vid, watched, 
     duration , reportedpercent, 
     videotTime ;
+
 function initiateJourneyVideo(){
     console.log('Video Script Started');
-   
     vid = document.getElementsByTagName("video")[0];
     console.log('Journey Video Started')
     duration = 0; 
     watched = new Array(0);
     reportedpercent = false;
     
-    if(!vid){
-        frame = document.getElementsByTagName('iframe')[1]; 
-        
-        var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/,
-            youtube = frame.getAttribute('data-src');
-        if(youtube){ 
-            var match = youtube.match(regExp);
-            frame.addEventListener('click', frameupdate);
-
-            
-            if (match && match[2].length == 11) {
-                var youtubeUrl = "https://www.googleapis.com/youtube/v3/videos?id=" + match[2] 
-                + "&key=AIzaSyBt2NoMgus5sWhWrZeG1b9kEn2saSP0wcs&part=snippet,contentDetails";
-                $.ajax({
-                    async: false,
-                    type: 'GET',
-                    url: youtubeUrl,
-                    success: function(data) {
-                      var youtube_time = data.items[0].contentDetails.duration;
-                        duration = formatISODate(youtube_time); 
-                        console.log('Duration', duration, frame);
-
-                    }
-                });
-            }
-            return;
-        }
-    }
-
+    if(vid) startVideoPlayer()
+    
     Array.prototype.resize = function(newSize, defaultValue) {
         while(newSize > this.length)
             this.push(defaultValue);
         this.length = newSize;
     }
+}
 
+function startVideoPlayer(){
+    console.log(vid);
     getDuration();
+
     vid.addEventListener('timeupdate',timeupdate, false)
 }
 
@@ -170,9 +146,6 @@ function formatISODate(youtube_time){
     return formatted;
 }
 
-function onYouTubeIframeAPIReady() {
-    console.log('--- The YT player API is ready from content script! ---');
-}
 
 function roundUp(num, precision) {
   return Math.ceil(num * precision) / precision
@@ -223,6 +196,9 @@ function getDuration() {
     sum = watched.reduce(function(acc, val) {return acc + val;}, 0);
 }
 
+function onYouTubeIframeAPIReady() {
+    console.log('--- The YT player API is ready from content script! ---');
+}
  
 function initiateJourneyForm(){
     var form = document.querySelector("form");
@@ -237,6 +213,34 @@ function initiateJourneyForm(){
     }
 } 
 
+function youtubeVideoTask(){
+    frame = document.getElementsByTagName('iframe')[1]; 
+        
+    var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/,
+        youtube = frame.getAttribute('data-src');
+    if(youtube){ 
+        var match = youtube.match(regExp);
+        frame.addEventListener('click', frameupdate);
+
+        
+        if (match && match[2].length == 11) {
+            var youtubeUrl = "https://www.googleapis.com/youtube/v3/videos?id=" + match[2] 
+            + "&key=AIzaSyBt2NoMgus5sWhWrZeG1b9kEn2saSP0wcs&part=snippet,contentDetails";
+            $.ajax({
+                async: false,
+                type: 'GET',
+                url: youtubeUrl,
+                success: function(data) {
+                  var youtube_time = data.items[0].contentDetails.duration;
+                    duration = formatISODate(youtube_time); 
+                    console.log('Duration', duration, frame);
+
+                }
+            });
+        }
+        return;
+    }
+}
 // chrome.history.search({text: '', maxResults: 10}, function(data) {
 //     data.forEach(function(page) {
 //         console.log(page.url);

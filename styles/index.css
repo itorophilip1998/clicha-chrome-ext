@@ -16,6 +16,9 @@
 .mt-4{
   margin-top: 1.5rem !important;
 }
+.clisha-color-white{
+  color: #FFF;
+}
 
 .clisha_overlay{
     background:rgba(0,0,0,0.8) !important;

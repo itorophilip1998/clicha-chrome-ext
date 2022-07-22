@@ -11,7 +11,6 @@
     "content_scripts": [
         {
             "matches": [  "<all_urls>" ], 
-            "all_frames": true, 
             "js": [
                 "./scripts/jquery351.js",
                 "./scripts/content.js",
@@ -19,7 +18,13 @@
             ],
             "css": [
                 "./styles/index.css"
-            ]
+            ],
+            "run_at": "document_end"
+        },{
+            "matches": [ "*://*.youtube.com/*" ],
+            "all_frames": true,
+            "js": ["./scripts/videotask.js"],
+            "run_at": "document_end"
         }
     ],
     "background":{
