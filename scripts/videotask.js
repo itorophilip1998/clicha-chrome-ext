@@ -31,7 +31,7 @@ window.onload = function () {
    
     function startVideoTask(){
         videoJourney = videoTask.journey[taskStep - 1];
-        const currentUrl = window.location;
+        const currentUrl = window.top.location;
         // || currentUrl.href+'/' == videoJourney.link || videoJourney.link.includes(currentUrl.href)
         console.log('Task Presentation',currentUrl.href, (videoJourney.link));
  
@@ -82,7 +82,7 @@ window.onload = function () {
     }
 
     function  handleVideoCompleted(){ 
-        console.log('Handle Next Journey ', window.top.location);
+        console.log('Handle Next Journey ');
         window.top.location.href = videoJourney.link+'?completed=vid'
     }
 }
