@@ -39,7 +39,6 @@ window.onload = function () {
             video = document.getElementsByTagName("video")[0]
             console.log('Video FRAME API AT >>>>>>>>>>>>', video)
             if(video){
-                console.log('Video   <<<>>>',video.readyState);
                 video.onloadedmetadata = function() {
                     Array.prototype.resize = function(newSize, defaultValue) {
                         while(newSize > this.length)
@@ -69,7 +68,7 @@ window.onload = function () {
     function timeupdate() {
         currentTime = parseInt(video.currentTime);
         _watched[currentTime] = 1;
-        var percent = (_duration > 300) ? (_duration * .7): (_duration * .8);
+        var percent = (_duration > 300) ? (_duration * .6): (_duration * .7);
         // sum the value of the array (add up the "_watched" seconds)
         var sum = _watched.reduce(function(acc, val) {return acc + val;}, 0);
        
@@ -83,6 +82,7 @@ window.onload = function () {
 
     function  handleVideoCompleted(){ 
         console.log('Handle Next Journey ');
-        window.parent.location = videoJourney.link+'?completed=vid'
+        let completed = (window.parent.location.href.includes('?')) ? '&completed=vid' : '?completed=vid' ;
+        window.parent.location = videoJourney.link+completed
     }
 }
