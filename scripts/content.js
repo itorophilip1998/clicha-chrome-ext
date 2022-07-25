@@ -137,7 +137,7 @@ function activateJourneyTask() {
         if(currentJourney.link_type == "video") {
              type = "Kindly watch the video on this page. Watch the complete video to complete this step. Thanks ";
              console.log('Video Journey');
-             if(currentUrl.includes('completed=vid') ) handleNextJourney()
+             if(currentUrl.href.includes('completed=vid') ) return handleNextJourney()
             //  setTimeout(() => { initiateJourneyVideo() }, 5 * 1000) 
         }
   

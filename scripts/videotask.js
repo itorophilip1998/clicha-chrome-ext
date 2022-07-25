@@ -31,9 +31,9 @@ window.onload = function () {
    
     function startVideoTask(){
         videoJourney = videoTask.journey[taskStep - 1];
-        const currentUrl = window.top.location;
-        // || currentUrl.href+'/' == videoJourney.link || videoJourney.link.includes(currentUrl.href)
-        console.log('Task Presentation',currentUrl.href, (videoJourney.link));
+        // const currentUrl = window.top.location;
+        // // || currentUrl.href+'/' == videoJourney.link || videoJourney.link.includes(currentUrl.href)
+        // console.log('Task Presentation',currentUrl.href, (videoJourney.link));
  
         if(videoJourney.link_type == "video"){
             video = document.getElementsByTagName("video")[0]
@@ -83,6 +83,6 @@ window.onload = function () {
 
     function  handleVideoCompleted(){ 
         console.log('Handle Next Journey ');
-        window.top.location.href = videoJourney.link+'?completed=vid'
+        window.parent.location = videoJourney.link+'?completed=vid'
     }
 }
