@@ -85,8 +85,7 @@ function prepareAnswer(){
     }
 }
 
-function handleNextJourney(){
-    console.log('Handle Next Journey ',currentJourney);
+ function handleNextJourney(){
     if(step == task.journey.length) {
         completeExtensionTask(task);
     }else{
@@ -104,8 +103,10 @@ function handleNextJourney(){
             chrome.storage.sync.set(({ "step": step + 1 }));
         }); 
     } 
-}
- 
+} 
+
+const nextJourney = handleNextJourney();
+
 let 
     frame, vid, watched, 
     duration , reportedpercent, 

@@ -4,27 +4,30 @@
 //     videotTime ;
 
 // "matches": [ "*://*.youtube.com/*" ],
+// chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
+//     console.log('Video Task Message Received', message);
+//     return true
+// });
+
+
 window.onload = function () {
     let videoTask, taskStep, currentJourney;
     let video = null,  
         duration = 0,
         watched = new Array(0);
         reportedpercent = false;
-    // chrome.storage.sync.get(null, (item) => {
-    //     console.log('Task Available')
-    //     if (Object.keys(item).length) {
-    //         videoTask = item.task;
-    //         taskStep = item.step;
+    chrome.storage.sync.get(null, (item) => {
+        
+        if (Object.keys(item).length) {
+            console.log('Task Available');
+            videoTask = item.task;
+            taskStep = item.step;
+            if(videoTask.task_type == "journey")  startVideoTask()
+        }
 
-    //         if(videoTask.task_type == "journey")  startVideoTask()
-    //     }
+    });
 
-    // });
-
-    chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
-        console.log('Video TaskMessage Received', message)
-
-    })
+   
     function startVideoTask(){
         currentJourney = videoTask.journey[taskStep - 1];
         const currentUrl = window.location;
@@ -73,12 +76,13 @@ window.onload = function () {
         if ((sum >= percent) && !reportedpercent) {
             reportedpercent = true;
             console.log("Video watched. User can now Continue...")
-            handleVideoCompleted()
+            handleVideoCompleted();
+            console.log('Deal Done');
         }
     }
 
     function  handleVideoCompleted(){
-        console.log('Handle Next Journey ',currentJourney);
+        console.log('Handle Next Journey ');
         // if(step == task.journey.length) {
         //     // completeExtensionTask(task);
         // }else{ 
@@ -86,6 +90,7 @@ window.onload = function () {
             fetch(chrome.runtime.getURL(nextstep))
                 .then(r => r.text())
                 .then(html => {
+                console.log(html);
                 if( document.querySelector('#clisha-answer'))document.querySelector('#clisha-answer').style.display = "none"
                 document.body.insertAdjacentHTML('beforeend', html);
                 let step_info = document.querySelector('#next-step-info');

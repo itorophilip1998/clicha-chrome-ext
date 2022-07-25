@@ -1,5 +1,8 @@
-console.log("Content Reading Page >>>", window.self !== window.top);
-
+console.log("Content Reading Page >>>");
+// chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
+//     console.log('Message Sent',response);
+//     return true
+// });
 // Global Variable
 let task,    
     step = null, 
@@ -17,15 +20,15 @@ chrome.storage.sync.get(null, (item) => {
     } 
 });
 
-chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
-    console.log('Message Sent',response);
-});
+
 // Sync Task with Backround 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
+    console.log('Let God',message)
     task = message.task;
     step = message.step;
     if (task.task_type == "google_search") activateGoogleSearch()
     if (task.task_type == "journey") activateJourneyTask()
+    if(message.complete) handleNextJourney();
     return true;
 });
 
