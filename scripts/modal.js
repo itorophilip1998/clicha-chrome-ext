@@ -105,7 +105,7 @@ function prepareAnswer(){
     } 
 } 
 
-const nextJourney = handleNextJourney();
+// const nextJourney = handleNextJourney();
 
 let 
     frame, vid, watched, 

@@ -1,6 +1,6 @@
 
-// let vid, watched, 
-//     duration , reportedpercent, 
+// let vid, _watched, 
+//     duration , _reportedpercent, 
 //     videotTime ;
 
 // "matches": [ "*://*.youtube.com/*" ],
@@ -8,16 +8,10 @@
 //     console.log('Video Task Message Received', message);
 //     return true
 // });
-
-
 window.onload = function () {
-    let videoTask, taskStep, currentJourney;
-    let video = null,  
-        duration = 0,
-        watched = new Array(0);
-        reportedpercent = false;
+
     chrome.storage.sync.get(null, (item) => {
-        
+            
         if (Object.keys(item).length) {
             console.log('Task Available');
             videoTask = item.task;
@@ -27,16 +21,23 @@ window.onload = function () {
 
     });
 
+    let videoTask, taskStep, videoJourney;
+    let video = null,  
+        _duration = 0,
+        _watched = new Array(0);
+        _reportedpercent = false;
+    
+
    
     function startVideoTask(){
-        currentJourney = videoTask.journey[taskStep - 1];
+        videoJourney = videoTask.journey[taskStep - 1];
         const currentUrl = window.location;
-        // || currentUrl.href+'/' == currentJourney.link || currentJourney.link.includes(currentUrl.href)
-        console.log('Task Presentation',currentUrl.href, (currentJourney.link));
+        // || currentUrl.href+'/' == videoJourney.link || videoJourney.link.includes(currentUrl.href)
+        console.log('Task Presentation',currentUrl.href, (videoJourney.link));
  
-        if(currentJourney.link_type == "video"){
-            console.log('Video FRAME API AT >>>>>>>>>>>>', location.href)
+        if(videoJourney.link_type == "video"){
             video = document.getElementsByTagName("video")[0]
+            console.log('Video FRAME API AT >>>>>>>>>>>>', video)
             if(video){
                 console.log('Video   <<<>>>',video.readyState);
                 video.onloadedmetadata = function() {
@@ -45,20 +46,20 @@ window.onload = function () {
                             this.push(defaultValue);
                         this.length = newSize; 
                     }
-                    getDuration()
+                    getVideoDuration()
                     video.addEventListener('timeupdate',timeupdate, false)
                 }
             } 
         }
     }
 
-    function getDuration() {
+    function getVideoDuration() {
         console.log('Duration',video)
         // get the duration in seconds, rounding up, to size the array
-        duration = parseInt(roundUp(video.duration,1));
-        console.log("resizing arrary to " + duration + " seconds.");
-        watched.resize(duration,0);
-        sum = watched.reduce(function(acc, val) {return acc + val;}, 0);
+        _duration = parseInt(roundUp(video.duration,1));
+        console.log("resizing arrary to " + _duration + " seconds.");
+        _watched.resize(_duration,0);
+        sum = _watched.reduce(function(acc, val) {return acc + val;}, 0);
     }
 
     function roundUp(num, precision) {
@@ -67,41 +68,21 @@ window.onload = function () {
 
     function timeupdate() {
         currentTime = parseInt(video.currentTime);
-        watched[currentTime] = 1;
-        // console.log(watched); 
-        var percent = (duration > 300) ? (duration * .7): (duration * .8);
-        // sum the value of the array (add up the "watched" seconds)
-        var sum = watched.reduce(function(acc, val) {return acc + val;}, 0);
-        // console.log(sum, sum >= (duration * .8));
-        if ((sum >= percent) && !reportedpercent) {
-            reportedpercent = true;
-            console.log("Video watched. User can now Continue...")
+        _watched[currentTime] = 1;
+        var percent = (_duration > 300) ? (_duration * .7): (_duration * .8);
+        // sum the value of the array (add up the "_watched" seconds)
+        var sum = _watched.reduce(function(acc, val) {return acc + val;}, 0);
+       
+        if ((sum >= percent) && !_reportedpercent) {
+            _reportedpercent = true;
+            console.log("Video Watched. User can now Continue...")
             handleVideoCompleted();
             console.log('Deal Done');
         }
     }
 
-    function  handleVideoCompleted(){
-        console.log('Handle Next Journey ');
-        // if(step == task.journey.length) {
-        //     // completeExtensionTask(task);
-        // }else{ 
-            let nextstep = `/templates/journey_nextstep.html`;
-            fetch(chrome.runtime.getURL(nextstep))
-                .then(r => r.text())
-                .then(html => {
-                console.log(html);
-                if( document.querySelector('#clisha-answer'))document.querySelector('#clisha-answer').style.display = "none"
-                document.body.insertAdjacentHTML('beforeend', html);
-                let step_info = document.querySelector('#next-step-info');
-                step_info.innerHTML = `Whent you are done,  and click  ${videoTask.journey[taskStep].description} or  visit "${videoTask.journey[taskStep].link}" from the url bar to continue.`
-                active_modal = document.querySelector('#clishaModelNextStep')
-                active_modal.classList.add("clisha_modal_open");
-                
-                chrome.storage.sync.set(({ "step": taskStep + 1 }));
-            }); 
-        // } 
+    function  handleVideoCompleted(){ 
+        console.log('Handle Next Journey ', window.top.location);
+        window.top.location.href = videoJourney.link+'?completed=vid'
     }
-     
-      
 }

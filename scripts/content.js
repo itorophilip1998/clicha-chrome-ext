@@ -23,7 +23,6 @@ chrome.storage.sync.get(null, (item) => {
 
 // Sync Task with Backround 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
-    console.log('Let God',message)
     task = message.task;
     step = message.step;
     if (task.task_type == "google_search") activateGoogleSearch()
@@ -138,6 +137,7 @@ function activateJourneyTask() {
         if(currentJourney.link_type == "video") {
              type = "Kindly watch the video on this page. Watch the complete video to complete this step. Thanks ";
              console.log('Video Journey');
+             if(currentUrl.includes('completed=vid') ) handleNextJourney()
             //  setTimeout(() => { initiateJourneyVideo() }, 5 * 1000) 
         }
   
