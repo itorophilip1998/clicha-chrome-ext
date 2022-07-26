@@ -130,15 +130,16 @@ function activateJourneyTask() {
     let journeyTask = task.journey;
     currentJourney = journeyTask[step - 1];
 
-    if(currentUrl.href.match(currentJourney.link) || currentUrl.href+'/' == currentJourney.link || currentJourney.link.includes(currentUrl.href)){
+    console.log(currentJourney.link.includes(currentUrl.href))
+    if(currentUrl.href.match(currentJourney.link) || currentJourney.link.includes(currentUrl.href)){
         let start = (step == 1) ? "Great! Let's go," : (step == task.journey.length) ? "Great! Almost done," : "Let's continue";
         let type =  "", question = null; 
 
         if(currentJourney.link_type == "video") {
              type = "Kindly watch the video on this page. Watch the complete video to complete this step. Thanks ";
-             console.log('Video Journey');
+             console.log('Video Journey', currentUrl.href); 
              if(currentUrl.href.includes('completed=vid') ) return handleNextJourney()
-            //  setTimeout(() => { initiateJourneyVideo() }, 5 * 1000) 
+             setTimeout(() => { initiateJourneyVideo() }, 5 * 1000) 
         }
   
         if(currentJourney.link_type == "form") {
@@ -167,9 +168,25 @@ function parseQueryParam(url) {
     }
     return query;
 } 
-// document.addEventListener("visibilitychange", function(e){ 
-//     console.log(e);
-// }, false);
+
+
+function initiateJourneyForm(){
+    var form = document.querySelector("form");
+    form.addEventListener('onsubmit', submitted(form), false);
+    // form.onsubmit = submitted(form); 
+} 
+
+function submitted(event) {
+    console.log('Validating', event)
+    event.preventDefault(); 
+   
+    event.submit();
+    handleNextJourney()
+    if(event.checkValidity()){
+        console.log('Form is valid')
+    }
+}
+
 
 function timerInteraction() {
     console.log('Timer Interaction Started');
@@ -274,8 +291,7 @@ function completeExtensionTask(){
         chrome.runtime.sendMessage( { reload: 'true' }, (response) => { console.log('Message Sent ') });
 
         window.location.href = `https://clisha-stagging.netlify.app/dashboard/reward?t=${task.id}&p=${task.points}`
-        var error = chrome.runtime.lastError;
-        if (error) console.error(error);  throw error; 
-    });
-}
-
+            var error = chrome.runtime.lastError;
+            if (error) console.error(error);  throw error; 
+         });
+    }

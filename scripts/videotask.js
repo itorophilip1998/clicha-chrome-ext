@@ -13,7 +13,7 @@ window.onload = function () {
     chrome.storage.sync.get(null, (item) => {
             
         if (Object.keys(item).length) {
-            console.log('Task Available');
+           
             videoTask = item.task;
             taskStep = item.step;
             if(videoTask.task_type == "journey")  startVideoTask()
@@ -31,10 +31,8 @@ window.onload = function () {
    
     function startVideoTask(){
         videoJourney = videoTask.journey[taskStep - 1];
-        // const currentUrl = window.top.location;
-        // // || currentUrl.href+'/' == videoJourney.link || videoJourney.link.includes(currentUrl.href)
-        // console.log('Task Presentation',currentUrl.href, (videoJourney.link));
- 
+        const currentUrl = window.parent.location;
+
         if(videoJourney.link_type == "video"){
             video = document.getElementsByTagName("video")[0]
             console.log('Video FRAME API AT >>>>>>>>>>>>', video)
@@ -68,7 +66,7 @@ window.onload = function () {
     function timeupdate() {
         currentTime = parseInt(video.currentTime);
         _watched[currentTime] = 1;
-        var percent = (_duration > 300) ? (_duration * .6): (_duration * .7);
+        var percent = (_duration > 300) ? (_duration * .5): (_duration * .6);
         // sum the value of the array (add up the "_watched" seconds)
         var sum = _watched.reduce(function(acc, val) {return acc + val;}, 0);
        
@@ -82,7 +80,8 @@ window.onload = function () {
 
     function  handleVideoCompleted(){ 
         console.log('Handle Next Journey ');
-        let completed = (window.parent.location.href.includes('?')) ? '&completed=vid' : '?completed=vid' ;
-        window.parent.location = videoJourney.link+completed
+        // let completed = (window.parent.location.href.includes('?')) ? '&completed=vid' : '?completed=vid' ;
+        console.log('Completed')
+        window.parent.location = videoJourney.link+'?completed=vid'
     }
 }

@@ -115,26 +115,35 @@ let
 function initiateJourneyVideo(){
     console.log('Video Script Started');
     vid = document.getElementsByTagName("video")[0];
-    console.log('Journey Video Started')
     duration = 0; 
     watched = new Array(0);
     reportedpercent = false;
     
-    if(vid) startVideoPlayer()
-    
-    Array.prototype.resize = function(newSize, defaultValue) {
-        while(newSize > this.length)
-            this.push(defaultValue);
-        this.length = newSize;
+    if(vid){ 
+        console.log('Journey Video Started',vid)
+        vid.addEventListener('loadedmetadata', function() {
+            console.log('video Loaded')
+
+            Array.prototype.resize = function(newSize, defaultValue) {
+                while(newSize > this.length)
+                    this.push(defaultValue);
+                this.length = newSize; 
+            }
+
+            getDuration();
+
+            vid.addEventListener('timeupdate',timeupdate, false)
+        })
     }
 }
 
 function startVideoPlayer(){
+
     getDuration();
 
-    vid.addEventListener('timeupdate',timeupdate, false)
+  
 }
-
+ 
 function formatISODate(youtube_time){
     array = youtube_time.match(/(\d+)(?=[MHS])/ig)||[]; 
     var formatted = array.map(function(item){
@@ -172,7 +181,7 @@ function frameupdate(){
 function timeupdate() {
     currentTime = parseInt(vid.currentTime);
     watched[currentTime] = 1;
-    // console.log(watched);
+    console.log(watched);
 
     // sum the value of the array (add up the "watched" seconds)
     var sum = watched.reduce(function(acc, val) {return acc + val;}, 0);
@@ -196,18 +205,6 @@ function onYouTubeIframeAPIReady() {
     console.log('--- The YT player API is ready from content script! ---');
 }
     
-function initiateJourneyForm(){
-    var form = document.querySelector("form");
-    if(form.checkValidity()){
-        form.onsubmit = submitted.bind(form);
-        console.log(form);
-        function submitted(event) {
-            event.preventDefault(); 
-            // event.submit();
-            handleNextJourney()
-        }
-    }
-} 
 
 function youtubeVideoTask(){
     frame = document.getElementsByTagName('iframe')[1]; 
