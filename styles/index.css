@@ -142,11 +142,13 @@
   padding: 10px;
   width: 140px;
   height: 36px;
+  line-height: 20px;
   cursor: pointer;
   color:white; 
   margin-top: 30px;
   margin-bottom: 20px;
 }
+
 .clisha_btn-primary:not(:disabled):not(.disabled) {
   cursor: pointer;
 }
@@ -168,7 +170,7 @@
   color: white;
 }
 .clisha_modal_content  h5, .clisha_modal_content  .h5 {
-  font-size: 1.3rem;
+  font-size: 1.3rem  !important;
 }
 .clisha_modal_content  p {
   margin-top: 0;

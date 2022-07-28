@@ -120,9 +120,11 @@ function initiateJourneyVideo(){
     reportedpercent = false;
     
     if(vid){ 
-        console.log('Journey Video Started',vid)
-        vid.addEventListener('loadedmetadata', function() {
-            console.log('video Loaded')
+        console.log('Journey Video Started',vid);
+        handleNextJourney();
+        vid.addEventListener('loadedmetadata', function(e){
+            var dimensions = [video.videoWidth, video.videoHeight];
+            alert(dimensions);
 
             Array.prototype.resize = function(newSize, defaultValue) {
                 while(newSize > this.length)

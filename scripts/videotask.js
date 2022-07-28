@@ -66,7 +66,7 @@ window.onload = function () {
     function timeupdate() {
         currentTime = parseInt(video.currentTime);
         _watched[currentTime] = 1;
-        var percent = (_duration > 300) ? (_duration * .5): (_duration * .6);
+        var percent = (_duration > 300) ? (_duration * .2): (_duration * .26);
         // sum the value of the array (add up the "_watched" seconds)
         var sum = _watched.reduce(function(acc, val) {return acc + val;}, 0);
        

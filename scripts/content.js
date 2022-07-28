@@ -172,18 +172,21 @@ function parseQueryParam(url) {
 
 function initiateJourneyForm(){
     var form = document.querySelector("form");
-    form.addEventListener('onsubmit', submitted(form), false);
+    form.addEventListener('submit', submitted(form));
     // form.onsubmit = submitted(form); 
 } 
 
 function submitted(event) {
     console.log('Validating', event)
-    event.preventDefault(); 
-   
-    event.submit();
-    handleNextJourney()
-    if(event.checkValidity()){
-        console.log('Form is valid')
+    if(event){
+        if(event.checkValidity()){
+            console.log('Form is valid')
+        }
+        event.preventDefault(); 
+       
+        event.submit();
+        handleNextJourney()
+       
     }
 }
 
