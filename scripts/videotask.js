@@ -13,7 +13,6 @@ window.onload = function () {
     chrome.storage.sync.get(null, (item) => {
             
         if (Object.keys(item).length) {
-           
             videoTask = item.task;
             taskStep = item.step;
             if(videoTask.task_type == "journey")  startVideoTask()

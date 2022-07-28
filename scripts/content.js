@@ -106,7 +106,7 @@ function activateGoogleSearch(){
 
     } else{
         // console.log(document.referrer, currentUrl.href+'/' , task.url)
-        if(currentUrl.href.match(task.url) && document.referrer == 'https://www.google.com/'){
+        if(currentUrl.href.match(task.url)){
             if(task.interactionId && task.interaction && task.interaction.interaction_type == 'multichoice' || task.interaction.interaction_type == 'multistep'){
                 showModal(1, {
                     head: `Great! Please read the question below and click on the answer button to answer it `,

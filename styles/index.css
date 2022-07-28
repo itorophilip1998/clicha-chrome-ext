@@ -169,7 +169,8 @@
   line-height: 1.2;
   color: white;
 }
-.clisha_modal_content  h5, .clisha_modal_content  .h5 {
+.clisha_modal_content  h5, .clisha_modal_content  .h5, 
+  .clisha_modal_content h5 font{
   font-size: 1.3rem  !important;
 }
 .clisha_modal_content  p {
