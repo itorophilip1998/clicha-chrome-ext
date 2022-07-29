@@ -79,8 +79,8 @@ window.onload = function () {
 
     function  handleVideoCompleted(){ 
         console.log('Handle Next Journey ');
-        // let completed = (window.parent.location.href.includes('?')) ? '&completed=vid' : '?completed=vid' ;
-        console.log('Completed')
-        window.parent.location = videoJourney.link+'?completed=vid'
+        let completed = (videoJourney.link.includes('?')) ? '&completed=vid' : '?completed=vid' ;
+        console.log('Completed', completed)
+        window.parent.location = videoJourney.link+completed
     }
 }

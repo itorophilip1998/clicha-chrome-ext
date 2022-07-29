@@ -28,14 +28,14 @@ document.body.addEventListener( 'click', function ( e ) {
     
 
     if(e.target && e.target.id == 'clisha-submit-answer'){
+        console.log(task.interaction);
         let choice = document.querySelector('input[name="task-option"]:checked').value;
         let answer = task.interaction.answer;
-        console.log(choice, answer);
         // $('#clishaModelMulti').modal('hide');  
         closeActiveModal()
         
-        if(choice == answer){
-            setTimeout(() => {
+        if(choice == answer){ 
+            setTimeout(() => { 
                 if (task.task_type == "google_search"){
                     completeExtensionTask(task);
                 } else if(task.task_type == "journey"){

@@ -136,7 +136,7 @@
   color:rgb(39, 39, 39);
 }
 .clisha_btn-primary,.clisha_btn-primary:hover,.clisha_btn-primary:focus{
-  background:  #FABE28;
+  background:  #FABE28 !important;
   border:none;
   border-radius: 4px;
   padding: 10px;
@@ -171,7 +171,10 @@
 }
 .clisha_modal_content  h5, .clisha_modal_content  .h5, 
   .clisha_modal_content h5 font{
-  font-size: 1.3rem  !important;
+  font-size: 1.3rem;
+}
+.clisha_modal_content h5 font{
+  font-size: 1.35rem;
 }
 .clisha_modal_content  p {
   margin-top: 0;
@@ -184,6 +187,7 @@
   margin: 10px 8px 0px;
   text-align: left;
   color: white;
+  list-style-type: none;
 }
 .clisha_modal_content .task-options .option{
   padding: 6px 0px;
@@ -194,4 +198,18 @@
 
 .clisha_modal_content .task-options .option input{
   margin-right: 8px;
+  position: relative !important;
+}
+.clisha_modal_content .task-options .option label {
+  padding-left: 10px;
+  /* top: -6px; */
+  position: relative;
+}
+input[type='radio']:checked, input[type='radio']:not(:checked) {
+  visibility: visible !important;
+}
+input[type='radio']:not(:checked) + label::before,
+input[type='radio']:checked + label::before, input[type='radio']:not(:checked) + label::before  {
+  content: none !important;
+  display: none;
 }
