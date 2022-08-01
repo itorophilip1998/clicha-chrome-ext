@@ -27,7 +27,7 @@ chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
     step = message.step;
     if (task.task_type == "google_search") activateGoogleSearch()
     if (task.task_type == "journey") activateJourneyTask()
-    if(message.complete) handleNextJourney();
+    // if(message.complete) handleNextJourney();
     return true;
 });
 
@@ -129,8 +129,8 @@ function activateJourneyTask() {
     const currentUrl = window.location;
     let journeyTask = task.journey;
     currentJourney = journeyTask[step - 1];
-
-    console.log(currentJourney.link.includes(currentUrl.href))
+    console.log(task); 
+    // console.log(currentJourney.link.includes(currentUrl.href))
     if(currentUrl.href.match(currentJourney.link) || currentJourney.link.includes(currentUrl.href)){
         let start = (step == 1) ? "Great! Let's go," : (step == task.journey.length) ? "Great! Almost done," : "Let's continue";
         let type =  "", question = null; 

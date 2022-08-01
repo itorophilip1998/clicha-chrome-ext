@@ -96,7 +96,7 @@ function prepareAnswer(){
             if( document.querySelector('#clisha-answer'))document.querySelector('#clisha-answer').style.display = "none"
             document.body.insertAdjacentHTML('beforeend', html);
             let step_info = document.querySelector('#next-step-info');
-            step_info.innerHTML = `Whent you are done,  and click  ${task.journey[step].description} or  visit "${task.journey[step].link}" from the url bar to continue.`
+            step_info.innerHTML = `Whent you are done, click on  ${task.journey[step].description} on this page to continue.`
             active_modal = document.querySelector('#clishaModelNextStep')
             active_modal.classList.add("clisha_modal_open");
             
@@ -118,13 +118,10 @@ function initiateJourneyVideo(){
     duration = 0; 
     watched = new Array(0);
     reportedpercent = false;
-    
+     
     if(vid){ 
         console.log('Journey Video Started',vid);
-        handleNextJourney();
-        vid.addEventListener('loadedmetadata', function(e){
-            var dimensions = [video.videoWidth, video.videoHeight];
-            alert(dimensions);
+        vid.onloadedmetadata = function() {
 
             Array.prototype.resize = function(newSize, defaultValue) {
                 while(newSize > this.length)
@@ -135,7 +132,7 @@ function initiateJourneyVideo(){
             getDuration();
 
             vid.addEventListener('timeupdate',timeupdate, false)
-        })
+        }
     }
 }
 
@@ -183,7 +180,6 @@ function frameupdate(){
 function timeupdate() {
     currentTime = parseInt(vid.currentTime);
     watched[currentTime] = 1;
-    console.log(watched);
 
     // sum the value of the array (add up the "watched" seconds)
     var sum = watched.reduce(function(acc, val) {return acc + val;}, 0);

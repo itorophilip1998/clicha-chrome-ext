@@ -1,4 +1,8 @@
 
+*{
+  @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap");
+  font-family: 'Roboto', sans-serif;
+}
 .cbtn-primary,.cbtn-primary:hover,.cbtn-primary:focus{
     background:  #FABE28;
     border:0px;
@@ -88,7 +92,7 @@
   margin: 0.5rem;
 }
 .clisha_content{
-    background-image: url("https://i.ibb.co/yBQP6Cb/layer.png") !important;
+    background-image: url("https://i.ibb.co/BK8Jxgd/108-2-1.png") !important;
     background:  #74019B;
     color: #fff;
     background-repeat: no-repeat;
@@ -119,8 +123,8 @@
   justify-content: center; 
 }
 .closeIcon{
-  font-family:   monospace; 
-  font-size: 17px;
+  font-family:   monospace !important; 
+  font-size: 17px !important;
   background:rgb(189, 6, 6);
   color:whitesmoke;
   width: 17px;
@@ -165,17 +169,21 @@
 .clisha_modal_content  h4, .clisha_modal_content  h5, .clisha_modal_content h6 {
   margin-top: 10px;
   margin-bottom: 0.5rem;
-  font-weight: 500;
+  font-weight: 500 !important;;
   line-height: 1.2;
   color: white;
 }
+.clisha_modal_content  h4{
+  font-size: 1.4rem !important;;
+}
 .clisha_modal_content  h5, .clisha_modal_content  .h5, 
   .clisha_modal_content h5 font{
-  font-size: 1.3rem;
+  font-size: 1.3rem !important;;
 }
 .clisha_modal_content h5 font{
-  font-size: 1.35rem;
+  font-size: 1.35rem !important;;
 }
+
 .clisha_modal_content  p {
   margin-top: 0;
   margin-bottom: 1rem;
