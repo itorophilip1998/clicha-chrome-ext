@@ -1,7 +1,7 @@
 
 console.log('Modal Extension Loaded')
 document.body.addEventListener( 'click', function ( e ) {
-    console.log('Modal Event ',e.target.id);
+    // console.log('Modal Event ',e.target.id);
     if(e.target && e.target.id == 'clisha_close-primary'){
         closeActiveModal()
     }
@@ -28,9 +28,14 @@ document.body.addEventListener( 'click', function ( e ) {
     
 
     if(e.target && e.target.id == 'clisha-submit-answer'){
-        console.log(task.interaction);
-        let choice = document.querySelector('input[name="task-option"]:checked').value;
-        let answer = task.interaction.answer;
+        console.log(task.interaction, currentJourney);
+        let choice = document.querySelector('input[name="task-option"]:checked').value,
+            answer= null;
+        if (task.task_type == "google_search"){
+            answer = task.interaction.answer;
+        } else if(task.task_type == "journey"){
+            answer = currentJourney.step_interaction.answer;
+        }
         // $('#clishaModelMulti').modal('hide');  
         closeActiveModal()
         
