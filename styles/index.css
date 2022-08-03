@@ -1,7 +1,7 @@
 
 *{
   @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap");
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', sans-serif  !important;
 }
 .cbtn-primary,.cbtn-primary:hover,.cbtn-primary:focus{
     background:  #FABE28;
@@ -11,7 +11,7 @@
     text-align: center;
 }
 .text-summary{
-    line-height: 14px;
+    line-height: 14px !important;
     color: #959a9f!important;
 }
 .bold{
@@ -37,37 +37,54 @@
 }
 .clisha_timer{
     color: rgba(250, 190, 26, 0.945);
-    font-size: 50px;
+    font-size: 50px !important;
     text-align: center !important;
     width: 100%;
 }
 #clisha_warning{
     color: rgba(250, 190, 26, 0.945);
-    font-size: 12px; 
+    font-size: 12px !important;
 }
 
 .clisha_float{
 	position:fixed;
-	width:60px;
-	height:60px;
 	bottom:40px;
 	right:40px;
-	background-color:rgba(250, 190, 26, 0.8);
-	color:#FFF;
-	border-radius:50px;
+	width:60px;
+	height:60px;
+	background-color:rgba(250, 190, 26, 0.8) !important;
+	color:#FFF; 
+	border-radius:50px !important;
 	text-align:center;
 	box-shadow: 2px 2px 3px #999;
   display: block;
   clear: both;
   border: none;
-  z-index: 99;
-  cursor: hand;
+  z-index: 99 !important;
+  cursor: pointer;
 }
 
 .clisha_float .floater{
 	margin-top:22px;
 }
  
+.clisha-vid-tracker{
+  display: block;
+  float: right;
+
+	/* position:fixed;
+	top:40px;
+	right:40px; */
+  border-radius: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  width: 65px;
+  height: 50px;
+  background-color:rgba(250, 190, 26, 0.8);
+  font-size: 24px !important;
+  line-height: 50px !important;
+}
+
 .clisha_modal_content{
   width: 425px; 
   min-height: 300px;
@@ -100,7 +117,7 @@
     background-position: center;
 }
 .clisha_modal_container{
-  background:rgba(0,0,0,0.4);
+  background:rgba(0,0,0,0.4) !important;
   position: fixed;
   z-index: 5000;
   top: 0;
@@ -125,13 +142,13 @@
 .closeIcon{
   font-family:   monospace !important; 
   font-size: 17px !important;
-  background:rgb(189, 6, 6);
+  background:rgb(189, 6, 6) !important;
   color:whitesmoke;
-  width: 17px;
-  height: 17px;
+  width: 22px;
+  height: 22px;
   line-height: 13px;
   text-align: center;
-  border-radius: 50%;
+  border-radius: 50% !important;
   float: right;
   cursor: pointer;
 }
@@ -146,13 +163,12 @@
   padding: 10px;
   width: 140px;
   height: 36px;
-  line-height: 20px;
+  line-height: 20px !important;
   cursor: pointer;
   color:white; 
   margin-top: 30px;
   margin-bottom: 20px;
 }
-
 .clisha_btn-primary:not(:disabled):not(.disabled) {
   cursor: pointer;
 }
@@ -170,24 +186,24 @@
   margin-top: 10px;
   margin-bottom: 0.5rem;
   font-weight: 500 !important;;
-  line-height: 1.2;
+  line-height: 1.2 !important;
   color: white;
 }
 .clisha_modal_content  h4{
-  font-size: 1.4rem !important;;
+  font-size: 23px !important;
 }
 .clisha_modal_content  h5, .clisha_modal_content  .h5, 
   .clisha_modal_content h5 font{
-  font-size: 1.3rem !important;;
+  font-size: 21px !important;;
 }
 .clisha_modal_content h5 font{
-  font-size: 1.35rem !important;;
+  font-size: 22px !important;;
 }
 
 .clisha_modal_content  p {
   margin-top: 0;
-  margin-bottom: 1rem;
-  font-size: 1rem;
+  margin-bottom: 16px;
+  font-size: 16px;
   font-weight: 500;
   color: white;
 }
@@ -198,7 +214,7 @@
   list-style-type: none;
 }
 .clisha_modal_content .task-options .option{
-  padding: 6px 0px;
+  opacity: 1  !important;
 }
 .clisha_modal_content .task-options .option::marker{
   display: none;

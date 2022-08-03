@@ -101,7 +101,7 @@ function prepareAnswer(){
             if( document.querySelector('#clisha-answer'))document.querySelector('#clisha-answer').style.display = "none"
             document.body.insertAdjacentHTML('beforeend', html);
             let step_info = document.querySelector('#next-step-info');
-            step_info.innerHTML = `Whent you are done, click on  ${task.journey[step].description} on this page to continue.`
+            step_info.innerHTML = `When you are done, click on  ${task.journey[step].description} on this page to continue.`
             active_modal = document.querySelector('#clishaModelNextStep')
             active_modal.classList.add("clisha_modal_open");
             
@@ -125,15 +125,20 @@ function initiateJourneyVideo(){
     reportedpercent = false;
      
     if(vid){ 
-        console.log('Journey Video Started',vid);
+        console.log('Journey Video Starting');
         vid.onloadedmetadata = function() {
-
+            let trackerElem = document.createElement('div');
+            trackerElem.classList.add('clisha-vid-tracker');  
+            trackerElem.innerHTML = '0%';
+            if(vid.nextElementSibling){ vid.nextElementSibling.append(trackerElem);}
+            else if(vid.previousElementSibling){vid.previousElementSibling.append(trackerElem);}
+            
             Array.prototype.resize = function(newSize, defaultValue) {
                 while(newSize > this.length)
                     this.push(defaultValue);
                 this.length = newSize; 
-            }
-
+            } 
+ 
             getDuration();
 
             vid.addEventListener('timeupdate',timeupdate, false)
@@ -142,7 +147,7 @@ function initiateJourneyVideo(){
 }
 
 function startVideoPlayer(){
-
+ 
     getDuration();
 
   
@@ -171,7 +176,6 @@ function formatSeconds(dur){
 function frameupdate(){
     videotTime = 0;
     duration = formatSeconds(duration)
-    console.log('Frame Clicked', duration);
     setInterval( () => {
         videotTime++
         if ((videotTime >= (duration * .8)) && !reportedpercent) {
@@ -188,7 +192,9 @@ function timeupdate() {
 
     // sum the value of the array (add up the "watched" seconds)
     var sum = watched.reduce(function(acc, val) {return acc + val;}, 0);
-    
+    let tracker = document.querySelector('.clisha-vid-tracker');
+    tracker.innerHTML = ` ${sum}%`;
+
     if ((sum >= (duration * .8)) && !reportedpercent) {
         reportedpercent = true;
         console.log("Video watched. User can now Continue...")

@@ -37,6 +37,7 @@ window.onload = function () {
             console.log('Video FRAME API AT >>>>>>>>>>>>', video)
             if(video){
                 video.onloadedmetadata = function() {
+                    
                     Array.prototype.resize = function(newSize, defaultValue) {
                         while(newSize > this.length)
                             this.push(defaultValue);
@@ -50,12 +51,13 @@ window.onload = function () {
     }
 
     function getVideoDuration() {
-        console.log('Duration',video)
+        console.log('Duration',video);
         // get the duration in seconds, rounding up, to size the array
         _duration = parseInt(roundUp(video.duration,1));
         console.log("resizing arrary to " + _duration + " seconds.");
         _watched.resize(_duration,0);
         sum = _watched.reduce(function(acc, val) {return acc + val;}, 0);
+        
     }
 
     function roundUp(num, precision) {
@@ -68,7 +70,8 @@ window.onload = function () {
         var percent = (_duration > 300) ? (_duration * .2): (_duration * .26);
         // sum the value of the array (add up the "_watched" seconds)
         var sum = _watched.reduce(function(acc, val) {return acc + val;}, 0);
-       
+        let tracker = document.querySelector('.clisha-vid-tracker');
+        tracker.innerHTML = ` ${sum}%`;
         if ((sum >= percent) && !_reportedpercent) {
             _reportedpercent = true;
             console.log("Video Watched. User can now Continue...")

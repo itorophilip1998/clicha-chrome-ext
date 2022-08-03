@@ -68,9 +68,34 @@ function showModal(open = 1, content = null){
                 }
                 
                 if(content.question){
-                    let questionElem = document.createElement('h4');
+                    let options = document.querySelector('#task-options-preview')
+                        questionElem = document.createElement('h4');
                     questionElem.innerHTML = content.question;
                     entry.appendChild(questionElem);
+
+                    let option1, option2, option3,option4, option5;
+                    option1 = document.createElement('li');
+                    option2 = document.createElement('li');
+
+                    option1.innerHTML = task.interaction.option1;
+                    option2.innerHTML = task.interaction.option2
+                    options.append(option1, option2) 
+                    if(task.interaction.option3) { 
+                        option3 = document.createElement('li');
+                        option3.innerHTML = task.interaction.option3;
+                        options.appendChild(option3)
+                    }
+                    if(task.interaction.option4){ 
+                        option4 = document.createElement('li');
+                        option4.innerHTML = task.interaction.option4;
+                        options.appendChild(option4);
+                    }
+                    if(task.interaction.option5){ 
+                        option5 = document.createElement('li');
+                        option5.innerHTML = task.interaction.option5;
+                        options.appendChild(option5)
+                    }
+                    
                 }
 
                 if(content.error) error.style.display = (content.error) ? "block" : "none";  
@@ -129,7 +154,7 @@ function activateJourneyTask() {
     const currentUrl = window.location;
     let journeyTask = task.journey;
     currentJourney = journeyTask[step - 1];
-    console.log(task); 
+    // console.log(task); 
     // console.log(currentJourney.link.includes(currentUrl.href))
     if(currentUrl.href.match(currentJourney.link) || currentJourney.link.includes(currentUrl.href)){
         let start = (step == 1) ? "Great! Let's go," : (step == task.journey.length) ? "Great! Almost done," : "Let's continue";
@@ -141,10 +166,10 @@ function activateJourneyTask() {
              if(currentUrl.href.includes('completed=vid') ) return handleNextJourney()
              setTimeout(() => { initiateJourneyVideo() }, 5 * 1000) 
         }
-  
+   
         if(currentJourney.link_type == "form") {
             type = "Kindly fill the form on this page to complete this step. Thanks ";
-            initiateJourneyForm();
+            initiateJourneyForm(); 
         }
 
         if(currentJourney.link_type == "content"){
