@@ -1,18 +1,27 @@
 
-*{
-  @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap");
-  font-family: 'Roboto', sans-serif  !important;
+@font-face {
+  font-family: 'Roboto';
+  src: url('Roboto-ThinItalic-webfont.eot');
+  src: url('Roboto-ThinItalic-webfont.eot?#iefix') format('embedded-opentype'),
+       url('Roboto-ThinItalic-webfont.woff') format('woff'),
+       url('Roboto-ThinItalic-webfont.ttf') format('truetype'),
+       url('Roboto-ThinItalic-webfont.svg#RobotoThinItalic') format('svg'); 
+  font-style: italic;
 }
+
 .cbtn-primary,.cbtn-primary:hover,.cbtn-primary:focus{
-    background:  #FABE28;
+    background:  #FABE28 !important;
     border:0px;
+    font-size: 16px !important;
 }
 .text-center{
     text-align: center;
+    font-family: 'Roboto', sans-serif  !important;
 }
 .text-summary{
     line-height: 14px !important;
     color: #959a9f!important;
+    font-family: 'Roboto', sans-serif  !important;
 }
 .bold{
   font-weight: bold;
@@ -40,10 +49,12 @@
     font-size: 50px !important;
     text-align: center !important;
     width: 100%;
+    font-family: 'Roboto', sans-serif  !important;
 }
 #clisha_warning{
     color: rgba(250, 190, 26, 0.945);
     font-size: 12px !important;
+    font-family: 'Roboto', sans-serif  !important;
 }
 
 .clisha_float{
@@ -62,6 +73,7 @@
   border: none;
   z-index: 99 !important;
   cursor: pointer;
+  font-family: 'Roboto', sans-serif  !important;
 }
 
 .clisha_float .floater{
@@ -168,6 +180,7 @@
   color:white; 
   margin-top: 30px;
   margin-bottom: 20px;
+  font-family: 'Roboto', sans-serif  !important;
 }
 .clisha_btn-primary:not(:disabled):not(.disabled) {
   cursor: pointer;
@@ -187,7 +200,8 @@
   margin-bottom: 0.5rem;
   font-weight: 500 !important;;
   line-height: 1.2 !important;
-  color: white;
+  font-family: 'Roboto', sans-serif  !important;
+  color: white !important;
 }
 .clisha_modal_content  h4{
   font-size: 23px !important;
@@ -205,13 +219,14 @@
   margin-bottom: 16px;
   font-size: 16px;
   font-weight: 500;
-  color: white;
+  color: white !important;
 }
 .clisha_modal_content .task-options{
   margin: 10px 8px 0px;
   text-align: left;
-  color: white;
+  color: white !important;
   list-style-type: none;
+  font-family: 'Roboto', sans-serif  !important;
 }
 .clisha_modal_content .task-options .option{
   opacity: 1  !important;
@@ -222,15 +237,19 @@
 
 .clisha_modal_content .task-options .option input{
   margin-right: 8px;
+  opacity: 1 !important;
   position: relative !important;
 }
 .clisha_modal_content .task-options .option label {
   padding-left: 10px;
   /* top: -6px; */
+  color: white  !important;
+  font-family: 'Roboto', sans-serif  !important;
   position: relative;
 }
 input[type='radio']:checked, input[type='radio']:not(:checked) {
   visibility: visible !important;
+  opacity: 1 !important;
 }
 input[type='radio']:not(:checked) + label::before,
 input[type='radio']:checked + label::before, input[type='radio']:not(:checked) + label::before  {
