@@ -20,6 +20,7 @@
 }
 .text-summary{
     line-height: 14px !important;
+    font-size: 12px !important;
     color: #959a9f!important;
     font-family: 'Roboto', sans-serif  !important;
 }
@@ -175,7 +176,8 @@
   padding: 10px;
   width: 140px;
   height: 36px;
-  line-height: 20px !important;
+  font-size: 14px;
+  line-height: 15px !important;
   cursor: pointer;
   color:white; 
   margin-top: 30px;
@@ -187,7 +189,7 @@
 }
 .clisha_modal_content a, .clisha_modal_content a:hover,
 .clisha_modal_content a.focus{
-  color: rgb(250, 190, 40);
+  color: rgb(250, 190, 40) !important;
 }
 
 .fade {
@@ -217,12 +219,12 @@
 .clisha_modal_content  p {
   margin-top: 0;
   margin-bottom: 16px;
-  font-size: 16px;
+  font-size: 16px !important;
   font-weight: 500;
   color: white !important;
 }
 .clisha_modal_content .task-options{
-  margin: 10px 8px 0px;
+  margin: 10px 8px 0px !important;
   text-align: left;
   color: white !important;
   list-style-type: none;
