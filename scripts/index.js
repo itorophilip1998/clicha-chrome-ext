@@ -1,7 +1,8 @@
 console.log('Popup Page Running');
 
 
-let popDetail =  document.querySelector("#popInfo"),
+let dashboardUrl = 'https://clisha-client-user.netlify.app/dashboard/',
+    popDetail =  document.querySelector("#popInfo"),
     taskActive =  document.querySelector("#taskActive"),
     taskInactive =  document.querySelector("#taskInactive"),
     taskUrl = document.querySelector('#clisha-task'),
@@ -42,7 +43,7 @@ function activateTask(task) {
 }
 
 taskUrl.addEventListener('click', function () {
-    let baseUrl =  "https://clisha-client-user.netlify.app/dashboard/task";
+    let baseUrl =  `${dashboardUrl}/task`;
     chrome.tabs.create({ url: baseUrl });
 })
 

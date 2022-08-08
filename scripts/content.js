@@ -1,6 +1,6 @@
 // Global Variable
-var task,    
-    step = null, 
+var  dashboardUrl = 'https://clisha-client-user.netlify.app/dashboard/',
+    task,     step = null, 
     active_modal,
     currentJourney = {};
 var domain = window.location.href;
@@ -314,7 +314,7 @@ function completeExtensionTask(){
     console.log('Task Deactivated');
     chrome.runtime.sendMessage( { reload: 'true' }, (response) => { console.log('Message Sent ') });
 
-        window.location.href = `https://clisha-stagging.netlify.app/dashboard/reward?t=${task.id}&p=${task.points}`
+        window.location.href = `${dashboardUrl}reward?t=${task.id}&p=${task.points}`
         var error = chrome.runtime.lastError;
         if (error) console.error(error);  throw error; 
     });
