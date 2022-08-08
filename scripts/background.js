@@ -1,6 +1,6 @@
 console.log("Extention Started Successfully");
 
-const baseUrl = 'https://shielded-savannah-41389.herokuapp.com/api';
+const baseUrl = 'https://clisha-client-server.herokuapp.com/api';
 
 chrome.tabs.onActivated.addListener( function(activeInfo){
     setTimeout(()=> {

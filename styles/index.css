@@ -15,7 +15,7 @@
     font-size: 16px !important;
 }
 .text-center{
-    text-align: center;
+    text-align: center !important;
     font-family: 'Roboto', sans-serif  !important;
 }
 .text-summary{
@@ -58,7 +58,7 @@
     font-family: 'Roboto', sans-serif  !important;
 }
 
-.clisha_float{
+.clisha_float, .clisha-vid-tracker {
 	position:fixed;
 	bottom:40px;
 	right:40px;
@@ -72,7 +72,7 @@
   display: block;
   clear: both;
   border: none;
-  z-index: 99 !important;
+  z-index: 101 !important;
   cursor: pointer;
   font-family: 'Roboto', sans-serif  !important;
 }
@@ -82,21 +82,15 @@
 }
  
 .clisha-vid-tracker{
-  display: block;
-  float: right;
-
-	/* position:fixed;
-	top:40px;
-	right:40px; */
-  border-radius: 10px;
+  /* display: block;
+  float: right; */
+  /* border-radius: 10px; */
   margin-right: 10px;
   margin-top: 10px;
-  width: 65px;
-  height: 50px;
-  background-color:rgba(250, 190, 26, 0.8);
   font-size: 24px !important;
   line-height: 50px !important;
 }
+
 
 .clisha_modal_content{
   width: 425px; 
@@ -222,8 +216,10 @@
   font-size: 16px !important;
   font-weight: 500;
   color: white !important;
+  text-align: center;
 }
 .clisha_modal_content .task-options{
+  position: relative;
   margin: 10px 8px 0px !important;
   text-align: left;
   color: white !important;
@@ -238,6 +234,7 @@
 }
 
 .clisha_modal_content .task-options .option input{
+  display: inline-block;
   margin-right: 8px;
   opacity: 1 !important;
   position: relative !important;

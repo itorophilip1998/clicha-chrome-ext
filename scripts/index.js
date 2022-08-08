@@ -42,7 +42,7 @@ function activateTask(task) {
 }
 
 taskUrl.addEventListener('click', function () {
-    let baseUrl =  "https://clisha-stagging.netlify.app/dashboard/task";
+    let baseUrl =  "https://clisha-client-user.netlify.app/dashboard/task";
     chrome.tabs.create({ url: baseUrl });
 })
 

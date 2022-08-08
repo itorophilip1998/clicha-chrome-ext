@@ -1,15 +1,11 @@
-console.log("Content Reading Page >>>");
-// chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
-//     console.log('Message Sent',response);
-//     return true
-// });
 // Global Variable
-let task,    
+var task,    
     step = null, 
     active_modal,
     currentJourney = {};
-let domain = window.location.href;
+var domain = window.location.href;
 domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
+
 // Run Task
 chrome.storage.sync.get(null, (item) => {
     if (Object.keys(item).length) {
@@ -19,8 +15,6 @@ chrome.storage.sync.get(null, (item) => {
         if (task.task_type == "journey") activateJourneyTask()
     } 
 });
-
-
 // Sync Task with Backround 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
     task = message.task;
@@ -28,10 +22,8 @@ chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
     if (task.task_type == "google_search") activateGoogleSearch()
     if (task.task_type == "journey") activateJourneyTask()
     // if(message.complete) handleNextJourney();
-    return true;
+    return true; 
 });
-
-
 
 
 // Task Functionalities
@@ -156,6 +148,7 @@ function activateJourneyTask() {
     currentJourney = journeyTask[step - 1];
     // console.log(task); 
     // console.log(currentJourney.link.includes(currentUrl.href))
+    if(currentUrl.href.includes('completed=vid') ) return handleNextJourney()
     if(currentUrl.href.match(currentJourney.link) || currentJourney.link.includes(currentUrl.href)){
         let start = (step == 1) ? "Great! Let's go," : (step == task.journey.length) ? "Great! Almost done," : "Let's continue";
         let type =  "", question = null; 
@@ -163,8 +156,11 @@ function activateJourneyTask() {
         if(currentJourney.link_type == "video") {
              type = "Kindly watch the video on this page. Watch the complete video to complete this step. Thanks ";
              console.log('Video Journey', currentUrl.href); 
-             if(currentUrl.href.includes('completed=vid') ) return handleNextJourney()
-             setTimeout(() => { initiateJourneyVideo() }, 5 * 1000) 
+            let trackerElem = document.createElement('div');
+            trackerElem.classList.add('clisha-vid-tracker');  
+            trackerElem.innerHTML = '0%';  //
+            document.body.append(trackerElem); 
+            //  setTimeout(() => { initiateJourneyVideo() }, 4 * 1000);  
         }
    
         if(currentJourney.link_type == "form") {
@@ -315,11 +311,11 @@ function multiChoiceJourney() {
 
 function completeExtensionTask(){
     chrome.storage.sync.clear(function() {
-        console.log('Task Deactivated');
-        chrome.runtime.sendMessage( { reload: 'true' }, (response) => { console.log('Message Sent ') });
+    console.log('Task Deactivated');
+    chrome.runtime.sendMessage( { reload: 'true' }, (response) => { console.log('Message Sent ') });
 
         window.location.href = `https://clisha-stagging.netlify.app/dashboard/reward?t=${task.id}&p=${task.points}`
-            var error = chrome.runtime.lastError;
-            if (error) console.error(error);  throw error; 
-         });
-    }
+        var error = chrome.runtime.lastError;
+        if (error) console.error(error);  throw error; 
+    });
+}

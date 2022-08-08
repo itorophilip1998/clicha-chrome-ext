@@ -119,40 +119,36 @@ let
 
 function initiateJourneyVideo(){
     console.log('Video Script Started');
-    vid = document.getElementsByTagName("video")[0];
+    vid = document.getElementsByTagName('video')[0];
+    
     duration = 0; 
     watched = new Array(0);
     reportedpercent = false;
      
-    if(vid){ 
-        console.log('Journey Video Starting');
+    if(vid){  
+        console.log('Journey Video in Main Stage');
         vid.onloadedmetadata = function() {
-            let trackerElem = document.createElement('div');
-            trackerElem.classList.add('clisha-vid-tracker');  
-            trackerElem.innerHTML = '0%';
-            if(vid.nextElementSibling){ vid.nextElementSibling.append(trackerElem);}
-            else if(vid.previousElementSibling){vid.previousElementSibling.append(trackerElem);}
-            
+            // let youtubeChecker = /^(?:https?:\/\/)?(?:(?:www\.)?youtube.com\/watch\?v=|youtu.be\/)(\w+)$/;
+            // if(window.location.href.match(youtubeChecker)){
+            //     let player = document.querySelector('.ytd-player');
+            //     player.append(trackerElem);
+            // } else {
+                // if(vid.nextElementSibling){ vid.nextElementSibling.append(trackerElem);}
+                // else if(vid.previousElementSibling){vid.previousElementSibling.append(trackerElem);}
+            // }
             Array.prototype.resize = function(newSize, defaultValue) {
                 while(newSize > this.length)
                     this.push(defaultValue);
                 this.length = newSize; 
             } 
- 
-            getDuration();
 
-            vid.addEventListener('timeupdate',timeupdate, false)
+            getDuration();
+            
+            vid.addEventListener('timeupdate', timeupdate, false);
         }
     }
 }
 
-function startVideoPlayer(){
- 
-    getDuration();
-
-  
-}
- 
 function formatISODate(youtube_time){
     array = youtube_time.match(/(\d+)(?=[MHS])/ig)||[]; 
     var formatted = array.map(function(item){
@@ -166,6 +162,32 @@ function formatISODate(youtube_time){
 function roundUp(num, precision) {
     return Math.ceil(num * precision) / precision
 } 
+
+function timeupdate() {
+    currentTime = parseInt(vid.currentTime);
+    console.log(currentTime);
+    watched[currentTime] = 1;  
+    // sum the value of the array (add up the "watched" seconds)
+    var sum = watched.reduce(function(acc, val) {return acc + val;}, 0),
+        percentage = 80;
+    var watchPer = (sum / duration) * percentage; 
+    // console.log(watchPer);   
+    let tracker = document.querySelector('.clisha-vid-tracker');
+        tracker.innerHTML = `${roundUp(watchPer,1)}%`;
+
+    if ((sum >= (duration * percentage)) && !reportedpercent) {
+        reportedpercent = true;
+        console.log("Video watched. User can now Continue...")
+        handleNextJourney()
+    }
+}
+
+function getDuration() {
+    watched.resize(duration,0)
+    sum = watched.reduce(function(acc, val) {return acc + val;}, 0);
+    duration = parseInt(roundUp(vid.duration,1));
+    console.log(sum + " Resizing arrary to " + duration + " seconds.");
+}
 
 function formatSeconds(dur){
     a = dur.split(':');
@@ -185,35 +207,6 @@ function frameupdate(){
         }
     }, 1000);
 }
-
-function timeupdate() {
-    currentTime = parseInt(vid.currentTime);
-    watched[currentTime] = 1;
-
-    // sum the value of the array (add up the "watched" seconds)
-    var sum = watched.reduce(function(acc, val) {return acc + val;}, 0);
-    let tracker = document.querySelector('.clisha-vid-tracker');
-    tracker.innerHTML = ` ${sum}%`;
-
-    if ((sum >= (duration * .8)) && !reportedpercent) {
-        reportedpercent = true;
-        console.log("Video watched. User can now Continue...")
-        handleNextJourney()
-    }
-}
-
-function getDuration() {
-    // get the duration in seconds, rounding up, to size the array
-    duration = parseInt(roundUp(vid.duration,1));
-    console.log("resizing arrary to " + duration + " seconds.");
-    watched.resize(duration,0)
-    sum = watched.reduce(function(acc, val) {return acc + val;}, 0);
-}
-
-function onYouTubeIframeAPIReady() {
-    console.log('--- The YT player API is ready from content script! ---');
-}
-    
 
 function youtubeVideoTask(){
     frame = document.getElementsByTagName('iframe')[1]; 
@@ -243,8 +236,8 @@ function youtubeVideoTask(){
         return;
     }
 }
-    // chrome.history.search({text: '', maxResults: 10}, function(data) {
-    //     data.forEach(function(page) {
-    //         console.log(page.url);
-    //     });
-    // });
+// chrome.history.search({text: '', maxResults: 10}, function(data) {
+//     data.forEach(function(page) {
+//         console.log(page.url);
+//     });
+// });
