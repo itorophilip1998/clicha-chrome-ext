@@ -56,8 +56,8 @@ window.onload = function () {
                 //     getVideoDuration()
                 // }
 
-                video.addEventListener('loadedmetadata', function(e){
-                    console.log('Sane Thonng  2',e)
+                // video.addEventListener('load', function(e){
+                    // console.log('Sane Thonng  2',e)
                     Array.prototype.resize = function(newSize, defaultValue) {
                         while(newSize > this.length)
                             this.push(defaultValue);
@@ -67,7 +67,7 @@ window.onload = function () {
                     video.addEventListener('timeupdate',timeupdate, false);
 
                     getVideoDuration()
-                });
+                // });
             } 
         }
     }
@@ -79,7 +79,7 @@ window.onload = function () {
        
         _watched.resize(_duration,0);
         sum = _watched.reduce(function(acc, val) {return acc + val;}, 0);
-        video.addEventListener('timeupdate',timeupdate, false);
+        // video.addEventListener('timeupdate',timeupdate, false);
         console.log(sum + " Resizing arrary to " + _duration + " seconds.");
     }
 
