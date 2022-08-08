@@ -55,19 +55,16 @@ window.onload = function () {
 
                 //     getVideoDuration()
                 // }
-
-                // video.addEventListener('load', function(e){
-                    // console.log('Sane Thonng  2',e)
-                    Array.prototype.resize = function(newSize, defaultValue) {
-                        while(newSize > this.length)
-                            this.push(defaultValue);
-                        this.length = newSize; 
-                    }
-
+                Array.prototype.resize = function(newSize, defaultValue) {
+                    while(newSize > this.length)
+                        this.push(defaultValue);
+                    this.length = newSize; 
+                } 
+                video.addEventListener('playing', function(e){
                     video.addEventListener('timeupdate',timeupdate, false);
 
                     getVideoDuration()
-                // });
+                });
             } 
         }
     }
