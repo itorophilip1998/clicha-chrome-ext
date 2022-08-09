@@ -1,33 +1,31 @@
 
-// let vid, _watched, 
-//     duration , _reportedpercent, 
-//     videotTime ;
-
-// "matches": [ "*://*.youtube.com/*" ],
-// chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
-//     console.log('Video Task Message Received', message);
-//     return true
-// });
 window.onload = function () {
+
+    let videoTask, taskStep, videoJourney;
+    let video = null,   
+         tracker = document.querySelector('div.clisha-vid-tracker'), 
+        _duration = 0,  watchPer, 
+        _watched = new Array(0);
+        _reportedpercent = false;
 
     chrome.storage.sync.get(null, (item) => {
             
         if (Object.keys(item).length) {
             videoTask = item.task;
             taskStep = item.step;
-            if(videoTask.task_type == "journey")  startVideoTask()
+            // console.log('Task Step', taskStep); s
+            if(videoTask.task_type == "journey") {
+                if(taskStep == 1) {
+                    console.log('Waiting');
+                    setTimeout(() => {startVideoTask();}, 5 * 1000) ;
+                } else{
+                    startVideoTask();
+                }
+            }
         }
 
     });
-
-    let videoTask, taskStep, videoJourney;
-    let video = null,   
-         tracker = document.querySelector('div.clisha-vid-tracker'), 
-        _duration = 0,
-        _watched = new Array(0);
-        _reportedpercent = false;
     
-
    
     function startVideoTask(){
         videoJourney = videoTask.journey[taskStep - 1];
@@ -38,6 +36,10 @@ window.onload = function () {
             console.log('Video FRAME API AT >>>>>>>>>>>>', window.location.href)
             if(video){
                 console.log('Can Create >>>>>>>>>>', video)
+                let trackerElem = document.createElement('div');
+                trackerElem.classList.add('clisha-vid-tracker');  
+                trackerElem.innerHTML = `0%`;  //
+                document.body.append(trackerElem);
 
                 Array.prototype.resize = function(newSize, defaultValue) {
                     while(newSize > this.length)
@@ -77,12 +79,16 @@ window.onload = function () {
         // sum the value of the array (add up the "_watched" seconds)
         var sum = _watched.reduce(function(acc, val) {return acc + val;}, 0),
             percentage = 80;
-        var watchPer = (sum / _duration) * percentage;
+        watchPer = (sum / _duration) * percentage;
         console.log('Watched Percentage ',roundUp(watchPer,1));
         
-        if(!tracker){
-            // Remove old ones
-            document.querySelectorAll('div.clisha-vid-tracker').forEach(function(el) {
+        if(document.querySelector('div.clisha-vid-tracker')){
+            // Update tracker
+            tracker = document.querySelector('div.clisha-vid-tracker');
+            tracker.innerHTML = `${roundUp(watchPer,1)}%`;
+        }else{
+             // Remove old ones
+             document.querySelectorAll('div.clisha-vid-tracker').forEach(function(el) {
                 el.style.display = 'none';
             });
             // Add Current tracker
@@ -90,11 +96,6 @@ window.onload = function () {
             trackerElem.classList.add('clisha-vid-tracker');  
             trackerElem.innerHTML = `${roundUp(watchPer,1)}%`;  //
             document.body.append(trackerElem);
-            console.log('New Element Created ',   trackerElem);
-        }else{
-            // Update tracker
-            tracker = document.querySelector('div.clisha-vid-tracker');
-            tracker.innerHTML = `${roundUp(watchPer,1)}%`;
         }
 
         console.log(tracker);
@@ -109,7 +110,7 @@ window.onload = function () {
     function  handleVideoCompleted(){ 
         console.log('Handle Next Journey ');
         let completed = (videoJourney.link.includes('?')) ? '&completed=vid' : '?completed=vid' ;
-        location = videoJourney.link+completed
+        window.parent.location = videoJourney.link+completed
     }
 
 }

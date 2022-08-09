@@ -36,7 +36,6 @@ function showModal(open = 1, content = null){
         .then(html => {
             document.body.insertAdjacentHTML('beforeend', html);
             active_modal = document.querySelector(modalId);
-            console.log(modalId, active_modal)
             if(content){ 
                 let entry = document.querySelector('#boost-entry'),
                     error = document.querySelector('#boost-error');
@@ -156,10 +155,6 @@ function activateJourneyTask() {
         if(currentJourney.link_type == "video") {
              type = "Kindly watch the video on this page. Watch the complete video to complete this step. Thanks ";
              console.log('Video Journey', currentUrl.href); 
-            let trackerElem = document.createElement('div');
-            trackerElem.classList.add('clisha-vid-tracker');  
-            trackerElem.innerHTML = '0%';  //
-            document.body.append(trackerElem); 
             //  setTimeout(() => { initiateJourneyVideo() }, 4 * 1000);  
         }
    

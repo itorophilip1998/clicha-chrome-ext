@@ -110,7 +110,7 @@ function prepareAnswer(){
     } 
 } 
 
-// const nextJourney = handleNextJourney();
+// const nextJourney = handleNextJourney();onloadedmetadata
 
 let 
     frame, vid, watched, 
@@ -127,20 +127,19 @@ function initiateJourneyVideo(){
      
     if(vid){  
         console.log('Journey Video in Main Stage');
-        vid.onloadedmetadata = function() {
-            // let youtubeChecker = /^(?:https?:\/\/)?(?:(?:www\.)?youtube.com\/watch\?v=|youtu.be\/)(\w+)$/;
-            // if(window.location.href.match(youtubeChecker)){
-            //     let player = document.querySelector('.ytd-player');
-            //     player.append(trackerElem);
-            // } else {
-                // if(vid.nextElementSibling){ vid.nextElementSibling.append(trackerElem);}
-                // else if(vid.previousElementSibling){vid.previousElementSibling.append(trackerElem);}
-            // }
-            Array.prototype.resize = function(newSize, defaultValue) {
-                while(newSize > this.length)
-                    this.push(defaultValue);
-                this.length = newSize; 
-            } 
+        let trackerElem = document.createElement('div');
+        trackerElem.classList.add('clisha-vid-tracker');  
+        trackerElem.innerHTML = '0%';  //
+        document.body.append(trackerElem); 
+
+        Array.prototype.resize = function(newSize, defaultValue) {
+            while(newSize > this.length)
+                this.push(defaultValue);
+            this.length = newSize; 
+        } 
+        vid.pause();
+
+        vid.onloadedmetadata = function() {   
 
             getDuration();
             
@@ -165,7 +164,7 @@ function roundUp(num, precision) {
 
 function timeupdate() {
     currentTime = parseInt(vid.currentTime);
-    console.log(currentTime);
+    
     watched[currentTime] = 1;  
     // sum the value of the array (add up the "watched" seconds)
     var sum = watched.reduce(function(acc, val) {return acc + val;}, 0),

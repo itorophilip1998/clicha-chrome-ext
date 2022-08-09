@@ -43,7 +43,7 @@ function activateTask(task) {
 }
 
 taskUrl.addEventListener('click', function () {
-    let baseUrl =  `${dashboardUrl}/task`;
+    let baseUrl =  `${dashboardUrl}task`;
     chrome.tabs.create({ url: baseUrl });
 })
 
