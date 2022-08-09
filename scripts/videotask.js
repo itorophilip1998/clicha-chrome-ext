@@ -22,7 +22,7 @@ window.onload = function () {
 
     let videoTask, taskStep, videoJourney;
     let video = null,   
-         tracker = window.parent.document.querySelector('div.clisha-vid-tracker'), 
+         tracker = document.querySelector('div.clisha-vid-tracker'), 
         _duration = 0,
         _watched = new Array(0);
         _reportedpercent = false;
@@ -31,7 +31,7 @@ window.onload = function () {
    
     function startVideoTask(){
         videoJourney = videoTask.journey[taskStep - 1];
-        const currentUrl = window.parent.location;
+        const currentUrl = location;
 
         if(videoJourney.link_type == "video"){
             video = document.getElementsByTagName("video")[0]
@@ -93,7 +93,7 @@ window.onload = function () {
             console.log('New Element Created ',   trackerElem);
         }else{
             // Update tracker
-            tracker = window.parent.document.querySelector('div.clisha-vid-tracker');
+            tracker = document.querySelector('div.clisha-vid-tracker');
             tracker.innerHTML = `${roundUp(watchPer,1)}%`;
         }
 
@@ -109,7 +109,7 @@ window.onload = function () {
     function  handleVideoCompleted(){ 
         console.log('Handle Next Journey ');
         let completed = (videoJourney.link.includes('?')) ? '&completed=vid' : '?completed=vid' ;
-        window.parent.location = videoJourney.link+completed
+        location = videoJourney.link+completed
     }
 
 }
