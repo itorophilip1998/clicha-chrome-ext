@@ -35,7 +35,7 @@ window.onload = function () {
             video = document.getElementsByTagName("video")[0]
             console.log('Video FRAME API AT >>>>>>>>>>>>', window.location.href)
             if(video){
-                console.log('Can Create >>>>>>>>>>', video)
+                // console.log('Can Create >>>>>>>>>>', video)
                 let trackerElem = document.createElement('div');
                 trackerElem.classList.add('clisha-vid-tracker');  
                 trackerElem.innerHTML = `0%`;  //
@@ -64,8 +64,6 @@ window.onload = function () {
        
         _watched.resize(_duration,0);
         sum = _watched.reduce(function(acc, val) {return acc + val;}, 0);
-        // video.addEventListener('timeupdate',timeupdate, false);
-        console.log(sum + " Resizing arrary to " + _duration + " seconds.");
     }
 
     function roundUp(num, precision) {
@@ -80,9 +78,7 @@ window.onload = function () {
         var sum = _watched.reduce(function(acc, val) {return acc + val;}, 0),
             percentage = 80;
         watchPer = (sum / _duration) * percentage;
-        console.log('Watched Percentage ',roundUp(watchPer,1));
-        
-        if(document.querySelector('div.clisha-vid-tracker')){
+        if(document.querySelectorAll('div.clisha-vid-tracker').length){
             // Update tracker
             tracker = document.querySelector('div.clisha-vid-tracker');
             tracker.innerHTML = `${roundUp(watchPer,1)}%`;
@@ -98,7 +94,6 @@ window.onload = function () {
             document.body.append(trackerElem);
         }
 
-        console.log(tracker);
         // Complete Step
         if ((sum >= percent) && !_reportedpercent) {
             _reportedpercent = true;
