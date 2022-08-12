@@ -94,7 +94,7 @@ window.onload = function () {
             document.body.append(trackerElem);
         }
 
-        // Complete Step
+        // Complete Step 
         if ((sum >= percent) && !_reportedpercent) {
             _reportedpercent = true;
             console.log("Video Watched. User can now Continue...")

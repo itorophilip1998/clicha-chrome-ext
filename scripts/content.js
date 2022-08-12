@@ -17,6 +17,7 @@ chrome.storage.sync.get(null, (item) => {
 });
 // Sync Task with Backround 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
+    if(message.form == true) return handleNextJourney()
     task = message.task;
     step = message.step;
     if (task.task_type == "google_search") activateGoogleSearch()
@@ -24,7 +25,7 @@ chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
     // if(message.complete) handleNextJourney();
     return true; 
 });
-
+ 
 
 // Task Functionalities
 function showModal(open = 1, content = null){
@@ -145,8 +146,7 @@ function activateJourneyTask() {
     const currentUrl = window.location;
     let journeyTask = task.journey;
     currentJourney = journeyTask[step - 1];
-    // console.log(task); 
-    // console.log(currentJourney.link.includes(currentUrl.href))
+    
     if(currentUrl.href.includes('completed=vid') ) return handleNextJourney()
     if(currentUrl.href.match(currentJourney.link) || currentJourney.link.includes(currentUrl.href)){
         let start = (step == 1) ? "Great! Let's go," : (step == task.journey.length) ? "Great! Almost done," : "Let's continue";
@@ -154,13 +154,13 @@ function activateJourneyTask() {
 
         if(currentJourney.link_type == "video") {
              type = "Kindly watch the video on this page. Watch the complete video to complete this step. Thanks ";
-             console.log('Video Journey', currentUrl.href); 
+            //  console.log('Video Journey', currentUrl.href); 
             //  setTimeout(() => { initiateJourneyVideo() }, 4 * 1000);  
         }
    
         if(currentJourney.link_type == "form") {
             type = "Kindly fill the form on this page to complete this step. Thanks ";
-            initiateJourneyForm(); 
+            initiateJourneyForm(currentJourney.link); 
         }
 
         if(currentJourney.link_type == "content"){
@@ -186,26 +186,11 @@ function parseQueryParam(url) {
 } 
 
 
-function initiateJourneyForm(){
-    var form = document.querySelector("form");
-    form.addEventListener('submit', submitted(form));
-    // form.onsubmit = submitted(form); 
-} 
-
-function submitted(event) {
-    console.log('Validating', event)
-    if(event){
-        if(event.checkValidity()){
-            console.log('Form is valid')
-        }
-        event.preventDefault(); 
-       
-        event.submit();
-        handleNextJourney()
-       
-    }
-}
-
+function initiateJourneyForm(link){
+    chrome.runtime.sendMessage( 
+            { trackForm : link }, (response) => { 
+    });
+}  
 
 function timerInteraction() {
     console.log('Timer Interaction Started');

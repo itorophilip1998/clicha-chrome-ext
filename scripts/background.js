@@ -37,8 +37,6 @@ function getTaskDetails(query){
     fetch(`${baseUrl}/task/${query.tk}?code=${query.cd}`)
         .then(response => response.json())
         .then((data) => {
-            console.log(data);
-
             if(data.status) {
                 let task = data.data;
                 let step = (task.task_type == 'journey') ? 1: 0;
@@ -50,7 +48,6 @@ function getTaskDetails(query){
                     });
                     let timer = (task.task_type == 'google_search') ? 25
                                 : (task.task_type == 'journey') ? 60 : 10;
-                    console.log(timer);
                     chrome.alarms.create('deactivat÷eTask', { delayInMinutes: timer } );
                 }); 
             }
@@ -72,12 +69,41 @@ function deactivateExtensionTask(){
 }
  
 function reloadExtension(){
-    console.log('Reload Extenion Refreshing ')
     chrome.runtime.reload()
 }
 
 chrome.runtime.onMessage.addListener( function(request, sender) {
-   
-    if(request.reload == "true") reloadExtension()
+    console.log('Message', request.trackForm);
+    if(request.reload == "true") return reloadExtension()
+    if (request.trackForm) return trackJourneyForm(request.trackForm)
     return true;
 });
+
+// Form Request
+function trackJourneyForm(link){
+    console.log('Tracking')
+    chrome.webRequest.onSendHeaders.addListener(function(req) {
+        console.log(req.method, req.url, link); //&& req.url == link
+        if (req.method == "POST" ) { 
+                console.log('Background Sending Request');
+                getPageResponse(req);
+            }
+        },
+        {urls: ["<all_urls>"]},
+        ["requestHeaders"]
+    );
+}
+
+
+function getPageResponse(req){
+    chrome.webRequest.onHeadersReceived.addListener(function(res) {
+        console.log('Staus Code ',res.statusCode); 
+        if(res.method == "POST" && res.statusCode >= 200 && res.statusCode <= 204){
+            chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
+                chrome.tabs.sendMessage(tabs[0].id, { "form": true}, function(response) { 			}); 		
+            });
+        }
+    }, 
+    {urls: [req.url]},  
+    ["responseHeaders"] ); 
+}

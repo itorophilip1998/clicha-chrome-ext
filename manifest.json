@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Clisha App",
     "description": "Clisha app extention",
-    "version": "0.5",
+    "version": "0.6",
     "icons": {
         "16": "./images/icon16.png",
         "48": "./images/icon48.png",
@@ -58,6 +58,7 @@
         "alarms",
         "activeTab",
         "storage",
-        "notifications"
+        "notifications",
+        "webRequest"
     ]
 }
