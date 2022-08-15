@@ -83,8 +83,8 @@ chrome.runtime.onMessage.addListener( function(request, sender) {
 function trackJourneyForm(link){
     console.log('Tracking')
     chrome.webRequest.onSendHeaders.addListener(function(req) {
-        console.log(req.method, req.url, link); //&& req.url == link
-        if (req.method == "POST" ) { 
+        if (req.method == "POST" && req.url == link ||  req.url == link +'/') { 
+                // console.log(req.method, req.url, link); //&&÷ req.url == link
                 console.log('Background Sending Request');
                 getPageResponse(req);
             }
