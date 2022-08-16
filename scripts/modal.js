@@ -52,7 +52,7 @@ document.body.addEventListener( 'click', function ( e ) {
             handleDeactivateModal();
             setTimeout(() => {
                 window.location.href = 'https://clisha-client-user.netlify.app/dashboard/';
-            },4000)
+            },6000)
         }
 
     }  
