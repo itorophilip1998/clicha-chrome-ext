@@ -73,7 +73,6 @@ function reloadExtension(){
 }
 
 chrome.runtime.onMessage.addListener( function(request, sender) {
-    console.log('Message', request.trackForm);
     if(request.reload == "true") return reloadExtension()
     if (request.trackForm) return trackJourneyForm(request.trackForm)
     return true;
@@ -83,8 +82,8 @@ chrome.runtime.onMessage.addListener( function(request, sender) {
 function trackJourneyForm(link){
     console.log('Tracking')
     chrome.webRequest.onSendHeaders.addListener(function(req) {
+        console.log(req.method, req.url, link); 
         if (req.method == "POST" && req.url == link ||  req.url == link +'/') { 
-                // console.log(req.method, req.url, link); //&&÷ req.url == link
                 console.log('Background Sending Request');
                 getPageResponse(req);
             }
@@ -97,7 +96,7 @@ function trackJourneyForm(link){
 
 function getPageResponse(req){
     chrome.webRequest.onHeadersReceived.addListener(function(res) {
-        console.log('Staus Code ',res.statusCode); 
+        console.log('Staus Code ',res); 
         if(res.method == "POST" && res.statusCode >= 200 && res.statusCode <= 204){
             chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
                 chrome.tabs.sendMessage(tabs[0].id, { "form": true}, function(response) { 			}); 		

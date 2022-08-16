@@ -51,13 +51,13 @@ document.body.addEventListener( 'click', function ( e ) {
             showModal(2, { error: true, head: `You have clicked on the wrong answer! Please select another task to continue "`});
             handleDeactivateModal();
             setTimeout(() => {
-                window.location.href = 'https://clisha-stagging.netlify.app/dashboard/task';
+                window.location.href = 'https://clisha-client-user.netlify.app/dashboard/';
             },4000)
         }
 
     }  
 
-} ); 
+} );  
 
 function closeActiveModal(){
     // active_modal.classList.add("clisha_modal_close")  
