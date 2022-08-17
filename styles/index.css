@@ -62,9 +62,9 @@
 	position:fixed;
 	bottom:40px;
 	right:40px;
-	width:70px;
-	height:70px;
-  background-image: url('chrome-extension://hchmeojdknmlfngphlmnjncmcfaglhdn/images/circle.png');
+	width:60px;
+	height:60px;
+  background-image: url('chrome-extension://hchmeojdknmlfngphlmnjncmcfaglhdn/images/pointer.png');
   background-position: center;
 	/* background-color:rgba(250, 190, 26, 0.8) !important; */
 	color:#FFF; 
@@ -77,12 +77,11 @@
   z-index: 101 !important;
   cursor: pointer;
   font-family: 'Roboto', sans-serif  !important;
-  border: 1px solid #FFFFFF;
 }
 
 .clisha_float .floater{
-	/* margin-top:22px; */
-  background-image: url('chrome-extension://hchmeojdknmlfngphlmnjncmcfaglhdn/images/pointer.png');
+  /* background-image: url('chrome-extension://hchmeojdknmlfngphlmnjncmcfaglhdn/images/pointer.png');
+  background-position: center; */
 }
  
 .clisha-vid-tracker{
