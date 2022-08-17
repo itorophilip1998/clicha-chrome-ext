@@ -40,7 +40,9 @@
                 "templates/modal2.html",
                 "templates/interaction_timer.html",
                 "templates/interaction_multichoice.html",
-                "templates/journey_nextstep.html"
+                "templates/journey_nextstep.html",
+                "images/circle.png",
+                "images/pointer.png"
             ]
         }
     ],  

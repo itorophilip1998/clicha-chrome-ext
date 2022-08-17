@@ -50,7 +50,7 @@ document.body.addEventListener( 'click', function ( e ) {
         }else{
             showModal(2, { error: true, head: `You have clicked on the wrong answer! Please select another task to continue "`});
             handleDeactivateModal();
-            setTimeout(() => {
+            setTimeout(() => { 
                 window.location.href = 'https://clisha-client-user.netlify.app/dashboard/';
             },6000)
         }
