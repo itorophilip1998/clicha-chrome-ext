@@ -68,24 +68,26 @@ function showModal(open = 1, content = null){
                     let option1, option2, option3,option4, option5;
                     option1 = document.createElement('li');
                     option2 = document.createElement('li');
-
-                    option1.innerHTML = task.interaction.option1;
-                    option2.innerHTML = task.interaction.option2
-                    options.append(option1, option2) 
-                    if(task.interaction.option3) { 
-                        option3 = document.createElement('li');
-                        option3.innerHTML = task.interaction.option3;
-                        options.appendChild(option3)
-                    }
-                    if(task.interaction.option4){ 
-                        option4 = document.createElement('li');
-                        option4.innerHTML = task.interaction.option4;
-                        options.appendChild(option4);
-                    }
-                    if(task.interaction.option5){ 
-                        option5 = document.createElement('li');
-                        option5.innerHTML = task.interaction.option5;
-                        options.appendChild(option5)
+ 
+                    if(task.interaction) {
+                        option1.innerHTML = task.interaction.option1;
+                        option2.innerHTML = task.interaction.option2
+                        options.append(option1, option2) 
+                        if(task.interaction.option3) { 
+                            option3 = document.createElement('li');
+                            option3.innerHTML = task.interaction.option3;
+                            options.appendChild(option3)
+                        }
+                        if(task.interaction.option4){ 
+                            option4 = document.createElement('li');
+                            option4.innerHTML = task.interaction.option4;
+                            options.appendChild(option4);
+                        }
+                        if(task.interaction.option5){ 
+                            option5 = document.createElement('li');
+                            option5.innerHTML = task.interaction.option5;
+                            options.appendChild(option5)
+                        }
                     }
                     
                 }
@@ -164,7 +166,7 @@ function activateJourneyTask() {
         }
 
         if(currentJourney.link_type == "content"){
-            type = "Please go through the page  to attempt the question below. You can click on the answer button to answer it";  
+            type = "Please Read the question below. You will find the answer on this Page! For answering it click on the button in the bottom right hand corner.";  
             question = currentJourney.step_interaction.question
             multiChoiceJourney()
         }
