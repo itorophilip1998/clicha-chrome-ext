@@ -64,7 +64,6 @@
 	right:40px;
 	width:60px;
 	height:60px;
-  background-image: url('chrome-extension://hchmeojdknmlfngphlmnjncmcfaglhdn/images/pointer.png');
   background-position: center;
 	/* background-color:rgba(250, 190, 26, 0.8) !important; */
 	color:#FFF; 
@@ -78,7 +77,13 @@
   cursor: pointer;
   font-family: 'Roboto', sans-serif  !important;
 }
-
+.clisha_float{
+  background-image: url('https://i.ibb.co/q0r0Dgw/pointer-1.png');
+}
+.clisha-vid-tracker {
+  background-image: url('https://i.ibb.co/1LryJPj/layer-circle.png');
+  background-position: center;
+} 
 .clisha_float .floater{
   /* background-image: url('chrome-extension://hchmeojdknmlfngphlmnjncmcfaglhdn/images/pointer.png');
   background-position: center; */
@@ -161,6 +166,8 @@
   border-radius: 50% !important;
   float: right;
   cursor: pointer;
+  border: none !important;
+  padding: 4px !important;
 }
 .closeIcon:hover{
   opacity: 90%;
@@ -173,7 +180,7 @@
   padding: 10px;
   width: 140px;
   height: 36px;
-  font-size: 14px;
+  font-size: 14px; 
   line-height: 15px !important;
   cursor: pointer;
   color:white; 
@@ -212,7 +219,6 @@
 .clisha_modal_content h5 font{
   font-size: 22px !important;;
 }
-
 .clisha_modal_content  p {
   margin-top: 0;
   margin-bottom: 16px;
@@ -228,9 +234,11 @@
   color: white !important;
   list-style-type: none;
   font-family: 'Roboto', sans-serif  !important;
+  font-weight: 500;
 }
 .clisha_modal_content .task-options .option{
   opacity: 1  !important;
+  font-weight: 500;
 }
 .clisha_modal_content .task-options .option::marker{
   display: none;
@@ -248,6 +256,7 @@
   color: white  !important;
   font-family: 'Roboto', sans-serif  !important;
   position: relative;
+  font-weight: 500;
 }
 input[type='radio']:checked, input[type='radio']:not(:checked) {
   visibility: visible !important;
