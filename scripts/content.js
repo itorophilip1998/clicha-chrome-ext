@@ -15,6 +15,7 @@ chrome.storage.sync.get(null, (item) => {
         if (task.task_type == "journey") activateJourneyTask()
     } 
 });
+
 // Sync Task with Backround 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
     if(message.form == true) return handleNextJourney()

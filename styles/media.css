@@ -15,6 +15,8 @@
     z-index: 101 !important;
     cursor: pointer;
     font-family: 'Roboto', sans-serif  !important;
+    background-image: url('https://i.ibb.co/1LryJPj/layer-circle.png');
+    background-position: center;
 }
  
 .clisha-vid-tracker{
