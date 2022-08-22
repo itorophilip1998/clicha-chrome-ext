@@ -16,7 +16,7 @@
                 "./scripts/content.js",
                 "./scripts/modal.js"
             ],
-            "css": [
+            "css": [ 
                 "./styles/index.css"
             ],
             "run_at": "document_end"

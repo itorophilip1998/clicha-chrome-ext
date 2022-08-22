@@ -80,7 +80,7 @@ chrome.runtime.onMessage.addListener( function(request, sender) {
 
 // Form Request
 function trackJourneyForm(link){
-    console.log('Tracking')
+    console.log('Tracking Start')
     chrome.webRequest.onSendHeaders.addListener(function(req) {
             let options = ['POST', 'PUT', 'PATCH']
             if (options.includes(req.method) && req.url == link ||  req.url == link +'/') { 

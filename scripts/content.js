@@ -130,11 +130,12 @@ function activateGoogleSearch(){
             if(task.interactionId && task.interaction && task.interaction.interaction_type == 'multichoice' || task.interaction.interaction_type == 'multistep'){
                 showModal(1, {
                     head: `Great! Please read the question below and click on the answer button to answer it `,
-                    question: task.interaction.question
+                    question: (task.interaction) ? task.interaction.question : ''
                 });
                 multiChoiceInteraction()
+                 
             } else{
-                showModal(1, {head: `You have clicked on the right page! Please interact with this page until the timer went down `});
+                showModal(1, { head: `You have clicked on the right page! Please interact with this page until the timer went down `});
                 timerInteraction()
             }
         }else {
