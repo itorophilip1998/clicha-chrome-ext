@@ -1,5 +1,5 @@
 
-console.log('Modal Extension Loaded')
+// console.log('Modal Extension Loaded');
 document.body.addEventListener( 'click', function ( e ) {
     // console.log('Modal Event ',e.target.id);
     if(e.target && e.target.id == 'clisha_close-primary'){
@@ -51,7 +51,7 @@ document.body.addEventListener( 'click', function ( e ) {
             showModal(2, { error: true, head: `You have clicked on the wrong answer! Please select another task to continue "`});
             handleDeactivateModal();
             setTimeout(() => { 
-                window.location.href = 'https://clisha-client-user.netlify.app/dashboard/';
+                window.location.href = `${dashboardUrl}`;
             },6000)
         }
 
@@ -65,7 +65,6 @@ function closeActiveModal(){
 }
 
 function handleDeactivateModal() {
-    console.log('Deactivating Task from Modal')
     chrome.storage.sync.clear(function() {
         chrome.runtime.sendMessage( { reload: 'true' }, (response) => {  
             // active_modal.classList.add("clisha_modal_close")  
@@ -185,7 +184,6 @@ function getDuration() {
     watched.resize(duration,0)
     sum = watched.reduce(function(acc, val) {return acc + val;}, 0);
     duration = parseInt(roundUp(vid.duration,1));
-    console.log(sum + " Resizing arrary to " + duration + " seconds.");
 }
 
 function formatSeconds(dur){

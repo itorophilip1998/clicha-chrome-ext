@@ -1,6 +1,8 @@
 console.log("Extention Started Successfully");
 
-const baseUrl = 'https://clisha-client-server.herokuapp.com/api';
+const mode = 'DEVELOPMENT';
+const baseUrl = (mode == 'CLIENT') ? 'https://clisha-client-server.herokuapp.com/api'
+                    : 'https://clisha-dev-server.herokuapp.com/api' ;
 
 chrome.tabs.onActivated.addListener( function(activeInfo){
     setTimeout(()=> {

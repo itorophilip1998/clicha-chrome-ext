@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "Clisha App",
+    "name": "Clisha Development",
     "description": "Clisha app extention",
     "version": "0.6",
     "icons": {
@@ -12,7 +12,6 @@
         {
             "matches": [  "<all_urls>" ], 
             "js": [
-                "./scripts/jquery351.js",
                 "./scripts/content.js",
                 "./scripts/modal.js"
             ],
@@ -30,7 +29,7 @@
     ],
 
     "background":{
-        "service_worker":"./scripts/background.js"
+        "service_worker": "./scripts/background.js"
     },
 
     "web_accessible_resources": [

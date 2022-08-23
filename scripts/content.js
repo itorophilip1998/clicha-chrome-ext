@@ -1,9 +1,8 @@
-// const config = require('./config');
-import config from './config';
-
 // Global Variable
-var  dashboardUrl = config.dashboardUrl,
-    task,     step = null, 
+const mode = 'DEVELOPMENT';
+const  dashboardUrl = (mode == 'CLIENT') ? 'https://clisha-client-user.netlify.app/dashboard/'
+        : 'https://clisha-dev-user.netlify.app/dashboard/';
+var task,     step = null, 
     active_modal,
     currentJourney = {};
 var domain = window.location.href;
@@ -149,7 +148,7 @@ function activateGoogleSearch(){
   
 function activateJourneyTask() {
     console.log('Journey Task Active');
-    console.log(`Journey Task Details, Total step is ${task.journey.length} on`, task.journey);
+    console.log(`Journey Task Details, Total step is ${task.journey.length} on `, );
     const currentUrl = window.location;
     let journeyTask = task.journey;
     currentJourney = journeyTask[step - 1];
