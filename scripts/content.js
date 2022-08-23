@@ -1,5 +1,8 @@
+// const config = require('./config');
+import config from './config';
+
 // Global Variable
-var  dashboardUrl = 'https://clisha-client-user.netlify.app/dashboard/',
+var  dashboardUrl = config.dashboardUrl,
     task,     step = null, 
     active_modal,
     currentJourney = {};

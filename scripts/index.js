@@ -1,7 +1,7 @@
 console.log('Popup Page Running');
+import config  from './config';
 
-
-let dashboardUrl = 'https://clisha-client-user.netlify.app/dashboard/',
+let dashboardUrl = config.dashboardUrl,
     popDetail =  document.querySelector("#popInfo"),
     taskActive =  document.querySelector("#taskActive"),
     taskInactive =  document.querySelector("#taskInactive"),
