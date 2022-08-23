@@ -1,6 +1,6 @@
 console.log('Popup Page Running');
 
-const mode = 'DEVELOPMENT';
+const mode = 'CLIENT';
 const  dashboardUrl = (mode == 'CLIENT') ? 'https://clisha-client-user.netlify.app/dashboard/'
         : 'https://clisha-dev-user.netlify.app/dashboard/';
 

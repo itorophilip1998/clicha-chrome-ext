@@ -1,6 +1,6 @@
 console.log("Extention Started Successfully");
 
-const mode = 'DEVELOPMENT';
+const mode = 'CLIENT';
 const baseUrl = (mode == 'CLIENT') ? 'https://clisha-client-server.herokuapp.com/api'
                     : 'https://clisha-dev-server.herokuapp.com/api' ;
 

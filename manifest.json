@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "Clisha Development",
+    "name": "Clisha Client",
     "description": "Clisha app extention",
     "version": "0.6",
     "icons": {

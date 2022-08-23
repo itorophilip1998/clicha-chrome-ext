@@ -1,5 +1,5 @@
 // Global Variable
-const mode = 'DEVELOPMENT';
+const mode = 'CLIENT';
 const  dashboardUrl = (mode == 'CLIENT') ? 'https://clisha-client-user.netlify.app/dashboard/'
         : 'https://clisha-dev-user.netlify.app/dashboard/';
 var task,     step = null, 
@@ -148,7 +148,7 @@ function activateGoogleSearch(){
   
 function activateJourneyTask() {
     console.log('Journey Task Active');
-    console.log(`Journey Task Details, Total step is ${task.journey.length} on `, );
+    console.log(`Journey Task Details, Total step is ${task.journey.length} on`, task.journey);
     const currentUrl = window.location;
     let journeyTask = task.journey;
     currentJourney = journeyTask[step - 1];
