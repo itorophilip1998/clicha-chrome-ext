@@ -8,26 +8,27 @@
         _watched = new Array(0);
         _reportedpercent = false;
 
+    var  mainUrl = window.parent.location;
+   
     chrome.storage.sync.get(null, (item) => {
         if (Object.keys(item).length) {
             videoTask = item.task;
             taskStep = item.step;
+            if(mainUrl.href) console.log('Parent ', mainUrl.href);
             if(videoTask.task_type == "journey")  startVideoTask();
         }
     });
 
     // Sync Task with Backround 
     chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
-        console.log('Video Message Received ')
         videoTask = message.task;
         taskStep = message.step; 
-        if (videoTask.task_type == "journey") startVideoTask();
+        if(videoTask.task_type == "journey") startVideoTask();
         return true; 
     });
 
     function startVideoTask(){
         videoJourney = videoTask.journey[taskStep - 1];
-        const currentUrl = location;
 
         if(videoJourney.link_type == "video"){
             video = document.getElementsByTagName("video")[0]
