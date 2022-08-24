@@ -1,5 +1,5 @@
 
-window.onload = function () {
+// window.onload = function () {
 
     var videoTask, taskStep, videoJourney;
     var video = null,   
@@ -18,9 +18,10 @@ window.onload = function () {
 
     // Sync Task with Backround 
     chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
-        task = message.task;
-        step = message.step;
-        if (task.task_type == "journey") startVideoTask();
+        console.log('Video Message Received ')
+        videoTask = message.task;
+        taskStep = message.step; 
+        if (videoTask.task_type == "journey") startVideoTask();
         return true; 
     });
 
@@ -105,7 +106,7 @@ window.onload = function () {
         window.parent.location = videoJourney.link+completed
     }
 
-}
+// }
 // video.onloadedmetadata = function() {
 //     console.log('Sane Thonng')
 //     Array.prototype.resize = function(newSize, defaultValue) {

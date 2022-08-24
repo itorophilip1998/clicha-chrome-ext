@@ -85,7 +85,7 @@ function trackJourneyForm(link){
     console.log('Tracking Start')
     chrome.webRequest.onSendHeaders.addListener(function(req) {
             let options = ['POST', 'PUT', 'PATCH']
-            if (options.includes(req.method) && req.url == link ||  req.url == link +'/') { 
+            if(options.includes(req.method) && req.url == link ||  req.url == link +'/') { 
                 getPageResponse(req);
             }
         },
@@ -98,11 +98,11 @@ function trackJourneyForm(link){
 function getPageResponse(req){
     chrome.webRequest.onHeadersReceived.addListener(function(res) {
         console.log('Staus Code ',res); 
-        // if(res.method == "POST" && res.statusCode >= 200 && res.statusCode <= 204){
+        if(res.method == "POST" && res.statusCode >= 200 && res.statusCode <= 204){
             chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
                 chrome.tabs.sendMessage(tabs[0].id, { "form": true}, function(response) { 			}); 		
             });
-        // }
+        }
     }, 
     {urls: [req.url]},  
     ["responseHeaders"] ); 
