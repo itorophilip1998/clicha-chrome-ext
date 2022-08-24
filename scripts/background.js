@@ -16,7 +16,7 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
                         let query = parseQueryParam(url[1]);
                         getTaskDetails(query) 
                     }else{
-                        // reloadExtension();
+                        reloadExtension();
                     }
                 });
             }
