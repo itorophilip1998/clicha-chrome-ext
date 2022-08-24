@@ -14,7 +14,7 @@
         if (Object.keys(item).length) {
             videoTask = item.task;
             taskStep = item.step;
-            if(mainUrl.href) console.log('Parent ', mainUrl.href);
+            // if(mainUrl.href) console.log('Parent ', mainUrl.href);
             if(videoTask.task_type == "journey")  startVideoTask();
         }
     });
