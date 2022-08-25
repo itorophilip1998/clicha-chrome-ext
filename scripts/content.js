@@ -31,7 +31,7 @@ chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
  
 
 // Task Functionalities
-function showModal(open = 1, content = null){
+function showModal(open = 1, content = {}){
    let template = `/templates/modal${open}.html`,
        modalId = `#clishaModelId${open}`;
        
@@ -62,16 +62,20 @@ function showModal(open = 1, content = null){
                     entry.appendChild(paramElem);
                 }
                 
+                // Add Question Interaction preview panel to modal
                 if(content.question){
+                    console.log(content.interaction);
                     let options = document.querySelector('#task-options-preview')
                         questionElem = document.createElement('h4');
                     questionElem.innerHTML = content.question;
                     entry.appendChild(questionElem);
+                    task.interaction = (content.interaction) ? content.interaction : task.interaction;
 
                     let option1, option2, option3,option4, option5;
                     option1 = document.createElement('li');
-                    option2 = document.createElement('li');
- 
+                    option2 = document.createElement('li'); 
+                   
+
                     if(task.interaction) {
                         option1.innerHTML = task.interaction.option1;
                         option2.innerHTML = task.interaction.option2
@@ -134,6 +138,7 @@ function activateGoogleSearch(){
                     head: `Great! Please read the question below and click on the answer button to answer it `,
                     question: (task.interaction) ? task.interaction.question : ''
                 });
+
                 multiChoiceInteraction()
                  
             } else{
@@ -154,9 +159,10 @@ function activateJourneyTask() {
     currentJourney = journeyTask[step - 1];
     
     if(currentUrl.href.includes('completed=vid') ) return handleNextJourney()
+    // 
     if(currentUrl.href.match(currentJourney.link) || currentJourney.link.includes(currentUrl.href)){
         let start = (step == 1) ? "Great! Let's go," : (step == task.journey.length) ? "Great! Almost done," : "Let's continue";
-        let type =  "", question = null; 
+        let type =  "", question = null, interaction = null; 
 
         if(currentJourney.link_type == "video") {
              type = "Kindly watch the video on this page. Watch the complete video to complete this step. Thanks ";
@@ -171,10 +177,12 @@ function activateJourneyTask() {
 
         if(currentJourney.link_type == "content"){
             type = "Please Read the question below. You will find the answer on this Page! For answering it click on the button in the bottom right hand corner.";  
-            question = currentJourney.step_interaction.question
+            question = currentJourney.step_interaction.question;
+            interaction = currentJourney.step_interaction;
             multiChoiceJourney()
         }
-        return  showModal(1, { step,  head: start, body: type, question })
+        console.log(question, interaction);
+        return  showModal(1, { step,  head: start, body: type, question, interaction })
 
     }else{
         showModal(2, { error: true,step,  head: `You have clicked on the wrong page! Please visit "${currentJourney.link}" to continue.`});
@@ -296,8 +304,7 @@ function multiChoiceJourney() {
 }    
 
 function completeExtensionTask(){
-    chrome.storage.sync.clear(function() {
-    console.log('Task Deactivated');
+    chrome.storage.sync.clear(function() { 
     chrome.runtime.sendMessage( { reload: 'true' }, (response) => { console.log('Message Sent ') });
 
         window.location.href = `${dashboardUrl}reward?t=${task.id}&p=${task.points}`
