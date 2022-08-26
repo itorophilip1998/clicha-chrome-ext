@@ -30,9 +30,11 @@ function activateTask(task) {
     taskActive.style.display = "block"; 
     taskInactive.style.display = "none";
     taskId.innerHTML = `${task.task_code}`; 
+    taskPoint.innerHTML = `${task.points}`;
+    console.log(task)
+
     if(task.task_type == 'google_search'){
         document.querySelector('#clisha-task-search').style.display = 'block'; 
-        taskPoint.innerHTML = `${task.points}`;
         taskSeach.innerHTML = `${JSON.parse(task.google_search).search_phrase}`;
     }
 
