@@ -47,12 +47,12 @@ document.body.addEventListener( 'click', function ( e ) {
                 }
             },2000)
         }else{
-            showModal(2, { error: true, head: `You have clicked on the wrong answer! Please select another task to continue.`});
+            // showModal(2, { error: true, head: `You have clicked on the wrong answer! Please select another task to continue.`});
             
             setTimeout(() => {  
                 handleDeactivateModal();
                 window.location.href = `${dashboardUrl}reward?t=${task.id}&p=${task.points}&status=failed`;
-            },5000)
+            },3000)
         }
 
     }  
