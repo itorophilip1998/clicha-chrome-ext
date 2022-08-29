@@ -28,7 +28,6 @@ document.body.addEventListener( 'click', function ( e ) {
     
 
     if(e.target && e.target.id == 'clisha-submit-answer'){
-        console.log(task.interaction, currentJourney);
         let choice = document.querySelector('input[name="task-option"]:checked').value,
             answer= null;
         if (task.task_type == "google_search"){
@@ -36,7 +35,7 @@ document.body.addEventListener( 'click', function ( e ) {
         } else if(task.task_type == "journey"){
             answer = currentJourney.step_interaction.answer;
         }
-        // $('#clishaModelMulti').modal('hide');  
+          
         closeActiveModal()
         
         if(choice == answer){ 
@@ -48,11 +47,12 @@ document.body.addEventListener( 'click', function ( e ) {
                 }
             },2000)
         }else{
-            showModal(2, { error: true, head: `You have clicked on the wrong answer! Please select another task to continue "`});
-            handleDeactivateModal();
-            setTimeout(() => { 
-                window.location.href = `${dashboardUrl}`;
-            },6000)
+            showModal(2, { error: true, head: `You have clicked on the wrong answer! Please select another task to continue.`});
+            
+            setTimeout(() => {  
+                handleDeactivateModal();
+                window.location.href = `${dashboardUrl}reward?t=${task.id}&p=${task.points}&status=failed`;
+            },5000)
         }
 
     }  
@@ -67,8 +67,8 @@ function closeActiveModal(){
 function handleDeactivateModal() {
     chrome.storage.sync.clear(function() {
         chrome.runtime.sendMessage( { reload: 'true' }, (response) => {  
+            active_modal.classList.remove("clisha_modal_open");
             // active_modal.classList.add("clisha_modal_close")  
-            active_modal.classList.remove("clisha_modal_open")
             // if($('#clishaModelId1'))  $('#clishaModelId1').modal('hide');  
             // if($('#clishaModelId2'))  $('#clishaModelId2').modal('hide');  
         });

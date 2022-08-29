@@ -202,7 +202,7 @@ function parseQueryParam(url) {
 
 function initiateJourneyForm(link){
     chrome.runtime.sendMessage( 
-            { trackForm : link }, (response) => { 
+        { trackForm : link }, (response) => { 
     });
 }  
 
