@@ -32,17 +32,18 @@ document.body.addEventListener( 'click', function ( e ) {
             answer= null;
         if (task.task_type == "google_search"){
             answer = task.interaction.answer;
-        } else if(task.task_type == "journey"){
+        } else if(task.task_type == "journey" || task.task_type == "search_journey"){
             answer = currentJourney.step_interaction.answer;
         }
           
-        closeActiveModal()
-        
+        closeActiveModal();
+
+        console.log(choice == answer);
         if(choice == answer){ 
             setTimeout(() => { 
                 if (task.task_type == "google_search"){
                     completeExtensionTask(task);
-                } else if(task.task_type == "journey"){
+                } else if(task.task_type == "journey" || task.task_type == "search_journey" ){
                     handleNextJourney();
                 }
             },2000)
@@ -100,7 +101,7 @@ function prepareAnswer(){
             if( document.querySelector('#clisha-answer'))document.querySelector('#clisha-answer').style.display = "none"
             document.body.insertAdjacentHTML('beforeend', html);
             let step_info = document.querySelector('#next-step-info');
-            step_info.innerHTML = `When you are done, click on  ${task.journey[step].description} on this page to continue.`
+            step_info.innerHTML = `When you are done, click on  <span class="clisha_text_secondary"> ${task.journey[step].description} </span> on this page to continue.`
             active_modal = document.querySelector('#clishaModelNextStep')
             active_modal.classList.add("clisha_modal_open");
             

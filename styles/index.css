@@ -192,7 +192,7 @@
   cursor: pointer;
 }
 .clisha_modal_content a, .clisha_modal_content a:hover,
-.clisha_modal_content a.focus{
+.clisha_modal_content a.focus, .clisha_text_secondary {
   color: rgb(250, 190, 40) !important;
 }
 

@@ -18,7 +18,7 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
                     }else{
                         reloadExtension();
                     }
-                });
+                }); 
             }
         });   
     }, 3000)
@@ -41,20 +41,21 @@ function getTaskDetails(query){
         .then((data) => {
             if(data.status) {
                 let task = data.data;
-                let step = (task.task_type == 'journey') ? 1: 0;
+                let step = (task.task_type == 'journey') ? 1 : 0;
+
                 chrome.storage.sync.set({ "task": task, "step": step}, function(items){
-                    console.log('Task Activated', step,task);
-                    
+                    // console.log('Task Activated', step,task);
                     chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
                         chrome.tabs.sendMessage(tabs[0].id, { "task": task, "step": step}, function(response) { 			}); 		
                     });
+
                     let timer = (task.task_type == 'google_search') ? 25
-                                : (task.task_type == 'journey') ? 60 : 10;
-                    chrome.alarms.create('deactivat÷eTask', { delayInMinutes: timer } );
+                                : (task.task_type == 'journey' || task.task_type == 'search_journey') ? 60 : 10;
+                    chrome.alarms.create('deactivateTask', { delayInMinutes: timer } );
                 }); 
             }
         })
-        .catch(err => { console.error(err); throw err; } );
+        .catch(err => { ; throw err; } );
 }
 
 chrome.alarms.onAlarm.addListener(function(alarm) {
@@ -66,7 +67,7 @@ function deactivateExtensionTask(){
     chrome.storage.sync.clear(function() {
         reloadExtension()
         var error = chrome.runtime.lastError;
-        if (error) console.error(error); 
+        if (error) throw error
     });
 }
  
