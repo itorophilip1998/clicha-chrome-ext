@@ -90,7 +90,7 @@ function activateJourneyTask() {
     if(currentUrl.href.includes('completed=vid') ) return handleNextJourney()
     // 
     if(currentUrl.href.match(currentJourney.link) || currentJourney.link.includes(currentUrl.href)){
-       runJourneyInteraction();
+        runJourneyInteraction();
     }else{
         showModal(2, { error: true,step,  head: `You have clicked on the wrong page! Please visit "${currentJourney.link}" to continue.`});
     }
@@ -101,11 +101,9 @@ function  activateSearchJourneyTask(){
     currentJourney = task.journey[0];
     if(step == 0 && document.referrer == 'https://www.google.com/' && 
         currentUrl.href.match(currentJourney.link) || currentJourney.link.includes(currentUrl.href)){
-        console.log('Activate First Journey Task', currentJourney);
         step = 1;
         runJourneyInteraction()
     }else if(step > 1){
-        console.log('Run Journey Step');
         runJourneyInteraction();
     }else {
         showModal(2, { error: true, head: `You have clicked on the wrong page! Please go back to Google search result and click on  "${clisha_search.title}"`});
