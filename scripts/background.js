@@ -6,26 +6,26 @@ const baseUrl = (mode == 'CLIENT') ? 'https://clisha-client-server.herokuapp.com
 
 chrome.tabs.onActivated.addListener( function(activeInfo){
     console.log('Tab Clicked, Starting ......')
-    setTimeout(()=> {
-        chrome.tabs.get(activeInfo.tabId, function(tab){
-            url = (tab && tab.pendingUrl) ? tab.pendingUrl : false;
-            console.log('Url ',url);
+    chrome.tabs.get(activeInfo.tabId, function(tab){
+        url = (tab && tab.pendingUrl) ? tab.pendingUrl : false;
+        console.log('Url ',url, tab);
 
-            if(url && url.includes('tk=') && url.includes('cd=')){
-                chrome.storage.sync.get('task', (item) =>{
-                    url = url.split('?');
+        if(url && url.includes('tk=') && url.includes('cd=')){
+            chrome.storage.sync.get('task', (item) =>{
+                url = url.split('?');
 
-                    if( Object.keys(item).length == 0 && Array.isArray(url) 
-                        && url.length > 0) {
-                        let query = parseQueryParam(url[1]);
-                        getTaskDetails(query) 
-                    }else{
-                        reloadExtension();
-                    }
-                }); 
-            }
-        });   
-    }, 2000)
+                if( Object.keys(item).length == 0 && Array.isArray(url) 
+                    && url.length > 0) {
+                    let query = parseQueryParam(url[1]);
+                    getTaskDetails(query) 
+                }else{
+                    reloadExtension();
+                }
+            }); 
+        }
+    });   
+    // setTimeout(()=> {
+    // }, 2000)
 });
 
 

@@ -41,8 +41,7 @@ function activateTask(task) {
     }
 
     if(task.task_type == 'journey' || task.task_type == "search_journey" &&  step >= 1){
-        currentJourney = task.journey[step - 1];
-        console.log(currentJourney);
+        currentJourney = task.journey[step - 1]; console.log(currentJourney);
         document.querySelector('#clisha-task-step').style.display = 'block'; 
         document.querySelector('#clisha-task-detail').style.display = 'block'; 
         taskStep.innerHTML = `Step ${step} of ${task.journey.length}`;
