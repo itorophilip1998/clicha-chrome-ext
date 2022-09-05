@@ -5,12 +5,17 @@ const baseUrl = (mode == 'CLIENT') ? 'https://clisha-client-server.herokuapp.com
                     : 'https://clisha-dev-server.herokuapp.com/api' ;
 
 chrome.tabs.onActivated.addListener( function(activeInfo){
+    console.log('Tab Clicked, Starting ......')
     setTimeout(()=> {
         chrome.tabs.get(activeInfo.tabId, function(tab){
-            url = (tab && tab.url) ? tab.url : false;
+            url = (tab && tab.pendingUrl) ? tab.pendingUrl : false;
+            console.log('Url ',url);
+
             if(url && url.includes('tk=') && url.includes('cd=')){
+                console.log('URL exist');
                 chrome.storage.sync.get('task', (item) =>{
                     url = url.split('?');
+                    
                     if( Object.keys(item).length == 0 && Array.isArray(url) 
                         && url.length > 0) {
                         let query = parseQueryParam(url[1]);
@@ -21,7 +26,7 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
                 }); 
             }
         });   
-    }, 3000)
+    }, 2000)
 });
 
 
@@ -83,7 +88,6 @@ chrome.runtime.onMessage.addListener( function(request, sender) {
 
 // Form Request
 function trackJourneyForm(link){
-    console.log('Tracking Start')
     chrome.webRequest.onSendHeaders.addListener(function(req) {
             let options = ['POST', 'PUT', 'PATCH']
             if(options.includes(req.method) && req.url == link ||  req.url == link +'/') { 

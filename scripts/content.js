@@ -129,9 +129,9 @@ function runJourneyInteraction(){
         type = "Please Read the question below. You will find the answer on this Page! For answering it click on the button in the bottom right hand corner.";  
         question = currentJourney.step_interaction.question;
         interaction = currentJourney.step_interaction;
-        multiChoiceJourney()
+        multiChoiceJourney();
     }
-    console.log(question, interaction);
+    // console.log(question, interaction);
     return  showModal(1, { step,  head: start, body: type, question, interaction });
 }
 
