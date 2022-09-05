@@ -12,10 +12,9 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
             console.log('Url ',url);
 
             if(url && url.includes('tk=') && url.includes('cd=')){
-                console.log('URL exist');
                 chrome.storage.sync.get('task', (item) =>{
                     url = url.split('?');
-                    
+
                     if( Object.keys(item).length == 0 && Array.isArray(url) 
                         && url.length > 0) {
                         let query = parseQueryParam(url[1]);

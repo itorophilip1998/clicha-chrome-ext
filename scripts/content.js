@@ -25,7 +25,7 @@ chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
     if(message.form == true) return handleNextJourney()
     task = message.task;
     step = message.step;
-    if (task.task_type == "google_search") activateGoogleSearch()
+    if (task.task_type == "google_search" || task.task_type == "search_journey") activateGoogleSearch()
     if (task.task_type == "journey") activateJourneyTask()
     // if(message.complete) handleNextJourney();
     return true; 
