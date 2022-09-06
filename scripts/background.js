@@ -7,8 +7,9 @@ const baseUrl = (mode == 'CLIENT') ? 'https://clisha-client-server.herokuapp.com
 chrome.tabs.onActivated.addListener( function(activeInfo){
     console.log('Tab Clicked, Starting ......')
     chrome.tabs.get(activeInfo.tabId, function(tab){
-        url = (tab && tab.pendingUrl) ? tab.pendingUrl : false;
-        console.log('Url ',url, tab);
+        url = (tab && tab.pendingUrl) ? tab.pendingUrl :
+            (tab && tab.url) ? tab.url : false;
+        // console.log('Url ',url, tab);
 
         if(url && url.includes('tk=') && url.includes('cd=')){
             chrome.storage.sync.get('task', (item) =>{
@@ -37,7 +38,7 @@ function parseQueryParam(url) {
         query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
     }
     return query;
-}  
+}   
 
 function getTaskDetails(query){
     fetch(`${baseUrl}/task/${query.tk}?code=${query.cd}`)

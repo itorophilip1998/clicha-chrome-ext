@@ -39,7 +39,7 @@ function activateTask(task) {
         document.querySelector('#clisha-task-search').style.display = 'block'; 
         taskSeach.innerHTML = `${JSON.parse(task.google_search).search_phrase}`;
     }
-
+ 
     if(task.task_type == 'journey' || task.task_type == "search_journey" &&  step >= 1){
         currentJourney = task.journey[step - 1]; console.log(currentJourney);
         document.querySelector('#clisha-task-step').style.display = 'block'; 
