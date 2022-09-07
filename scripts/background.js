@@ -4,6 +4,7 @@ const mode = 'DEVELOPMENT';
 const baseUrl = (mode == 'CLIENT') ? 'https://clisha-client-server.herokuapp.com/api'
                     : 'https://clisha-dev-server.herokuapp.com/api' ;
 
+var formTracker = null, responseTracker = null;
 chrome.tabs.onActivated.addListener( function(activeInfo){
     console.log('Tab Clicked, Starting ......')
     chrome.tabs.get(activeInfo.tabId, function(tab){
@@ -14,7 +15,6 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
         if(url && url.includes('tk=') && url.includes('cd=')){
             chrome.storage.sync.get('task', (item) =>{
                 url = url.split('?');
-
                 if( Object.keys(item).length == 0 && Array.isArray(url) 
                     && url.length > 0) {
                     let query = parseQueryParam(url[1]);
@@ -69,6 +69,8 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 });
  
 function deactivateExtensionTask(){
+    chrome.webRequest.onSendHeaders.removeListener(formTracker);
+    chrome.webRequest.onSendHeaders.removeListener(responseTracker); 
     chrome.storage.sync.clear(function() {
         reloadExtension()
         var error = chrome.runtime.lastError;
@@ -88,7 +90,7 @@ chrome.runtime.onMessage.addListener( function(request, sender) {
 
 // Form Request
 function trackJourneyForm(link){
-    chrome.webRequest.onSendHeaders.addListener(function(req) {
+    formTracker = chrome.webRequest.onSendHeaders.addListener(function(req) {
             let options = ['POST', 'PUT', 'PATCH']
             if(options.includes(req.method) && req.url == link ||  req.url == link +'/') { 
                 getPageResponse(req);
@@ -101,8 +103,7 @@ function trackJourneyForm(link){
 
 
 function getPageResponse(req){
-    chrome.webRequest.onHeadersReceived.addListener(function(res) {
-        console.log('Staus Code ',res); 
+    responseTracker = chrome.webRequest.onHeadersReceived.addListener(function(res) {
         if(res.method == "POST" && res.statusCode >= 200 && res.statusCode <= 204){
             chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
                 chrome.tabs.sendMessage(tabs[0].id, { "form": true}, function(response) { 			}); 		
