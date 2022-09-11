@@ -4,6 +4,8 @@ const mode = 'CLIENT';
 const  dashboardUrl = (mode == 'CLIENT') ? 'https://clisha-client-user.netlify.app/dashboard/'
         : 'https://clisha-dev-user.netlify.app/dashboard/';
 
+var task,     step = null, currentJourney = {};
+
 var popDetail =  document.querySelector("#popInfo"),
     taskActive =  document.querySelector("#taskActive"),
     taskInactive =  document.querySelector("#taskInactive"),
@@ -12,9 +14,10 @@ var popDetail =  document.querySelector("#popInfo"),
 
     
 // Action on Popup 
-chrome.storage.sync.get('task', (item) => {
+chrome.storage.sync.get(null, (item) => {
     if (Object.keys(item).length) {
-        let task = item.task;
+        task = item.task;
+        step = item.step;
         activateTask(task);
         //  popDetail.innerHTML=`Task #${task.task_code} is currently active. <a href="#" id="clisha-deactivate">Click here</a>  to  deactivate the task `;
     }
@@ -30,17 +33,19 @@ function activateTask(task) {
     taskActive.style.display = "block"; 
     taskInactive.style.display = "none";
     taskId.innerHTML = `${task.task_code}`; 
-    if(task.task_type == 'google_search'){
+    taskPoint.innerHTML = `${task.points}`;
+
+    if(task.task_type == 'google_search' || task.task_type == "search_journey" &&  step == 0){
         document.querySelector('#clisha-task-search').style.display = 'block'; 
-        taskPoint.innerHTML = `${task.points}`;
         taskSeach.innerHTML = `${JSON.parse(task.google_search).search_phrase}`;
     }
-
-    if(task.task_type == 'journey'){
+ 
+    if(task.task_type == 'journey' || task.task_type == "search_journey" &&  step >= 1){
+        currentJourney = task.journey[step - 1]; console.log(currentJourney);
         document.querySelector('#clisha-task-step').style.display = 'block'; 
         document.querySelector('#clisha-task-detail').style.display = 'block'; 
-        taskStep.innerHTML = `Step 1 of ${task.journey.length}`;
-        taskDescription.innerHTML = 'Expectoo Developers';
+        taskStep.innerHTML = `Step ${step} of ${task.journey.length}`;
+        taskDescription.innerHTML = currentJourney.description;
     }
 }
 

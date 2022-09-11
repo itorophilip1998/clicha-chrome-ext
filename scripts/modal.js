@@ -28,31 +28,32 @@ document.body.addEventListener( 'click', function ( e ) {
     
 
     if(e.target && e.target.id == 'clisha-submit-answer'){
-        console.log(task.interaction, currentJourney);
         let choice = document.querySelector('input[name="task-option"]:checked').value,
             answer= null;
         if (task.task_type == "google_search"){
             answer = task.interaction.answer;
-        } else if(task.task_type == "journey"){
+        } else if(task.task_type == "journey" || task.task_type == "search_journey"){
             answer = currentJourney.step_interaction.answer;
         }
-        // $('#clishaModelMulti').modal('hide');  
-        closeActiveModal()
-        
+          
+        closeActiveModal();
+
+        console.log(choice == answer);
         if(choice == answer){ 
             setTimeout(() => { 
                 if (task.task_type == "google_search"){
                     completeExtensionTask(task);
-                } else if(task.task_type == "journey"){
+                } else if(task.task_type == "journey" || task.task_type == "search_journey" ){
                     handleNextJourney();
                 }
             },2000)
         }else{
-            showModal(2, { error: true, head: `You have clicked on the wrong answer! Please select another task to continue "`});
-            handleDeactivateModal();
-            setTimeout(() => { 
-                window.location.href = `${dashboardUrl}`;
-            },6000)
+            // showModal(2, { error: true, head: `You have clicked on the wrong answer! Please select another task to continue.`});
+            
+            setTimeout(() => {  
+                handleDeactivateModal();
+                window.location.href = `${dashboardUrl}reward?t=${task.id}&p=${task.points}&status=failed`;
+            },3000)
         }
 
     }  
@@ -67,8 +68,8 @@ function closeActiveModal(){
 function handleDeactivateModal() {
     chrome.storage.sync.clear(function() {
         chrome.runtime.sendMessage( { reload: 'true' }, (response) => {  
+            active_modal.classList.remove("clisha_modal_open");
             // active_modal.classList.add("clisha_modal_close")  
-            active_modal.classList.remove("clisha_modal_open")
             // if($('#clishaModelId1'))  $('#clishaModelId1').modal('hide');  
             // if($('#clishaModelId2'))  $('#clishaModelId2').modal('hide');  
         });
@@ -100,7 +101,7 @@ function prepareAnswer(){
             if( document.querySelector('#clisha-answer'))document.querySelector('#clisha-answer').style.display = "none"
             document.body.insertAdjacentHTML('beforeend', html);
             let step_info = document.querySelector('#next-step-info');
-            step_info.innerHTML = `When you are done, click on  ${task.journey[step].description} on this page to continue.`
+            step_info.innerHTML = `When you are done, click on  <span class="clisha_text_secondary"> ${task.journey[step].description} </span> on this page to continue.`
             active_modal = document.querySelector('#clishaModelNextStep')
             active_modal.classList.add("clisha_modal_open");
             

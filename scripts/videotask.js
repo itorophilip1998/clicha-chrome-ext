@@ -1,5 +1,5 @@
 
-window.onload = function () {
+// window.onload = function () {
 
     var videoTask, taskStep, videoJourney;
     var video = null,   
@@ -8,25 +8,27 @@ window.onload = function () {
         _watched = new Array(0);
         _reportedpercent = false;
 
+    var  mainUrl = window.parent.location;
+   
     chrome.storage.sync.get(null, (item) => {
         if (Object.keys(item).length) {
             videoTask = item.task;
             taskStep = item.step;
+            // if(mainUrl.href) console.log('Parent ', mainUrl.href);
             if(videoTask.task_type == "journey")  startVideoTask();
         }
     });
 
     // Sync Task with Backround 
     chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
-        task = message.task;
-        step = message.step;
-        if (task.task_type == "journey") startVideoTask();
+        videoTask = message.task;
+        taskStep = message.step; 
+        if(videoTask.task_type == "journey") startVideoTask();
         return true; 
     });
 
     function startVideoTask(){
         videoJourney = videoTask.journey[taskStep - 1];
-        const currentUrl = location;
 
         if(videoJourney.link_type == "video"){
             video = document.getElementsByTagName("video")[0]
@@ -105,7 +107,7 @@ window.onload = function () {
         window.parent.location = videoJourney.link+completed
     }
 
-}
+// }
 // video.onloadedmetadata = function() {
 //     console.log('Sane Thonng')
 //     Array.prototype.resize = function(newSize, defaultValue) {
