@@ -10,7 +10,6 @@ domain = domain.replace('http://', '').replace('https://', '').replace('www.', '
 
 // Run Task
 chrome.storage.sync.get(null, (item) => {
-    console.log(item);
     if (Object.keys(item).length) {
         task = item.task;
         step = item.step;
@@ -21,12 +20,11 @@ chrome.storage.sync.get(null, (item) => {
 
 // Sync Task with Backround 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
-   
     if(message.form == true) return handleNextJourney()
-    task = message.task;
-    step = message.step;
-    if (task.task_type == "google_search" || task.task_type == "search_journey") activateGoogleSearch()
-    if (task.task_type == "journey") activateJourneyTask()
+        task = message.task;
+        step = message.step;
+        if (task.task_type == "google_search" || task.task_type == "search_journey") activateGoogleSearch()
+        if (task.task_type == "journey") activateJourneyTask()
     // if(message.complete) handleNextJourney();
     return true; 
 });
@@ -98,9 +96,9 @@ function activateJourneyTask() {
 
 function  activateSearchJourneyTask(){
     const currentUrl = window.location;
-    currentJourney = task.journey[0];
+    firstJourney = task.journey[0];
     if(step == 0 && document.referrer == 'https://www.google.com/' && 
-        currentUrl.href.match(currentJourney.link) || currentJourney.link.includes(currentUrl.href)){
+        currentUrl.href.match(firstJourney.link) || firstJourney.link.includes(currentUrl.href)){
         step = 1;
         runJourneyInteraction()
     }else if(step > 1){
