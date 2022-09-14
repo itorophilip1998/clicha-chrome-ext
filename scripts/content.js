@@ -95,30 +95,32 @@ function activateJourneyTask() {
 }
 
 function  activateSearchJourneyTask(){
-    const currentUrl = window.location;
-    firstJourney = task.journey[0];
+    const currentUrl = window.location; 
+    currentJourney = task.journey[0];
     if(step == 0 && document.referrer == 'https://www.google.com/' && 
-        currentUrl.href.match(firstJourney.link) || firstJourney.link.includes(currentUrl.href)){
-        step = 1;
+        currentUrl.href.match(currentJourney.link) || currentJourney.link.includes(currentUrl.href)){
+        chrome.storage.sync.set(({ "step": step + 1 }));
         runJourneyInteraction()
-    }else if(step > 1){
-        runJourneyInteraction();
     }else {
-        showModal(2, { error: true, head: `You have clicked on the wrong page! Please go back to Google search result and click on  "${clisha_search.title}"`});
+        // showModal(2, { error: true, head: `You have clicked on the wrong page! Please go back to Google search result and click on  "${clisha_search.title}"`});
+    } 
+    if(step > 1){ 
+        currentJourney = task.journey[step - 1];
+        // runJourneyInteraction();
+        activateJourneyTask();
     }
 }
 
 function runJourneyInteraction(){
     let start = (step == 1) ? "Great! Let's go," : (step == task.journey.length) ? "Great! Almost done," : "Let's continue";
     let type =  "", question = null, interaction = null; 
-
     if(currentJourney.link_type == "video") {
          type = "Kindly watch the video on this page. Watch the complete video to complete this step. Thanks ";
         //  console.log('Video Journey', currentUrl.href); 
         //  setTimeout(() => { initiateJourneyVideo() }, 4 * 1000);  
     }
 
-    if(currentJourney.link_type == "form") {
+    if(currentJourney.link_type == "form") { 
         type = "Kindly fill the form on this page to complete this step. Thanks ";
         initiateJourneyForm(currentJourney.link); 
     }

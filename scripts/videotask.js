@@ -15,7 +15,7 @@
             videoTask = item.task;
             taskStep = item.step;
             // if(mainUrl.href) console.log('Parent ', mainUrl.href);
-            if(videoTask.task_type == "journey")  startVideoTask();
+            if(videoTask.task_type == "journey" || videoTask.task_type == "search_journey")  startVideoTask();
         }
     });
 
@@ -23,7 +23,7 @@
     chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
         videoTask = message.task;
         taskStep = message.step; 
-        if(videoTask.task_type == "journey") startVideoTask();
+        if(videoTask.task_type == "journey" || videoTask.task_type == "search_journey") startVideoTask();
         return true; 
     });
 
@@ -57,7 +57,6 @@
     }
 
     function getVideoDuration() {
-        console.log('Duration');
         // get the duration in seconds, rounding up, to size the array
         _duration = parseInt(roundUp(video.duration,1));
         
@@ -106,17 +105,3 @@
         let completed = (videoJourney.link.includes('?')) ? '&completed=vid' : '?completed=vid' ;
         window.parent.location = videoJourney.link+completed
     }
-
-// }
-// video.onloadedmetadata = function() {
-//     console.log('Sane Thonng')
-//     Array.prototype.resize = function(newSize, defaultValue) {
-//         while(newSize > this.length)
-//             this.push(defaultValue);
-//         this.length = newSize; 
-//     }
-
-//     video.addEventListener('timeupdate',timeupdate, false);
-
-//     getVideoDuration()
-// }
