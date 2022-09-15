@@ -28,11 +28,12 @@
     });
 
     function startVideoTask(){
+        console.log('Task Step',taskStep); 
         videoJourney = videoTask.journey[taskStep - 1];
 
-        if(videoJourney.link_type == "video"){
+        if(videoJourney && videoJourney.link_type == "video"){
             video = document.getElementsByTagName("video")[0]
-            console.log('Video FRAME API AT >>>>>>>>>>>>', window.location.href)
+            console.log('Video FRAME API AT >>>>>>>>>>>>', window.location.href);
             if(video){
                 // console.log('Can Create >>>>>>>>>>', video)
                 let trackerElem = document.createElement('div');
@@ -71,7 +72,7 @@
     function timeupdate() {
         currentTime = parseInt(video.currentTime);
         _watched[currentTime] = 1;
-        var percent = (_duration > 300) ? (_duration * .4): (_duration * .45);
+        var percent = (_duration > 200) ? (_duration * .4): (_duration * .90);
         // sum the value of the array (add up the "_watched" seconds)
         var sum = _watched.reduce(function(acc, val) {return acc + val;}, 0),
             percentage = 80;

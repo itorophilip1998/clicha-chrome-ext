@@ -100,15 +100,15 @@ function  activateSearchJourneyTask(){
     if(step == 0 && document.referrer == 'https://www.google.com/' && 
         currentUrl.href.match(currentJourney.link) || currentJourney.link.includes(currentUrl.href)){
         chrome.storage.sync.set(({ "step": step + 1 }));
+        step = 1;
         runJourneyInteraction()
-    }else {
-        // showModal(2, { error: true, head: `You have clicked on the wrong page! Please go back to Google search result and click on  "${clisha_search.title}"`});
-    } 
-    if(step > 1){ 
+    }else if(step > 1){ 
         currentJourney = task.journey[step - 1];
         // runJourneyInteraction();
         activateJourneyTask();
-    }
+    }else {
+        showModal(2, { error: true, head: `You have clicked on the wrong page! Please go back to Google search result and click on  "${clisha_search.title}"`});
+    } 
 }
 
 function runJourneyInteraction(){
@@ -261,7 +261,7 @@ function timerInteraction() {
 }    
   
 function multiChoiceInteraction() {
-    console.log('Multichoice Interaction Started');
+    // console.log('Multichoice Interaction Started');
     let multichoice = `/templates/interaction_multichoice.html`;
     fetch(chrome.runtime.getURL(multichoice))
     .then(r => r.text())

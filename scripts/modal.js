@@ -38,7 +38,6 @@ document.body.addEventListener( 'click', function ( e ) {
           
         closeActiveModal();
 
-        console.log(choice == answer);
         if(choice == answer){ 
             setTimeout(() => { 
                 if (task.task_type == "google_search"){

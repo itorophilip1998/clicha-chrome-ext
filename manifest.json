@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "Clisha Client",
+    "name": "Clisha Extension",
     "description": "Clisha app extention",
     "version": "0.7",
     "icons": {
@@ -58,7 +58,6 @@
         "alarms",
         "activeTab",
         "storage",
-        "notifications",
         "webRequest"
     ]
 }
