@@ -7,7 +7,7 @@
         _duration = 0,  watchPer, 
         _watched = new Array(0);
         _reportedpercent = false;
-
+ 
     var  mainUrl = window.parent.location;
    
     chrome.storage.sync.get(null, (item) => {
@@ -35,12 +35,12 @@
             video = document.getElementsByTagName("video")[0]
             console.log('Video FRAME API AT >>>>>>>>>>>>', window.location.href);
             if(video){
-                // console.log('Can Create >>>>>>>>>>', video)
+                console.log('Can Create >>>>>>>>>>', video)
                 let trackerElem = document.createElement('div');
                 trackerElem.classList.add('clisha-vid-tracker');  
                 trackerElem.innerHTML = `0%`;  //
                 document.body.append(trackerElem);
-
+ 
                 Array.prototype.resize = function(newSize, defaultValue) {
                     while(newSize > this.length)
                         this.push(defaultValue);
@@ -57,7 +57,7 @@
         }
     }
 
-    function getVideoDuration() {
+    function getVideoDuration() { 
         // get the duration in seconds, rounding up, to size the array
         _duration = parseInt(roundUp(video.duration,1));
         

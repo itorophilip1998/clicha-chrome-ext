@@ -79,8 +79,8 @@ function activateGoogleSearch(){
 } 
   
 function activateJourneyTask() {
-    console.log('Journey Task Active');
-    console.log(`Journey Task Details, Total step is ${task.journey.length} on`, task.journey);
+    // console.log('Journey Task Active');
+    // console.log(`Journey Task Details, Total step is ${task.journey.length} on`, task.journey);
     const currentUrl = window.location;
     let journeyTask = task.journey;
     currentJourney = journeyTask[step - 1];
@@ -96,22 +96,23 @@ function activateJourneyTask() {
 
 function  activateSearchJourneyTask(){
     const currentUrl = window.location; 
-    currentJourney = task.journey[0];
+    currentJourney = task.journey[0]; 
+    let clisha_search = JSON.parse(task.google_search);
     if(step == 0 && document.referrer == 'https://www.google.com/' && 
         currentUrl.href.match(currentJourney.link) || currentJourney.link.includes(currentUrl.href)){
         chrome.storage.sync.set(({ "step": step + 1 }));
         step = 1;
-        runJourneyInteraction()
+        activateJourneyTask()
     }else if(step > 1){ 
         currentJourney = task.journey[step - 1];
-        // runJourneyInteraction();
-        activateJourneyTask();
+        // runJourneyInteraction(); 
+        activateJourneyTask(); 
     }else {
         showModal(2, { error: true, head: `You have clicked on the wrong page! Please go back to Google search result and click on  "${clisha_search.title}"`});
     } 
 }
 
-function runJourneyInteraction(){
+function runJourneyInteraction(){ 
     let start = (step == 1) ? "Great! Let's go," : (step == task.journey.length) ? "Great! Almost done," : "Let's continue";
     let type =  "", question = null, interaction = null; 
     if(currentJourney.link_type == "video") {
