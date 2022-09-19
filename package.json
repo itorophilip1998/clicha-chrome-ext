@@ -10,7 +10,7 @@
     "clisha",
     "extention"
   ],
-  "author": "itoro philip",
+  "author": "Expectoo Developers",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2"
