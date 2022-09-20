@@ -119,9 +119,9 @@ function runJourneyInteraction(){
          type = "Kindly watch the video on this page. Watch the complete video to complete this step. Thanks ";
         //  console.log('Video Journey', currentUrl.href); 
         //  setTimeout(() => { initiateJourneyVideo() }, 4 * 1000);  
-    }
+    } 
 
-    if(currentJourney.link_type == "form") { 
+    if(currentJourney.link_type == "form") {  
         type = "Kindly fill the form on this page to complete this step. Thanks ";
         initiateJourneyForm(currentJourney.link); 
     }
@@ -227,6 +227,7 @@ function parseQueryParam(url) {
 
 
 function initiateJourneyForm(link){
+    console.log('Form');
     chrome.runtime.sendMessage( 
         { trackForm : link }, (response) => { 
     });

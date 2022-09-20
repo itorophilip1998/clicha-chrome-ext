@@ -6,7 +6,6 @@ const baseUrl = (mode == 'CLIENT') ? 'https://clisha-client-server.herokuapp.com
 
 var formTracker = null, responseTracker = null;
 chrome.tabs.onActivated.addListener( function(activeInfo){
-    console.log('Tab Clicked, Starting ......')
     chrome.tabs.get(activeInfo.tabId, function(tab){
         url = (tab && tab.pendingUrl) ? tab.pendingUrl :
             (tab && tab.url) ? tab.url : false;
@@ -90,9 +89,12 @@ chrome.runtime.onMessage.addListener( function(request, sender) {
 
 // Form Request
 function trackJourneyForm(link){
+    console.log('Tracking');
     formTracker = chrome.webRequest.onSendHeaders.addListener(function(req) {
+        console.log(req.method, req.url,link);
             let options = ['POST', 'PUT', 'PATCH']
             if(options.includes(req.method) && req.url == link ||  req.url == link +'/') { 
+                console.log('Form Submitted');
                 getPageResponse(req);
             }
         },
@@ -103,7 +105,9 @@ function trackJourneyForm(link){
 
 
 function getPageResponse(req){
+    console.log('Waiting for response')
     responseTracker = chrome.webRequest.onHeadersReceived.addListener(function(res) {
+        console.log('Messages REcived')
         if(res.method == "POST" && res.statusCode >= 200 && res.statusCode <= 204){
             chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
                 chrome.tabs.sendMessage(tabs[0].id, { "form": true}, function(response) { 			}); 		
