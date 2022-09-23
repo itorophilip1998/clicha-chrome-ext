@@ -15,6 +15,7 @@
             videoTask = item.task;
             taskStep = item.step;
             // if(mainUrl.href) console.log('Parent ', mainUrl.href);
+            if(videoTask.task_type == "search_journey" && taskStep == 0) taskStep = 1; 
             if(videoTask.task_type == "journey" || videoTask.task_type == "search_journey")  startVideoTask();
         }
     });
@@ -28,14 +29,13 @@
     });
 
     function startVideoTask(){
-        console.log('Task Step',taskStep); 
         videoJourney = videoTask.journey[taskStep - 1];
 
         if(videoJourney && videoJourney.link_type == "video"){
             video = document.getElementsByTagName("video")[0]
-            console.log('Video FRAME API AT >>>>>>>>>>>>', window.location.href);
+            console.log('Video FRAME API AT >>>>>>>>>>>>  ', window.location.href);
             if(video){
-                console.log('Can Create >>>>>>>>>>', video)
+                // console.log('Can Create >>>>>>>>>>', video)
                 let trackerElem = document.createElement('div');
                 trackerElem.classList.add('clisha-vid-tracker');  
                 trackerElem.innerHTML = `0%`;  //
@@ -83,7 +83,7 @@
             tracker.innerHTML = `${roundUp(watchPer,1)}%`;
         }else{
                 // Remove old ones
-                document.querySelectorAll('div.clisha-vid-tracker').forEach(function(el) {
+            document.querySelectorAll('div.clisha-vid-tracker').forEach(function(el) {
                 el.style.display = 'none';
             });
             // Add Current tracker
