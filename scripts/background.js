@@ -91,11 +91,11 @@ chrome.runtime.onMessage.addListener( function(request, sender) {
 function trackJourneyForm(link){
     console.log('Tracking');
     formTracker = chrome.webRequest.onSendHeaders.addListener(function(req) {
-       
+            var domain = link.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
             let options = ['POST', 'PUT', 'PATCH'],
                 links = [link , link +'/'];
-            console.log(req.method, req.url, links.includes(req.url));
-            if(options.includes(req.method) && links.includes(req.url)) { 
+            // console.log(req.method,  req.url.includes(domain),  req.url);
+            if(options.includes(req.method) && links.includes(req.url)  || req.url.includes(domain[0])) { 
                 console.log('Form Submitted');
                 getPageResponse(req);
             }
@@ -103,7 +103,7 @@ function trackJourneyForm(link){
         {urls: ["<all_urls>"]},
         ["requestHeaders"]
     ); 
-}
+} 
 
 
 function getPageResponse(req){
@@ -119,3 +119,30 @@ function getPageResponse(req){
     {urls: [req.url]},  
     ["responseHeaders"] ); 
 }
+
+chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
+      if (message == 'version') {
+        sendResponse({
+          type: 'success',
+          version: '0.1.0'
+        });
+        return true;
+      }
+      const sources = message.sources;
+      const tab = sender.tab;
+      chrome.desktopCapture.chooseDesktopMedia(sources, tab, streamId => {
+        if (!streamId) {
+          sendResponse({
+            type: 'error',
+            message: 'Failed to get stream ID'
+          });
+        } else {
+          sendResponse({
+            type: 'success',
+            streamId: streamId
+          });
+        }
+      });
+      return true;
+    }
+  ); 
