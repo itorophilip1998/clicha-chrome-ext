@@ -109,7 +109,7 @@ function trackJourneyForm(link){
 function getPageResponse(req){
     console.log('Waiting for response')
     responseTracker = chrome.webRequest.onHeadersReceived.addListener(function(res) {
-        console.log('Messages REcived')
+        // console.log('Messages REcived')
         if(res.method == "POST" && res.statusCode >= 200 && res.statusCode <= 204){
             chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
                 chrome.tabs.sendMessage(tabs[0].id, { "form": true}, function(response) { 			}); 		

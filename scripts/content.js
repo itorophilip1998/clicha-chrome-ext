@@ -98,8 +98,11 @@ function  activateSearchJourneyTask(){
     const currentUrl = window.location; 
     currentJourney = task.journey[0]; 
     let clisha_search = JSON.parse(task.google_search);
+    let links = [currentJourney.link, currentJourney.link+'?completed=vid' ];
+
+    console.log( currentUrl.href.includes(currentJourney.link) )
     if(step == 0 && document.referrer == 'https://www.google.com/' && 
-        currentUrl.href.match(currentJourney.link) || currentJourney.link.includes(currentUrl.href)){
+        currentUrl.href.match(currentJourney.link) || links.includes(currentUrl.href)){
         chrome.storage.sync.set(({ "step": step + 1 }));
         step = 1;
         activateJourneyTask()
