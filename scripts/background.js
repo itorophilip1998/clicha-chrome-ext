@@ -1,6 +1,6 @@
 console.log("Extention Started Successfully");
 
-const mode = 'CLIENT';
+const mode = 'DEVELOPMENT';
 const baseUrl = (mode == 'CLIENT') ? 'https://clisha-client-server.herokuapp.com/api'
                     : 'https://clisha-dev-server.herokuapp.com/api' ;
 
@@ -9,7 +9,7 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
     chrome.tabs.get(activeInfo.tabId, function(tab){
         url = (tab && tab.pendingUrl) ? tab.pendingUrl :
             (tab && tab.url) ? tab.url : false;
-        // console.log('Url ',url, tab);
+        console.log('Url ',url, tab);
 
         if(url && url.includes('tk=') && url.includes('cd=')){
             chrome.storage.sync.get('task', (item) =>{
@@ -124,7 +124,7 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
       if (message == 'version') {
         sendResponse({
           type: 'success',
-          version: '0.1.0'
+          version: '0.7.3'
         });
         return true;
       }

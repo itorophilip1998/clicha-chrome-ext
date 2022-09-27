@@ -1,5 +1,5 @@
 // Global Variable
-const mode = 'CLIENT';
+const mode = 'DEVELOPMENT';
 const  dashboardUrl = (mode == 'CLIENT') ? 'https://clisha-client-user.netlify.app/dashboard/'
         : 'https://clisha-dev-user.netlify.app/dashboard/';
 var task,     step = null, 
