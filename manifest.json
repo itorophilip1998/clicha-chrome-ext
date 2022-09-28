@@ -27,7 +27,7 @@
             "run_at": "document_end"
         }
     ],
-
+ 
     "background":{
         "service_worker": "./scripts/background.js"
     },
@@ -44,6 +44,10 @@
             ]
         }
     ],  
+
+    "externally_connectable": {
+        "matches": ["*://localhost/*", "*://google/*"]
+    },
 
     "action": {
         "default_title": "Clisha App",

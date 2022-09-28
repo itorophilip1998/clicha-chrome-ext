@@ -117,7 +117,7 @@ function getPageResponse(req){
 }
 
 chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
-        console.log('Mesage Recieveed', message)
+    console.log('Mesage Recieveed', message)
       if (message == 'clisha') {
         sendResponse({
           type: 'success',
@@ -142,4 +142,4 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
       });
       return true;
     }
-  ); 
+); 
