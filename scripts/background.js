@@ -9,8 +9,6 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
     chrome.tabs.get(activeInfo.tabId, function(tab){
         url = (tab && tab.pendingUrl) ? tab.pendingUrl :
             (tab && tab.url) ? tab.url : false;
-        // console.log('Url ',url, tab);
-
         if(url && url.includes('tk=') && url.includes('cd=')){
             chrome.storage.sync.get('task', (item) =>{
                 url = url.split('?');
@@ -24,8 +22,6 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
             }); 
         }
     });   
-    // setTimeout(()=> {
-    // }, 2000)
 });
 
 
@@ -88,8 +84,8 @@ chrome.runtime.onMessage.addListener( function(request, sender) {
 });
 
 // Form Request
-function trackJourneyForm(link){
-    console.log('Tracking');
+function trackJourneyForm(link){ 
+    // console.log('Tracking');
     formTracker = chrome.webRequest.onSendHeaders.addListener(function(req) {
             var domain = link.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
             let options = ['POST', 'PUT', 'PATCH'],
@@ -107,7 +103,7 @@ function trackJourneyForm(link){
 
 
 function getPageResponse(req){
-    console.log('Waiting for response')
+    // console.log('Waiting for response')
     responseTracker = chrome.webRequest.onHeadersReceived.addListener(function(res) {
         // console.log('Messages REcived')
         if(res.method == "POST" && res.statusCode >= 200 && res.statusCode <= 204){
@@ -124,7 +120,7 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
       if (message == 'version') {
         sendResponse({
           type: 'success',
-          version: '0.1.0'
+          version: '0.7.4'
         });
         return true;
       }
