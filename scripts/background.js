@@ -117,7 +117,8 @@ function getPageResponse(req){
 }
 
 chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
-      if (message == 'version') {
+        console.log('Mesage Recieveed', message)
+      if (message == 'clisha') {
         sendResponse({
           type: 'success',
           version: '0.7.4'

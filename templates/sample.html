@@ -135,6 +135,21 @@
                 }
             }, 1000);
 
+
+            function confirmClishaExtension(){
+                console.log(chrome.runtime);
+                let EXT_ID = 'hchmeojdknmlfngphlmnjncmcfaglhdn';
+                chrome.runtime.sendMessage(EXT_ID, 'clisha', response => {
+                    if (!response) {
+                        console.log('No extension');
+                        return false; 
+                    }else{
+                        console.log('Extension Exist');
+                        return true
+                    }
+                });
+            }
+
     </script>
 
      <script>  
