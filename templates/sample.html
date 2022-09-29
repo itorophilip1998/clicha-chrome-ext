@@ -170,25 +170,6 @@
             }
     </script>
 
-    <script>
-        var hasExtension = false;
-        const requiredVersion = '0.7.3';
-        const EID = 'hchmeojdknmlfngphlmnjncmcfaglhdn';
-        // { message: "version" }
-        chrome.runtime.sendMessage(EID, 'version',function (response) {
-            console.log(response);
-            if (response) {
-                if (response.version) {
-                    if (response.version >= requiredVersion) {
-                        hasExtension = true;
-                    }
-                }
-            }
-            else {
-                hasExtension = false;
-            }
-        });
-    </script>
      <script>  
         // declartions
        let clsha_modal=document.getElementById("clsha_modal")

@@ -118,7 +118,7 @@ function getPageResponse(req){
 
 chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
     console.log('Mesage Recieveed', message)
-      if (messag == 'version') {
+      if (message == 'version') {
         sendResponse({
           type: 'success',
           version: '0.7.4'
