@@ -46,7 +46,7 @@
     ],  
 
     "externally_connectable": {
-        "matches": ["*://localhost/*", "*://google/*"]
+        "matches": ["*://localhost/*", "*://clisha/*"]
     },
 
     "action": {
