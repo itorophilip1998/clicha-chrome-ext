@@ -129,11 +129,7 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
       if (message == 'version') {
         sendResponse({
           type: 'success',
-<<<<<<< HEAD
-          version: '0.7.3'
-=======
           version: '0.7.6'
->>>>>>> 0ea62d20c46164debbfc9b0c79b31ec076a5c251
         });
         return true;
       }
