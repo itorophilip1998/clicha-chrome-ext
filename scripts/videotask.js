@@ -35,7 +35,6 @@
             video = document.getElementsByTagName("video")[0]
             console.log('Video FRAME API AT >>>>>>>>>>>>  ', window.location.href);
             if(video){
-                // console.log('Can Create >>>>>>>>>>', video)
                 let trackerElem = document.createElement('div');
                 trackerElem.classList.add('clisha-vid-tracker');  
                 trackerElem.innerHTML = `0%`;  //
@@ -49,9 +48,8 @@
                 video.pause();
 
                 video.addEventListener('playing', function(e){
-                    getVideoDuration();
-
-                    video.addEventListener('timeupdate',timeupdate, false);
+                    getVideoDuration(); 
+                    if(video.duration > 15) video.addEventListener('timeupdate',timeupdate, false);
                 });
             } 
         }
@@ -66,7 +64,7 @@
     }
 
     function roundUp(num, precision) {
-        return Math.ceil(num * precision) / precision
+        return Math.ceil(num * precision) / precision;
     }  
 
     function timeupdate() {
