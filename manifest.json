@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Clisha Development",
     "description": "Clisha app extention",
-    "version": "0.7.3",
+    "version": "0.7.6",
     "icons": {
         "16": "./images/icon16.png",
         "48": "./images/icon48.png",
@@ -27,7 +27,7 @@
             "run_at": "document_end"
         }
     ],
-
+ 
     "background":{
         "service_worker": "./scripts/background.js"
     },
@@ -44,6 +44,10 @@
             ]
         }
     ],  
+
+    "externally_connectable": {
+        "matches": ["*://localhost/*", "*://clisha/*"]
+    },
 
     "action": {
         "default_title": "Clisha App",

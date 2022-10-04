@@ -9,8 +9,11 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
     chrome.tabs.get(activeInfo.tabId, function(tab){
         url = (tab && tab.pendingUrl) ? tab.pendingUrl :
             (tab && tab.url) ? tab.url : false;
+<<<<<<< HEAD
         console.log('Url ',url, tab);
 
+=======
+>>>>>>> 0ea62d20c46164debbfc9b0c79b31ec076a5c251
         if(url && url.includes('tk=') && url.includes('cd=')){
             chrome.storage.sync.get('task', (item) =>{
                 url = url.split('?');
@@ -24,8 +27,6 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
             }); 
         }
     });   
-    // setTimeout(()=> {
-    // }, 2000)
 });
 
 
@@ -88,15 +89,17 @@ chrome.runtime.onMessage.addListener( function(request, sender) {
 });
 
 // Form Request
-function trackJourneyForm(link){
-    console.log('Tracking');
+function trackJourneyForm(link){ 
+    // console.log('Tracking');
     formTracker = chrome.webRequest.onSendHeaders.addListener(function(req) {
-            var domain = link.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
+            // var domain = link.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/);
+            var domain = location.origin;
             let options = ['POST', 'PUT', 'PATCH'],
                 links = [link , link +'/'];
-            // console.log(req.method,  req.url.includes(domain),  req.url);
-            if(options.includes(req.method) && links.includes(req.url)  || req.url.includes(domain[0])) { 
-                console.log('Form Submitted');
+            // console.log(domain, link);
+            console.log(req.method,  (links.includes(req.url)  || req.url.includes(domain)), req.url );
+            if(options.includes(req.method) && (links.includes(req.url)  || req.url.includes(domain))) { 
+                // console.log('Form Submitted');
                 getPageResponse(req);
             }
         },
@@ -106,11 +109,12 @@ function trackJourneyForm(link){
 } 
 
 
-function getPageResponse(req){
-    console.log('Waiting for response')
+function getPageResponse(req){ 
+    // console.log('Waiting for response')
     responseTracker = chrome.webRequest.onHeadersReceived.addListener(function(res) {
-        console.log('Messages REcived')
+        console.log('Messages REcived', res.method)
         if(res.method == "POST" && res.statusCode >= 200 && res.statusCode <= 204){
+                // console.log('Task Completed');
             chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
                 chrome.tabs.sendMessage(tabs[0].id, { "form": true}, function(response) { 			}); 		
             });
@@ -121,10 +125,15 @@ function getPageResponse(req){
 }
 
 chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
+    console.log('Mesage Recieveed', message)
       if (message == 'version') {
         sendResponse({
           type: 'success',
+<<<<<<< HEAD
           version: '0.7.3'
+=======
+          version: '0.7.6'
+>>>>>>> 0ea62d20c46164debbfc9b0c79b31ec076a5c251
         });
         return true;
       }
@@ -145,4 +154,4 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
       });
       return true;
     }
-  ); 
+); 

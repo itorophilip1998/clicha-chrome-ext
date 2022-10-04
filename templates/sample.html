@@ -135,6 +135,39 @@
                 }
             }, 1000);
 
+
+            function confirmClishaExtension(){
+                console.log(chrome.runtime);
+                let EXT_ID = 'hchmeojdknmlfngphlmnjncmcfaglhdn';
+                chrome.runtime.sendMessage(EXT_ID, 'clisha', response => {
+                    if (!response) {
+                        console.log('No extension');
+                        return false; 
+                    }else{
+                        console.log('Extension Exist');
+                        return true
+                    }
+                });
+            }
+
+            function chooseClishaExt(){
+                var hasExtension = false;
+                chrome.runtime.sendMessage('hchmeojdknmlfngphlmnjncmcfaglhdn', 
+                    { message: "version" }, function (reply) {
+                        console.log(reply)
+                    if (reply) {
+                        if (reply.version) {
+                            if (reply.version >= requiredVersion) {
+                                hasExtension = true;
+                            }
+                        }
+                    }
+                    else {
+                        hasExtension = false;
+                    } 
+                    console.log(hasExtension);
+                });
+            }
     </script>
 
      <script>  
