@@ -128,8 +128,7 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
     console.log('Mesage Recieveed', message)
       if (message == 'version') {
         sendResponse({
-          type: 'success',
-          version: '0.7.6'
+          type: 'success', version: '0.7.6'
         });
         return true;
       }
@@ -138,16 +137,16 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
       chrome.desktopCapture.chooseDesktopMedia(sources, tab, streamId => {
         if (!streamId) {
           sendResponse({
-            type: 'error',
-            message: 'Failed to get stream ID'
+            type: 'error',  message: 'Failed to get stream ID'
           });
         } else {
           sendResponse({
-            type: 'success',
-            streamId: streamId
+            type: 'success', streamId: streamId
           });
         }
       });
       return true;
     }
 ); 
+
+ 
