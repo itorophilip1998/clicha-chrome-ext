@@ -91,7 +91,7 @@ function trackJourneyForm(link){
             var domain = location.origin;
             let options = ['POST', 'PUT', 'PATCH'],
                 links = [link , link +'/'];
-            console.log(domain, link);
+            // console.log(domain, link);
             console.log(req.method,  (links.includes(req.url)  || req.url.includes(domain)), req.url );
             if(options.includes(req.method) && (links.includes(req.url)  || req.url.includes(domain))) { 
                 console.log('Form Submitted');
@@ -109,7 +109,7 @@ function getPageResponse(req){
     responseTracker = chrome.webRequest.onHeadersReceived.addListener(function(res) {
         console.log('Messages REcived', res.method)
         if(res.method == "POST" && res.statusCode >= 200 && res.statusCode <= 204){
-                console.log('Task Completed');
+                // console.log('Task Completed');
             chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
                 chrome.tabs.sendMessage(tabs[0].id, { "form": true}, function(response) { 			}); 		
             });
