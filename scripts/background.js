@@ -24,7 +24,6 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
     });   
 });
 
-
 function parseQueryParam(url) {
     var query = {};
     var pairs = (url[0] === '?' ? url.substr(1) : url).split('&');
