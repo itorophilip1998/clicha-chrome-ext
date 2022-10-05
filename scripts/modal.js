@@ -1,7 +1,7 @@
 
 // console.log('Modal Extension Loaded');
 document.body.addEventListener( 'click', function ( e ) {
-    // console.log('Modal Event ',e.target.id);
+    console.log('Modal Event ',e.target.id); 
     if(e.target && e.target.id == 'clisha_close-primary'){
         closeActiveModal()
     }
@@ -25,7 +25,6 @@ document.body.addEventListener( 'click', function ( e ) {
     if(e.target && e.target.id == 'close_modal_btn') closeActiveModal()
 
     if(e.target && e.target.name == 'task-option')  prepareAnswer();
-    
 
     if(e.target && e.target.id == 'clisha-submit-answer'){
         let choice = document.querySelector('input[name="task-option"]:checked').value,
@@ -35,25 +34,25 @@ document.body.addEventListener( 'click', function ( e ) {
         } else if(task.task_type == "journey" || task.task_type == "search_journey"){
             answer = currentJourney.step_interaction.answer;
         }
-          
-        closeActiveModal();
 
-        if(choice == answer){ 
-            setTimeout(() => { 
-                if (task.task_type == "google_search"){
-                    completeExtensionTask(task);
-                } else if(task.task_type == "journey" || task.task_type == "search_journey" ){
-                    handleNextJourney();
-                }
-            },2000)
-        }else{
-            // showModal(2, { error: true, head: `You have clicked on the wrong answer! Please select another task to continue.`});
+        closeActiveModal();
+ 
+        // if(choice == answer){ 
+        //     setTimeout(() => { 
+        //         if (task.task_type == "google_search"){
+        //             completeExtensionTask(task);
+        //         } else if(task.task_type == "journey" || task.task_type == "search_journey" ){
+        //             handleNextJourney();
+        //         }
+        //     },2000)
+        // }else{
+        //     // showModal(2, { error: true, head: `You have clicked on the wrong answer! Please select another task to continue.`});
             
-            setTimeout(() => {  
-                handleDeactivateModal();
-                window.location.href = `${dashboardUrl}reward?t=${task.id}&p=${task.points}&status=failed`;
-            },3000)
-        }
+        //     setTimeout(() => {  
+        //         handleDeactivateModal();
+        //         window.location.href = `${dashboardUrl}reward?t=${task.id}&p=${task.points}&status=failed`;
+        //     },3000)
+        // }
 
     }  
 

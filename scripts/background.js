@@ -9,11 +9,6 @@ chrome.tabs.onActivated.addListener( function(activeInfo){
     chrome.tabs.get(activeInfo.tabId, function(tab){
         url = (tab && tab.pendingUrl) ? tab.pendingUrl :
             (tab && tab.url) ? tab.url : false;
-<<<<<<< HEAD
-        console.log('Url ',url, tab);
-
-=======
->>>>>>> 0ea62d20c46164debbfc9b0c79b31ec076a5c251
         if(url && url.includes('tk=') && url.includes('cd=')){
             chrome.storage.sync.get('task', (item) =>{
                 url = url.split('?');
@@ -54,8 +49,8 @@ function getTaskDetails(query){
                         chrome.tabs.sendMessage(tabs[0].id, { "task": task, "step": step}, function(response) { 			}); 		
                     });
 
-                    let timer = (task.task_type == 'google_search') ? 25
-                                : (task.task_type == 'journey' || task.task_type == 'search_journey') ? 60 : 10;
+                    let timer = (task.task_type == 'google_search') ? 20
+                                : (task.task_type == 'journey' || task.task_type == 'search_journey') ? 40 : 10;
                     chrome.alarms.create('deactivateTask', { delayInMinutes: timer } );
                 }); 
             }
@@ -64,14 +59,14 @@ function getTaskDetails(query){
 }
 
 chrome.alarms.onAlarm.addListener(function(alarm) {
-    deactivateExtensionTask();
+    deactivateExtensionTask(); 
     return true;
 });
  
 function deactivateExtensionTask(){
-    chrome.webRequest.onSendHeaders.removeListener(formTracker);
-    chrome.webRequest.onSendHeaders.removeListener(responseTracker); 
     chrome.storage.sync.clear(function() {
+        chrome.webRequest.onSendHeaders.removeListener(formTracker);
+        chrome.webRequest.onSendHeaders.removeListener(responseTracker); 
         reloadExtension()
         var error = chrome.runtime.lastError;
         if (error) throw error
@@ -128,7 +123,7 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
     console.log('Mesage Recieveed', message)
       if (message == 'version') {
         sendResponse({
-          type: 'success', version: '0.7.6'
+          type: 'success', version: '0.7.7'
         });
         return true;
       }
