@@ -51,6 +51,8 @@ function getTaskDetails(query){
 
                     let timer = (task.task_type == 'google_search') ? 20
                                 : (task.task_type == 'journey' || task.task_type == 'search_journey') ? 40 : 10;
+
+                                
                     chrome.alarms.create('deactivateTask', { delayInMinutes: timer } );
                 }); 
             }

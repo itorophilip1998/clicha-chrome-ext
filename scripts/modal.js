@@ -1,7 +1,7 @@
 
 // console.log('Modal Extension Loaded');
 document.body.addEventListener( 'click', function ( e ) {
-    console.log('Modal Event ',e.target.id); 
+    console.log('Modal Event ',e.target, document.querySelectorAll('[id=clisha-submit-answer]')); 
     if(e.target && e.target.id == 'clisha_close-primary'){
         closeActiveModal()
     }
@@ -9,7 +9,7 @@ document.body.addEventListener( 'click', function ( e ) {
     if(e.target && e.target.id == 'task-deactivate' ) {
         handleDeactivateModal();
     };
-
+ 
     if(e.target && e.target.id == 'clisha-answer') {
         active_modal = document.querySelector('#clishaModelMulti')
         active_modal.classList.add("clisha_modal_open")
@@ -67,9 +67,6 @@ function handleDeactivateModal() {
     chrome.storage.sync.clear(function() {
         chrome.runtime.sendMessage( { reload: 'true' }, (response) => {  
             active_modal.classList.remove("clisha_modal_open");
-            // active_modal.classList.add("clisha_modal_close")  
-            // if($('#clishaModelId1'))  $('#clishaModelId1').modal('hide');  
-            // if($('#clishaModelId2'))  $('#clishaModelId2').modal('hide');  
         });
         var error = chrome.runtime.lastError;
         if (error) console.error(error);  throw error; 

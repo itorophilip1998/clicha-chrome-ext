@@ -46,7 +46,7 @@
     ],  
 
     "externally_connectable": {
-        "matches": ["*://localhost/*", "*://clisha-client-user.netlify.app/*",  "*://clisha-dev-user.netlify.app/*",  "*://clisha.com/*"]
+        "matches": ["*://localhost/*", "*://clisha-client-user.netlify.app/*",  "*://clisha-dev-user.netlify.app/*"]
     },
 
     "action": {

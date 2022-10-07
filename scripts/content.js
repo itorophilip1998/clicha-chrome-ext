@@ -250,7 +250,7 @@ function timerInteraction() {
         var timeValue = (task.interaction) ? task.interaction.duration: 45; 
         let intervalId=  setInterval(()=> {
             let currentTab = window.location.href;
-            console.log(document.visibilityState);
+            // console.log(document.visibilityState);
             if(currentTab.match(task.url) && document.visibilityState === 'visible'){
                 timeValue--;
                 warning.innerText =  "Hello! Do not close or leave this window ";

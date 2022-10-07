@@ -49,7 +49,7 @@
 
                 video.addEventListener('playing', function(e){
                     getVideoDuration(); 
-                    if(video.duration > 15) video.addEventListener('timeupdate',timeupdate, false);
+                    if(video.duration > 15 && document.visibilityState === 'visible') video.addEventListener('timeupdate',timeupdate, false);
                 });
             } 
         }
@@ -81,7 +81,7 @@
             tracker = document.querySelector('div.clisha-vid-tracker');
             tracker.innerHTML = `${roundUp(watchPer,1)}%`;
         }else{
-                // Remove old ones
+            // Remove old ones
             document.querySelectorAll('div.clisha-vid-tracker').forEach(function(el) {
                 el.style.display = 'none';
             });
@@ -95,7 +95,6 @@
         // Complete Step 
         if ((sum >= percent) && !_reportedpercent) {
             _reportedpercent = true;
-            console.log("Video Watched. User can now Continue...")
             handleVideoCompleted();
         }
     }
