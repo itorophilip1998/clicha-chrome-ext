@@ -191,6 +191,10 @@
 .clisha_btn-primary:not(:disabled):not(.disabled) {
   cursor: pointer;
 }
+.clisha_btn-primary:disabled {
+  background: rgb(204 152 24) !important;
+}
+
 .clisha_modal_content a, .clisha_modal_content a:hover,
 .clisha_modal_content a.focus, .clisha_text_secondary {
   color: rgb(250, 190, 40) !important;

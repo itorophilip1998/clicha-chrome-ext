@@ -100,11 +100,12 @@ function  activateSearchJourneyTask(){
     let clisha_search = JSON.parse(task.google_search);
     let links = [currentJourney.link, currentJourney.link+'?completed=vid' ];
 
-    console.log( currentUrl.href.includes(currentJourney.link) )
-    if(step == 0 && document.referrer == 'https://www.google.com/' && 
+    console.log( currentUrl.href.includes(currentJourney.link),  document.referrer  )
+    //&& document.referrer == 'https://www.google.com/'
+    if(step <= 1  && 
         currentUrl.href.match(currentJourney.link) || links.includes(currentUrl.href)){
-        chrome.storage.sync.set(({ "step": step + 1 }));
         step = 1;
+        if(step == 0) chrome.storage.sync.set(({ "step": step + 1 }));
         activateJourneyTask()
     }else if(step > 1){ 
         currentJourney = task.journey[step - 1];
@@ -249,7 +250,7 @@ function timerInteraction() {
         var timeValue = (task.interaction) ? task.interaction.duration: 45; 
         let intervalId=  setInterval(()=> {
             let currentTab = window.location.href;
-            console.log(document.visibilityState);
+            // console.log(document.visibilityState);
             if(currentTab.match(task.url) && document.visibilityState === 'visible'){
                 timeValue--;
                 warning.innerText =  "Hello! Do not close or leave this window ";

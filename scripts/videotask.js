@@ -33,7 +33,7 @@
 
         if(videoJourney && videoJourney.link_type == "video"){
             video = document.getElementsByTagName("video")[0]
-            console.log('Video FRAME API AT >>>>>>>>>>>>  ', window.location.href);
+            // console.log('Video FRAME API AT >>>>>>>>>>>>  ', window.location.href);
             if(video){
                 let trackerElem = document.createElement('div');
                 trackerElem.classList.add('clisha-vid-tracker');  
@@ -48,8 +48,8 @@
                 video.pause();
 
                 video.addEventListener('playing', function(e){
-                    getVideoDuration(); 
-                    if(video.duration > 15) video.addEventListener('timeupdate',timeupdate, false);
+                    getVideoDuration();  
+                    if (video.duration > 15) video.addEventListener('timeupdate',timeupdate, false);
                 });
             } 
         }
@@ -68,6 +68,7 @@
     }  
 
     function timeupdate() {
+        if (document.visibilityState !== 'visible') video.pause();
         currentTime = parseInt(video.currentTime);
         _watched[currentTime] = 1;
         var percent = (_duration > 200) ? (_duration * .40): (_duration * .60);
@@ -81,7 +82,7 @@
             tracker = document.querySelector('div.clisha-vid-tracker');
             tracker.innerHTML = `${roundUp(watchPer,1)}%`;
         }else{
-                // Remove old ones
+            // Remove old ones
             document.querySelectorAll('div.clisha-vid-tracker').forEach(function(el) {
                 el.style.display = 'none';
             });
@@ -95,7 +96,6 @@
         // Complete Step 
         if ((sum >= percent) && !_reportedpercent) {
             _reportedpercent = true;
-            console.log("Video Watched. User can now Continue...")
             handleVideoCompleted();
         }
     }
