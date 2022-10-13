@@ -1,9 +1,10 @@
 
 // console.log('Modal Extension Loaded');
 document.body.addEventListener( 'click', function ( e ) {
-    console.log('Modal Event ',e.target,  document.getElementById('clisha-submit-answer').children); 
-    if(e.target && e.target.id == 'clisha_close-primary'){
-        closeActiveModal()
+
+    // console.log('Modal Event ', e.target.textContent ); 
+    if(e.target && (e.target.id == 'clisha_close-primary' || e.target.textContent == 'OK')){
+        closeActiveModal() 
     }
 
     if(e.target && e.target.id == 'task-deactivate' ) {
@@ -11,22 +12,22 @@ document.body.addEventListener( 'click', function ( e ) {
     };
  
     if(e.target && e.target.id == 'clisha-answer') {
-        active_modal = document.querySelector('#clishaModelMulti')
+        active_modal = document.querySelector('#clishaModelMulti');
         active_modal.classList.add("clisha_modal_open")
         // $('#clishaModelMulti').modal('show');;
         // active_modal.classList.remove("clisha_modal_close")  
     }
 
-    if(e.target && e.target.id == 'clisha-next-step') {
+    if(e.target && e.target.id == 'clisha-next-step') { 
         active_modal.classList.add("clisha_modal_open");
         //   window.location.href = task.journey[step].link;
-    }
+    }   
 
     if(e.target && e.target.id == 'close_modal_btn') closeActiveModal()
 
     if(e.target && e.target.name == 'task-option')  prepareAnswer();
-
-    if(e.target && e.target.id == 'clisha-submit-answer'){
+ 
+    if(e.target && (e.target.id == 'clisha-submit-answer' || e.target.textContent == 'Submit')){
 
         let choice = document.querySelector('input[name="task-option"]:checked').value,
             answer= null;
