@@ -1,7 +1,7 @@
 
 // console.log('Modal Extension Loaded');
 document.body.addEventListener( 'click', function ( e ) {
-    // console.log('Modal Event ',e.target, document.querySelectorAll('[id=clisha-submit-answer]')); 
+    console.log('Modal Event ',e.target,  document.getElementById('clisha-submit-answer').children); 
     if(e.target && e.target.id == 'clisha_close-primary'){
         closeActiveModal()
     }
@@ -27,6 +27,7 @@ document.body.addEventListener( 'click', function ( e ) {
     if(e.target && e.target.name == 'task-option')  prepareAnswer();
 
     if(e.target && e.target.id == 'clisha-submit-answer'){
+
         let choice = document.querySelector('input[name="task-option"]:checked').value,
             answer= null;
         if (task.task_type == "google_search"){

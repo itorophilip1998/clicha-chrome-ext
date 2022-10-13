@@ -65,9 +65,9 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 });
  
 function deactivateExtensionTask(){
+    chrome.webRequest.onSendHeaders.removeListener(formTracker);
+    chrome.webRequest.onSendHeaders.removeListener(responseTracker); 
     chrome.storage.sync.clear(function() {
-        chrome.webRequest.onSendHeaders.removeListener(formTracker);
-        chrome.webRequest.onSendHeaders.removeListener(responseTracker); 
         reloadExtension()
         var error = chrome.runtime.lastError;
         if (error) throw error
@@ -89,11 +89,12 @@ function trackJourneyForm(link){
     // console.log('Tracking');
     formTracker = chrome.webRequest.onSendHeaders.addListener(function(req) {
             // var domain = link.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/);
-            var domain = location.origin;
+            var domain = link.split('/');
+            domain = domain[0]+'//'+domain[2];
             let options = ['POST', 'PUT', 'PATCH'],
                 links = [link , link +'/'];
             // console.log(domain, link);
-            console.log(req.method,  (links.includes(req.url)  || req.url.includes(domain)), req.url );
+            console.log(req.method, links.includes(req.url)  ,  req.url.includes(domain), domain,req.url );
             if(options.includes(req.method) && (links.includes(req.url)  || req.url.includes(domain))) { 
                 // console.log('Form Submitted');
                 getPageResponse(req);
