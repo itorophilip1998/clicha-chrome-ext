@@ -106,7 +106,7 @@ function trackJourneyForm(link){
 } 
 
 
-function getPageResponse(req){ 
+function getPageResponse(req){  
     // console.log('Waiting for response')
     responseTracker = chrome.webRequest.onHeadersReceived.addListener(function(res) {
         console.log('Messages REcived', res.method)
