@@ -20,7 +20,6 @@ document.body.addEventListener( 'click', function ( e ) {
 
     if(e.target && e.target.id == 'clisha-next-step') { 
         active_modal.classList.add("clisha_modal_open");
-        //   window.location.href = task.journey[step].link;
     }   
 
     if(e.target && e.target.id == 'close_modal_btn') closeActiveModal()

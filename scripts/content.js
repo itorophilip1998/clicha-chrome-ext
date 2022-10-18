@@ -5,7 +5,8 @@ const  dashboardUrl = (mode == 'CLIENT') ? 'https://clisha-client-user.netlify.a
 var task,     step = null, 
     active_modal,
     currentJourney = {};
-var domain = window.location.href;
+const domain = window.location.href,
+      currentUrl = window.location;
 domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
 
 // Run Task
@@ -29,9 +30,12 @@ chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
     return true; 
 });
 
+function handshake(link){
+    link = link.split(/[?#]/)[0];
+    console.log(link);
+}
 
 function activateGoogleSearch(){
-    const currentUrl = window.location;
     let clisha_search =  JSON.parse(task.google_search);
     
     if(domain[0] == 'google.com') {
