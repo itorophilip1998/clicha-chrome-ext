@@ -21,9 +21,10 @@ chrome.storage.sync.get(null, (item) => {
 
 // Sync Task with Backround 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
+    console.log('Content Task',message);
     if(message.form == true) return handleNextJourney()
-    if(message.vid_completed == true) handleNextJourney();
-    task = message.task;
+    if(message.vid_completed == true) return handleNextJourney();
+    task = message.task; 
     step = message.step;
     if (task.task_type == "google_search" || task.task_type == "search_journey") activateGoogleSearch()
     if (task.task_type == "journey") activateJourneyTask()

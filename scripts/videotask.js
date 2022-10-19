@@ -22,6 +22,8 @@
 
     // Sync Task with Backround 
     chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
+        // console.log('Video Task',message);
+        if(message.vid_completed)  return true;
         videoTask = message.task;
         taskStep = message.step; 
         if(videoTask.task_type == "journey" || videoTask.task_type == "search_journey") startVideoTask();
@@ -71,7 +73,7 @@
         if (document.visibilityState !== 'visible') video.pause();
         currentTime = parseInt(video.currentTime);
         _watched[currentTime] = 1;
-        var percent = (_duration > 200) ? (_duration * .40): (_duration * .60);
+        var percent = (_duration > 200) ? (_duration * .30): (_duration * .50);
         // sum the value of the array (add up the "_watched" seconds)
         var sum = _watched.reduce(function(acc, val) {return acc + val;}, 0),
             percentage = 80;
@@ -95,10 +97,8 @@
 
         // Complete Step 
         if ((sum >= percent) && !_reportedpercent) {
-            _reportedpercent = true;
-
-            chrome.runtime.sendMessage(  { video : 'vid_completed' }, (response) => { });
-            // handleVideoCompleted();
+            _reportedpercent = true; 
+            chrome.runtime.sendMessage({video: "vid_completed"}, function(response) { });
         }
     }
      

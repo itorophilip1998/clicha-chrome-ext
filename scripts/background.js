@@ -87,9 +87,11 @@ chrome.runtime.onMessage.addListener( function(request, sender) {
 
 //Send Video Completion Message
 function videoCompleted(){
-    chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
-        chrome.tabs.sendMessage(tabs[0].id, { "vid_completed": true }, function(response) { 			}); 		
-    });
+    setTimeout(() => {
+        chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
+            chrome.tabs.sendMessage(tabs[0].id, { "vid_completed": true }, function(response) { 			}); 		
+        });
+    }, 1000)
 }
 
 // Form Request
@@ -130,7 +132,7 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
     console.log('Mesage Recieveed', message)
       if (message == 'version') {
         sendResponse({
-          type: 'success', version: '0.7.7'
+          type: 'success', version: '0.7.9'
         });
         return true;
       }
