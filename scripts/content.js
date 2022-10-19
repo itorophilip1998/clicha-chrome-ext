@@ -5,8 +5,8 @@ const  dashboardUrl = (mode == 'CLIENT') ? 'https://clisha-client-user.netlify.a
 var task,     step = null, 
     active_modal,
     currentJourney = {};
-const domain = window.location.href,
-      currentUrl = window.location;
+var domain = window.location.href,
+    currentUrl = window.location;
 domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
 
 // Run Task
@@ -22,17 +22,19 @@ chrome.storage.sync.get(null, (item) => {
 // Sync Task with Backround 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
     if(message.form == true) return handleNextJourney()
-        task = message.task;
-        step = message.step;
-        if (task.task_type == "google_search" || task.task_type == "search_journey") activateGoogleSearch()
-        if (task.task_type == "journey") activateJourneyTask()
-    // if(message.complete) handleNextJourney();
+    if(message.vid_completed == true) handleNextJourney();
+    task = message.task;
+    step = message.step;
+    if (task.task_type == "google_search" || task.task_type == "search_journey") activateGoogleSearch()
+    if (task.task_type == "journey") activateJourneyTask()
     return true; 
 });
 
 function handshake(link){
     link = link.split(/[?#]/)[0];
-    console.log(link);
+    var  links = [link , link +'/'];
+    console.log('Handshake ',currentUrl.href.match(link) ); 
+    return(currentUrl.href.match(link) || links.includes(currentUrl.href));
 }
 
 function activateGoogleSearch(){
@@ -56,11 +58,10 @@ function activateGoogleSearch(){
             return true;
         }
         return showModal(1, {head: `Please enter the copied Search Phrase into the Google Search Bar and hit enter`});
-
     } else{
         // console.log(document.referrer, currentUrl.href+'/' , task.url)
         if(task.task_type == "google_search"){
-            if(currentUrl.href.match(task.url) && document.referrer == 'https://www.google.com/'){
+            if(handshake(task.url) && document.referrer == 'https://www.google.com/'){
                 if(task.interactionId && task.interaction && task.interaction.interaction_type == 'multichoice' || task.interaction.interaction_type == 'multistep'){
                     showModal(1, {
                         head: `Great! Please read the question below and click on the answer button to answer it `,
@@ -85,13 +86,13 @@ function activateGoogleSearch(){
 function activateJourneyTask() {
     // console.log('Journey Task Active');
     // console.log(`Journey Task Details, Total step is ${task.journey.length} on`, task.journey);
-    const currentUrl = window.location;
+    // const currentUrl = window.location;
     let journeyTask = task.journey;
     currentJourney = journeyTask[step - 1];
     
-    if(currentUrl.href.includes('completed=vid') ) return handleNextJourney()
+    // if(currentUrl.href.includes('completed=vid') ) return handleNextJourney()
     // 
-    if(currentUrl.href.match(currentJourney.link) || currentJourney.link.includes(currentUrl.href)){
+    if(handshake(currentJourney.link)){
         runJourneyInteraction();
     }else{
         showModal(2, { error: true,step,  head: `You have clicked on the wrong page! Please visit "${currentJourney.link}" to continue.`});
@@ -99,15 +100,12 @@ function activateJourneyTask() {
 }
 
 function  activateSearchJourneyTask(){
-    const currentUrl = window.location; 
+    // const currentUrl = window.location; 
     currentJourney = task.journey[0]; 
     let clisha_search = JSON.parse(task.google_search);
     let links = [currentJourney.link, currentJourney.link+'?completed=vid' ];
-
-    console.log( currentUrl.href.includes(currentJourney.link),  document.referrer  )
-    //&& document.referrer == 'https://www.google.com/'
-    if(step <= 1  && 
-        currentUrl.href.match(currentJourney.link) || links.includes(currentUrl.href)){
+    
+    if(step <= 1  && handshake(currentJourney.link)){
         step = 1;
         if(step == 0) chrome.storage.sync.set(({ "step": step + 1 }));
         activateJourneyTask()
@@ -149,7 +147,9 @@ function runJourneyInteraction(){
 function showModal(open = 1, content = {}){
     let template = `/templates/modal${open}.html`,
         modalId = `#clishaModelId${open}`;
-        
+    let element = document.querySelector(modalId);
+    if(element) element.remove();      
+
      fetch(chrome.runtime.getURL(template))
          .then(r => r.text())
          .then(html => {
@@ -243,6 +243,9 @@ function initiateJourneyForm(link){
 function timerInteraction() {
     console.log('Timer Interaction Started');
     let timer = `/templates/interaction_timer.html`;
+    // let element = document.querySelector(modalId);
+    // if(element) element.remove();   
+
     fetch(chrome.runtime.getURL(timer))
     .then(r => r.text())
     .then(html => { 

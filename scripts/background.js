@@ -56,7 +56,7 @@ function getTaskDetails(query){
                 }); 
             }
         })
-        .catch(err => { ; throw err; } );
+    .catch(err => { ; throw err; } );
 }
 
 chrome.alarms.onAlarm.addListener(function(alarm) {
@@ -81,12 +81,19 @@ function reloadExtension(){
 chrome.runtime.onMessage.addListener( function(request, sender) {
     if(request.reload == "true") return reloadExtension()
     if (request.trackForm) return trackJourneyForm(request.trackForm)
+    if(request.video == "vid_completed") return videoCompleted();
     return true;
 });
 
+//Send Video Completion Message
+function videoCompleted(){
+    chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
+        chrome.tabs.sendMessage(tabs[0].id, { "vid_completed": true }, function(response) { 			}); 		
+    });
+}
+
 // Form Request
 function trackJourneyForm(link){ 
-    // console.log('Tracking');
     formTracker = chrome.webRequest.onSendHeaders.addListener(function(req) {
             // var domain = link.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/);
             var domain = link.split('/');
@@ -94,7 +101,6 @@ function trackJourneyForm(link){
             let options = ['POST', 'PUT', 'PATCH'],
                 links = [link , link +'/'];
             // console.log(domain, link);
-            console.log(req.method, links.includes(req.url)  ,  req.url.includes(domain), domain,req.url );
             if(options.includes(req.method) && (links.includes(req.url)  || req.url.includes(domain))) { 
                 // console.log('Form Submitted');
                 getPageResponse(req);
@@ -111,7 +117,6 @@ function getPageResponse(req){
     responseTracker = chrome.webRequest.onHeadersReceived.addListener(function(res) {
         console.log('Messages REcived', res.method)
         if(res.method == "POST" && res.statusCode >= 200 && res.statusCode <= 204){
-                // console.log('Task Completed');
             chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
                 chrome.tabs.sendMessage(tabs[0].id, { "form": true}, function(response) { 			}); 		
             });

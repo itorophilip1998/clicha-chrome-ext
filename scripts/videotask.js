@@ -96,7 +96,9 @@
         // Complete Step 
         if ((sum >= percent) && !_reportedpercent) {
             _reportedpercent = true;
-            handleVideoCompleted();
+
+            chrome.runtime.sendMessage(  { video : 'vid_completed' }, (response) => { });
+            // handleVideoCompleted();
         }
     }
      
