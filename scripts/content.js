@@ -123,7 +123,7 @@ function runJourneyInteraction(){
     let start = (step == 1) ? "Great! Let's go," : (step == task.journey.length) ? "Great! Almost done," : "Let's continue";
     let type =  "", question = null, interaction = null; 
     if(currentJourney.link_type == "video") {
-         type = "Kindly watch the video on this page. Watch the complete video to complete this step. Thanks ";
+         type = "Kindly watch the video on this page. Watch up to 40% of the video to complete this step. Thanks ";
         //  console.log('Video Journey', currentUrl.href); 
         //  setTimeout(() => { initiateJourneyVideo() }, 4 * 1000);  
     } 
