@@ -22,7 +22,6 @@
 
     // Sync Task with Backround 
     chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
-        // console.log('Video Task',message);
         if(message.vid_completed)  return true;
         videoTask = message.task;
         taskStep = message.step; 
@@ -103,7 +102,6 @@
     }
      
     function  handleVideoCompleted(){ 
-        console.log('Handle Next Journey ');
         let completed = (videoJourney.link.includes('?')) ? '&completed=vid' : '?completed=vid' ;
         window.parent.location = videoJourney.link+completed
     }

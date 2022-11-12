@@ -181,7 +181,6 @@ function showModal(open = 1, content = {}){
                  
                  // Add Question Interaction preview panel to modal
                  if(content.question){
-                     console.log(content.interaction);
                      let options = document.querySelector('#task-options-preview')
                          questionElem = document.createElement('h4');
                      questionElem.innerHTML = content.question;
@@ -309,7 +308,7 @@ function multiChoiceInteraction() {
 }   
 
 function multiChoiceJourney() {
-    console.log('Multichoice Journey Started', currentJourney);
+    // console.log('Multichoice Journey Started', currentJourney);
     let multichoice = `/templates/interaction_multichoice.html`;
     fetch(chrome.runtime.getURL(multichoice))
     .then(r => r.text())
