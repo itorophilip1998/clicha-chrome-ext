@@ -1,8 +1,7 @@
-console.log('Popup Page Running');
+// console.log('Popup Page Running');
 
-const mode = 'CLIENT';
-const  dashboardUrl = (mode == 'CLIENT') ? 'https://clisha-client-user.netlify.app/dashboard/'
-        : 'https://clisha-dev-user.netlify.app/dashboard/';
+const mode = 'PRODUCTION';
+const dashboardUrl = (mode == 'CLIENT') ? 'https://clisha-client-user.netlify.app/dashboard/' : 'https://clisha.me/dashboard/';
 
 var task,     step = null, currentJourney = {};
 

@@ -1,7 +1,8 @@
 // Global Variable
-const mode = 'CLIENT';
-const  dashboardUrl = (mode == 'CLIENT') ? 'https://clisha-client-user.netlify.app/dashboard/'
-        : 'https://clisha-dev-user.netlify.app/dashboard/';
+const mode = 'PRODUCTION';
+const dashboardUrl = (mode == 'CLIENT') ? 'https://clisha-client-user.netlify.app/dashboard/' : 'https://clisha.me/dashboard/';
+
+        
 var task,     step = null, 
     active_modal,
     currentJourney = {};
@@ -21,7 +22,7 @@ chrome.storage.sync.get(null, (item) => {
 
 // Sync Task with Backround 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
-    console.log('Content Task',message);
+    // console.log('Content Task',message);
     if(message.form == true) return handleNextJourney()
     if(message.vid_completed == true) return handleNextJourney();
     task = message.task; 
@@ -34,7 +35,7 @@ chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
 function handshake(link){
     link = link.split(/[?#]/)[0];
     var  links = [link , link +'/'];
-    console.log('Handshake ',currentUrl.href.match(link) ); 
+    // console.log('Handshake ',currentUrl.href.match(link) ); 
     return(currentUrl.href.match(link) || links.includes(currentUrl.href));
 }
 
@@ -242,7 +243,7 @@ function initiateJourneyForm(link){
 }  
 
 function timerInteraction() {
-    console.log('Timer Interaction Started');
+    // console.log('Timer Interaction Started');
     let timer = `/templates/interaction_timer.html`;
     // let element = document.querySelector(modalId);
     // if(element) element.remove();   

@@ -1,8 +1,7 @@
-console.log("Extention Started Successfully");
+// console.log("Extention Started Successfully");
 
-const mode = 'CLIENT';
-const baseUrl = (mode == 'CLIENT') ? 'https://clisha-client-server.herokuapp.com/api'
-                    : 'https://clisha-dev-server.herokuapp.com/api' ;
+const mode = 'PRODUCTION';
+const baseUrl = (mode == 'CLIENT') ? 'https://clisha-client-server.herokuapp.com/api' : 'https://app.clisha.me/api' ;
 
 var formTracker = null, responseTracker = null;
 chrome.tabs.onActivated.addListener( function(activeInfo){
@@ -117,7 +116,6 @@ function trackJourneyForm(link){
 function getPageResponse(req){  
     // console.log('Waiting for response')
     responseTracker = chrome.webRequest.onHeadersReceived.addListener(function(res) {
-        console.log('Messages REcived', res.method)
         if(res.method == "POST" && res.statusCode >= 200 && res.statusCode <= 204){
             chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
                 chrome.tabs.sendMessage(tabs[0].id, { "form": true}, function(response) { 			}); 		
@@ -129,10 +127,10 @@ function getPageResponse(req){
 }
 
 chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
-    console.log('Mesage Recieveed', message)
+    // console.log('Mesage Recieveed', message)
       if (message == 'version') {
         sendResponse({
-          type: 'success', version: '1.0.0'
+          type: 'success', version: '1.0.1'
         });
         return true;
       }

@@ -114,7 +114,7 @@ let
     videotTime ;
 
 function initiateJourneyVideo(){
-    console.log('Video Script Started');
+    // console.log('Video Script Started');
     vid = document.getElementsByTagName('video')[0];
     
     duration = 0; 
@@ -122,7 +122,7 @@ function initiateJourneyVideo(){
     reportedpercent = false;
      
     if(vid){  
-        console.log('Journey Video in Main Stage');
+        // console.log('Journey Video in Main Stage');
         let trackerElem = document.createElement('div');
         trackerElem.classList.add('clisha-vid-tracker');  
         trackerElem.innerHTML = '0%';  //
@@ -172,7 +172,7 @@ function timeupdate() {
 
     if ((sum >= (duration * percentage)) && !reportedpercent) {
         reportedpercent = true;
-        console.log("Video watched. User can now Continue...")
+        // console.log("Video watched. User can now Continue...")
         handleNextJourney()
     }
 }
@@ -196,7 +196,7 @@ function frameupdate(){
         videotTime++
         if ((videotTime >= (duration * .8)) && !reportedpercent) {
             reportedpercent = true;
-            console.log("Video watched. User can now Continue...")
+            // console.log("Video watched. User can now Continue...")
             handleNextJourney()
         }
     }, 1000);
@@ -222,7 +222,7 @@ function youtubeVideoTask(){
                 success: function(data) {
                     var youtube_time = data.items[0].contentDetails.duration;
                     duration = formatISODate(youtube_time); 
-                    console.log('Duration', duration, frame);
+                    // console.log('Duration', duration, frame);
 
                 }
             });
