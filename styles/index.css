@@ -79,16 +79,52 @@
 }
 .clisha_float{
   background-image: url('https://i.ibb.co/q0r0Dgw/pointer-1.png');
+   animation-name: shake;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-delay: 0s;
 }
 .clisha-vid-tracker {
   background-image: url('https://i.ibb.co/1LryJPj/layer-circle.png');
   background-position: center;
 } 
+
 .clisha_float .floater{
-  /* background-image: url('chrome-extension://hchmeojdknmlfngphlmnjncmcfaglhdn/images/pointer.png');
-  background-position: center; */
+ position: relative;
+}
+
+@keyframes spin {
+  from {
+      transform:rotate(0deg);
+  }
+  to {
+      transform:rotate(360deg);
+  }
 }
  
+@keyframes shake {
+  2%, 18% {
+      transform: translate3d(-5px, 0, 0);
+  }
+
+  4%, 16% {
+      transform: translate3d(5px, 0, 0);
+  }
+
+  6%, 10%, 14% {
+      transform: translate3d(-5px, 0, 0);
+  }
+
+  8%, 12% {
+      transform: translate3d(5px, 0, 0);
+  }
+  
+  18.1% {
+      transform: translate3d(0px, 0, 0);
+  }
+}
+
 .clisha-vid-tracker{
   /* display: block;
   float: right; */

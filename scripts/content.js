@@ -3,7 +3,7 @@ const mode = 'PRODUCTION';
 const dashboardUrl = (mode == 'CLIENT') ? 'https://clisha-client-user.netlify.app/dashboard/' : 'https://clisha.me/dashboard/';
 
         
-var task,     step = null, 
+var task, step = null, 
     active_modal,
     currentJourney = {};
 var domain = window.location.href,
@@ -88,9 +88,6 @@ function activateGoogleSearch(){
 } 
   
 function activateJourneyTask() {
-    // console.log('Journey Task Active');
-    // console.log(`Journey Task Details, Total step is ${task.journey.length} on`, task.journey);
-    // const currentUrl = window.location;
     let journeyTask = task.journey;
     currentJourney = journeyTask[step - 1];
     
