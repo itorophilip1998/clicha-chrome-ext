@@ -10,7 +10,12 @@ document.body.addEventListener( 'click', function ( e ) {
     if(e.target && e.target.id == 'task-deactivate' ) {
         handleDeactivateModal();
     };
- 
+    
+    if(e.target && e.target.id == 'toggle_modal') {
+        console.log(active_modal);
+        active_modal.classList.add("clisha_modal_open");
+    }
+
     if(e.target && e.target.id == 'clisha-answer') {
         active_modal = document.querySelector('#clishaModelMulti');
         active_modal.classList.add("clisha_modal_open")

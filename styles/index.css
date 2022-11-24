@@ -38,11 +38,11 @@
     background:rgba(0,0,0,0.8) !important;
     position: fixed !important;
     z-index: 99;
-    bottom:0 !important;
+    bottom: 10px !important;
     padding-bottom: 10px;
     right:0 !important;
     left:0 !important;
-    height: 70px;
+    height: 75px;
     text-align: center !important;
 }
 .clisha_timer{

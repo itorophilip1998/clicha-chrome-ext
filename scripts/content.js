@@ -41,7 +41,8 @@ function handshake(link){
 
 function activateGoogleSearch(){
     let clisha_search =  JSON.parse(task.google_search);
-    
+
+
     if(domain[0] == 'google.com') {
         if(domain[0] == 'google.com' && currentUrl.href.includes('search?q=')){
             let url = currentUrl.href.split('?'),
@@ -83,6 +84,7 @@ function activateGoogleSearch(){
             activateSearchJourneyTask()
         }
     }
+
 } 
   
 function activateJourneyTask() {
@@ -243,9 +245,7 @@ function initiateJourneyForm(link){
 
 function timerInteraction() {
     // console.log('Timer Interaction Started');
-    let timer = `/templates/interaction_timer.html`;
-    // let element = document.querySelector(modalId);
-    // if(element) element.remove();   
+    let timer = `/templates/interaction_timer.html`; 
 
     fetch(chrome.runtime.getURL(timer))
     .then(r => r.text())
