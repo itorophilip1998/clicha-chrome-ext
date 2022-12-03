@@ -339,10 +339,16 @@ function multiChoiceJourney() {
 }    
 
 function completeExtensionTask(){
-    chrome.storage.sync.clear(function() { 
-    chrome.runtime.sendMessage( { reload: 'true' }, (response) => { console.log('Message Sent ') });
+    let current = currentJourney;
+    // console.log(current.link_type);
 
-        window.location.href = `${dashboardUrl}reward?t=${task.id}&p=${task.points}`
+    chrome.storage.sync.clear(function() { 
+        chrome.runtime.sendMessage( { reload: 'true' }, (response) => {  });
+        if(current.link_type == 'video'){ 
+            window.open(`${dashboardUrl}reward?t=${task.id}&p=${task.points}`, "_blank");
+        }else{
+            window.location.href = `${dashboardUrl}reward?t=${task.id}&p=${task.points}`
+        }
         var error = chrome.runtime.lastError;
         if (error) console.error(error);  throw error; 
     });
