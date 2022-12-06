@@ -2,7 +2,7 @@
 const mode = 'PRODUCTION';
 const dashboardUrl = (mode == 'CLIENT') ? 'https://clisha-client-user.netlify.app/dashboard/' : 'https://clisha.me/dashboard/';
 
-        
+console.log('Content Page Loaded')        
 var task, step = null, 
     active_modal,
     currentJourney = {};
@@ -13,6 +13,7 @@ domain = domain.replace('http://', '').replace('https://', '').replace('www.', '
 // Run Task
 chrome.storage.sync.get(null, (item) => {
     if (Object.keys(item).length) {
+        console.log('Sync with ', task);   
         task = item.task;
         step = item.step;
         if (task.task_type == "google_search" || task.task_type == "search_journey") activateGoogleSearch()
