@@ -79,7 +79,7 @@
 }
 .clisha_float{
   background-image: url('https://i.ibb.co/q0r0Dgw/pointer-1.png');
-   animation-name: shake;
+  animation-name: shake;
   animation-duration: 5s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
@@ -88,6 +88,10 @@
 .clisha-vid-tracker {
   background-image: url('https://i.ibb.co/1LryJPj/layer-circle.png');
   background-position: center;
+}
+.float_answer{
+  bottom:80px;
+	right:80px;
 } 
 
 .clisha_float .floater{

@@ -273,10 +273,14 @@ function timerInteraction() {
   
 function multiChoiceInteraction() {
     // console.log('Multichoice Interaction Started');
-    let multichoice = `/templates/interaction_multichoice.html`;
+    const multichoice = `/templates/interaction_multichoice.html`;
     fetch(chrome.runtime.getURL(multichoice))
     .then(r => r.text())
     .then(html => {
+
+        const toggleModal = document.querySelector('#toggle_modal');
+        if(toggleModal) toggleModal.style.display = "none"
+        
         document.body.insertAdjacentHTML('beforeend', html);
         let question = document.querySelector('#multichoice-question'),
             option1 = document.querySelector('#option1'),

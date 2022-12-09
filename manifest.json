@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Clisha Extension",
     "description": "Clisha app extention",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "icons": {
         "16": "./images/icon16.png",
         "48": "./images/icon48.png",
