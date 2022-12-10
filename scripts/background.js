@@ -84,6 +84,7 @@ function reloadExtension(){
 }
 
 chrome.runtime.onMessage.addListener( function(request, sender) {
+    // if(request.url)   chrome.tabs.create({ url: request.url, active: false });
     if(request.reload == "true") return reloadExtension()
     if (request.trackForm) return trackJourneyForm(request.trackForm)
     if(request.video == "vid_completed") return videoCompleted();
@@ -137,7 +138,7 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
       if (message == 'version') {
         sendResponse({
           type: 'success', 
-          version: '1.0.5'
+          version: '1.0.6'
         });
         return true;
       }

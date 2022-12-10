@@ -60,10 +60,10 @@
 
 .clisha_float, .clisha-vid-tracker {
 	position:fixed;
-	bottom:40px;
+	bottom:80px;
 	right:40px;
-	width:60px;
-	height:60px;
+	width:55px;
+	height:55px;
   background-position: center;
 	/* background-color:rgba(250, 190, 26, 0.8) !important; */
 	color:#FFF; 
@@ -73,25 +73,30 @@
   display: block;
   clear: both;
   border: none;
-  z-index: 101 !important;
+  z-index: 1001 !important;
   cursor: pointer;
   font-family: 'Roboto', sans-serif  !important;
 }
-.clisha_float{
-  background-image: url('https://i.ibb.co/q0r0Dgw/pointer-1.png');
+.float_helper{
+  background-image: url('https://clisha.me/images/popup/Group%2076566.png');
   animation-name: shake;
   animation-duration: 5s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
   animation-delay: 0s;
+  background-size: 25px;
+  background-repeat: no-repeat;
+  background-color: #74019B;
 }
 .clisha-vid-tracker {
   background-image: url('https://i.ibb.co/1LryJPj/layer-circle.png');
   background-position: center;
 }
 .float_answer{
-  bottom:80px;
-	right:80px;
+  background-image: url('https://i.ibb.co/q0r0Dgw/pointer-1.png');
+  animation: none;
+  bottom:150px;
+	right:40px;
 } 
 
 .clisha_float .floater{

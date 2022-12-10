@@ -4,7 +4,7 @@ const dashboardUrl = (mode == 'CLIENT') ? 'https://clisha-client-user.netlify.ap
 
 console.log('Content Page Loaded')        
 var task, step = null, 
-    active_modal,
+    active_modal, toggle_modal,
     currentJourney = {};
 var domain = window.location.href,
     currentUrl = window.location;
@@ -113,7 +113,6 @@ function  activateSearchJourneyTask(){
         activateJourneyTask()
     }else if(step > 1){ 
         currentJourney = task.journey[step - 1];
-        // runJourneyInteraction(); 
         activateJourneyTask(); 
     }else {
         showModal(2, { error: true, head: `You have clicked on the wrong page! Please go back to Google search result and click on  "${clisha_search.title}"`});
@@ -277,9 +276,6 @@ function multiChoiceInteraction() {
     fetch(chrome.runtime.getURL(multichoice))
     .then(r => r.text())
     .then(html => {
-
-        const toggleModal = document.querySelector('#toggle_modal');
-        if(toggleModal) toggleModal.style.display = "none"
         
         document.body.insertAdjacentHTML('beforeend', html);
         let question = document.querySelector('#multichoice-question'),
@@ -306,6 +302,11 @@ function multiChoiceInteraction() {
             document.querySelector('.option5').style.display = "block";
             option5.innerHTML = task.interaction.option5;
         }
+
+        active_modal = document.querySelector('#clishaModelMulti');
+        // toggle_modal = document.querySelector('#toggle_modal');
+        // if(toggle_modal) toggle_modal.style.display = "none";
+        console.log('Active Modal', active_modal);
     });
 }   
 
@@ -340,6 +341,9 @@ function multiChoiceJourney() {
             document.querySelector('.option5').style.display = "block";
             option5.innerHTML = currentJourney.step_interaction.option5;
         }
+
+        active_modal = document.querySelector('#clishaModelMulti');
+        
     });
 }    
 
@@ -348,12 +352,22 @@ function completeExtensionTask(){
     // console.log(current.link_type);
 
     chrome.storage.sync.clear(function() { 
+        let url = `${dashboardUrl}reward?t=${task.id}&p=${task.points}`
         chrome.runtime.sendMessage( { reload: 'true' }, (response) => {  });
-        if(current.link_type == 'video'){ 
-            window.open(`${dashboardUrl}reward?t=${task.id}&p=${task.points}`, "_blank");
-        }else{
-            window.location.href = `${dashboardUrl}reward?t=${task.id}&p=${task.points}`
+        let features = "right=100,top=100,width=600,height=450";
+        window.open(url, '_blank', features);
+
+
+        const overlay = document.querySelector('.clisha_overlay'),
+              float   = document.querySelectorAll('.clisha_float')  ; 
+
+      
+        if(float.length) {
+            float.forEach((f)=> {
+                 f.style.display = "none";
+            })
         }
+        if(overlay)overlay.style.display = "none";
         var error = chrome.runtime.lastError;
         if (error) console.error(error);  throw error; 
     });
