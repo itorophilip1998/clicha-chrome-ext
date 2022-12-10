@@ -303,10 +303,6 @@ function multiChoiceInteraction() {
             option5.innerHTML = task.interaction.option5;
         }
 
-        active_modal = document.querySelector('#clishaModelMulti');
-        // toggle_modal = document.querySelector('#toggle_modal');
-        // if(toggle_modal) toggle_modal.style.display = "none";
-        console.log('Active Modal', active_modal);
     });
 }   
 
@@ -341,8 +337,6 @@ function multiChoiceJourney() {
             document.querySelector('.option5').style.display = "block";
             option5.innerHTML = currentJourney.step_interaction.option5;
         }
-
-        active_modal = document.querySelector('#clishaModelMulti');
         
     });
 }    
