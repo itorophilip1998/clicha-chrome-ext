@@ -1,6 +1,6 @@
 // Global Variable
 const mode = 'PRODUCTION';
-const dashboardUrl = (mode == 'CLIENT') ? 'https://clisha-client-user.netlify.app/dashboard/' : 'https://clisha.me/dashboard/';
+const dashboardUrl = (mode == 'TESTING') ? 'https://clisha-testing-user.netlify.app/dashboard/' : 'https://clisha.me/dashboard/';
 
 console.log('Content Page Loaded')        
 var task, step = null, 
@@ -347,7 +347,7 @@ function completeExtensionTask(){
 
     chrome.storage.sync.clear(function() { 
         let url = `${dashboardUrl}reward?t=${task.id}&p=${task.points}`
-        chrome.runtime.sendMessage( { reload: 'true' }, (response) => {  });
+        chrome.runtime.sendMessage( { completed: 'true' }, (response) => {  });
         let features = "right=100,top=100,width=600,height=450";
         window.open(url, '_blank', features);
 

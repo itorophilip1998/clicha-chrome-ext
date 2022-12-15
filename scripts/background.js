@@ -1,7 +1,8 @@
 console.log("Extention Started Successfully v2");
 
 const mode = 'PRODUCTION';
-const baseUrl = (mode == 'CLIENT') ? 'https://clisha-client-server.herokuapp.com/api' : 'https://app.clisha.me/api' ;
+const baseUrl = (mode == 'TESTING') ? 'https://clisha-testing-server.herokuapp.com/api' : 'https://app.clisha.me/api' ;
+const dashboardUrl = (mode == 'TESTING') ? 'https://clisha-testing-user.netlify.app/dashboard/' : 'https://clisha.me/dashboard/';
 
 var formTracker = null, responseTracker = null;
 // chrome.tabs.onActivated.addListener( function(activeInfo){
@@ -13,7 +14,9 @@ chrome.tabs.onCreated.addListener( function(activeInfo){
     chrome.tabs.get(activeInfo.id, function(tab){
         url = (tab && tab.pendingUrl) ? tab.pendingUrl :
             (tab && tab.url) ? tab.url : false;
-        console.log('Current Url', url);
+        // console.log('Current Url', url);
+        taskCompletedSuccesfully();
+
         if(url && url.includes('tk=') && url.includes('cd=')){
             chrome.storage.sync.get('task', (item) =>{
                 url = url.split('?');
@@ -55,8 +58,7 @@ function getTaskDetails(query){
 
                     let timer = (task.task_type == 'google_search') ? 20
                                 : (task.task_type == 'journey' || task.task_type == 'search_journey') ? 40 : 10;
-
-                                
+  
                     chrome.alarms.create('deactivateTask', { delayInMinutes: timer } );
                 }); 
             }
@@ -83,8 +85,13 @@ function reloadExtension(){
     chrome.runtime.reload()
 }
 
+function taskCompletedSuccesfully(){
+  window.postMessage({ type: 'task', completd: true }, dashboardUrl);
+  chrome.runtime.reload();
+}
+
 chrome.runtime.onMessage.addListener( function(request, sender) {
-    // if(request.url)   chrome.tabs.create({ url: request.url, active: false });
+    if(request.vid_completed)  return taskCompletedSuccesfully()
     if(request.reload == "true") return reloadExtension()
     if (request.trackForm) return trackJourneyForm(request.trackForm)
     if(request.video == "vid_completed") return videoCompleted();
@@ -138,7 +145,7 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
       if (message == 'version') {
         sendResponse({
           type: 'success', 
-          version: '1.0.7'
+          version: '1.0.8'
         });
         return true;
       }
