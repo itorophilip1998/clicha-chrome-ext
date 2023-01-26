@@ -9,14 +9,14 @@ var formTracker = null, responseTracker = null;
 //     console.log('Active Info',activeInfo.tabId);
 // });
 
+
+
 chrome.tabs.onCreated.addListener( function(activeInfo){
-    console.log('Tab Opend', activeInfo.id); 
+    // console.log('Tab Opend', activeInfo.id); 
     chrome.tabs.get(activeInfo.id, function(tab){
         url = (tab && tab.pendingUrl) ? tab.pendingUrl :
             (tab && tab.url) ? tab.url : false;
         // console.log('Current Url', url);
-        taskCompletedSuccesfully();
-
         if(url && url.includes('tk=') && url.includes('cd=')){
             chrome.storage.sync.get('task', (item) =>{
                 url = url.split('?');
@@ -51,14 +51,15 @@ function getTaskDetails(query){
                 let step = (task.task_type == 'journey') ? 1 : 0;
 
                 chrome.storage.sync.set({ "task": task, "step": step}, function(items){
-                    console.log('Task Activated', step,task);
+                    // console.log('Task Activated', step,task);
                     chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
                         chrome.tabs.sendMessage(tabs[0].id, { "task": task, "step": step}, function(response) { 			}); 		
                     });
 
                     let timer = (task.task_type == 'google_search') ? 20
                                 : (task.task_type == 'journey' || task.task_type == 'search_journey') ? 40 : 10;
-  
+
+                                
                     chrome.alarms.create('deactivateTask', { delayInMinutes: timer } );
                 }); 
             }
@@ -85,13 +86,7 @@ function reloadExtension(){
     chrome.runtime.reload()
 }
 
-function taskCompletedSuccesfully(){
-  window.postMessage({ type: 'task', completd: true }, dashboardUrl);
-  chrome.runtime.reload();
-}
-
 chrome.runtime.onMessage.addListener( function(request, sender) {
-    if(request.vid_completed)  return taskCompletedSuccesfully()
     if(request.reload == "true") return reloadExtension()
     if (request.trackForm) return trackJourneyForm(request.trackForm)
     if(request.video == "vid_completed") return videoCompleted();
@@ -126,7 +121,6 @@ function trackJourneyForm(link){
     ); 
 } 
 
-
 function getPageResponse(req){  
     // console.log('Waiting for response')
     responseTracker = chrome.webRequest.onHeadersReceived.addListener(function(res) {
@@ -145,7 +139,7 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
       if (message == 'version') {
         sendResponse({
           type: 'success', 
-          version: '1.0.8'
+          version: '1.0.4'
         });
         return true;
       }
@@ -165,5 +159,3 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
       return true;
     }
 ); 
-
- 
