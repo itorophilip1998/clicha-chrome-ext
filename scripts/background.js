@@ -1,7 +1,8 @@
 console.log("Extention Started Successfully v2");
 
 const mode = 'TESTING';
-const baseUrl = (mode == 'CLIENT') ? 'https://clisha-client-server.herokuapp.com/api' : 'https://app.clisha.me/api' ;
+const baseUrl = (mode == 'TESTING') ? 'https://clisha-testing-server.herokuapp.com/api' : 'https://app.clisha.me/api' ;
+const dashboardUrl = (mode == 'TESTING') ? 'https://clisha-testing-user.netlify.app/dashboard/' : 'https://clisha.me/dashboard/';
 
 var formTracker = null, responseTracker = null;
 // chrome.tabs.onActivated.addListener( function(activeInfo){

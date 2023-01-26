@@ -1,11 +1,6 @@
 // Global Variable
-<<<<<<< HEAD
 const mode = 'TESTING';
-const dashboardUrl = (mode == 'TESTING') ? 'https://clisha-client-user.netlify.app/dashboard/' : 'https://clisha.me/dashboard/';
-=======
-const mode = 'PRODUCTION';
 const dashboardUrl = (mode == 'TESTING') ? 'https://clisha-testing-user.netlify.app/dashboard/' : 'https://clisha.me/dashboard/';
->>>>>>> master
 
 console.log('Content Page Loaded')        
 var task, step = null, 
