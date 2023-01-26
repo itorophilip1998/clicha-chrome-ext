@@ -1,10 +1,15 @@
 // Global Variable
+<<<<<<< HEAD
 const mode = 'TESTING';
 const dashboardUrl = (mode == 'TESTING') ? 'https://clisha-client-user.netlify.app/dashboard/' : 'https://clisha.me/dashboard/';
+=======
+const mode = 'PRODUCTION';
+const dashboardUrl = (mode == 'TESTING') ? 'https://clisha-testing-user.netlify.app/dashboard/' : 'https://clisha.me/dashboard/';
+>>>>>>> master
 
 console.log('Content Page Loaded')        
 var task, step = null, 
-    active_modal,
+    active_modal, toggle_modal,
     currentJourney = {};
 var domain = window.location.href,
     currentUrl = window.location;
@@ -113,7 +118,6 @@ function  activateSearchJourneyTask(){
         activateJourneyTask()
     }else if(step > 1){ 
         currentJourney = task.journey[step - 1];
-        // runJourneyInteraction(); 
         activateJourneyTask(); 
     }else {
         showModal(2, { error: true, head: `You have clicked on the wrong page! Please go back to Google search result and click on  "${clisha_search.title}"`});
@@ -273,10 +277,11 @@ function timerInteraction() {
   
 function multiChoiceInteraction() {
     // console.log('Multichoice Interaction Started');
-    let multichoice = `/templates/interaction_multichoice.html`;
+    const multichoice = `/templates/interaction_multichoice.html`;
     fetch(chrome.runtime.getURL(multichoice))
     .then(r => r.text())
     .then(html => {
+        
         document.body.insertAdjacentHTML('beforeend', html);
         let question = document.querySelector('#multichoice-question'),
             option1 = document.querySelector('#option1'),
@@ -302,6 +307,7 @@ function multiChoiceInteraction() {
             document.querySelector('.option5').style.display = "block";
             option5.innerHTML = task.interaction.option5;
         }
+
     });
 }   
 
@@ -336,6 +342,7 @@ function multiChoiceJourney() {
             document.querySelector('.option5').style.display = "block";
             option5.innerHTML = currentJourney.step_interaction.option5;
         }
+        
     });
 }    
 
@@ -344,12 +351,22 @@ function completeExtensionTask(){
     // console.log(current.link_type);
 
     chrome.storage.sync.clear(function() { 
-        chrome.runtime.sendMessage( { reload: 'true' }, (response) => {  });
-        if(current.link_type == 'video'){ 
-            window.open(`${dashboardUrl}reward?t=${task.id}&p=${task.points}`, "_blank");
-        }else{
-            window.location.href = `${dashboardUrl}reward?t=${task.id}&p=${task.points}`
+        let url = `${dashboardUrl}reward?t=${task.id}&p=${task.points}`
+        chrome.runtime.sendMessage( { completed: 'true' }, (response) => {  });
+        let features = "right=100,top=100,width=600,height=450";
+        window.open(url, '_blank', features);
+
+
+        const overlay = document.querySelector('.clisha_overlay'),
+              float   = document.querySelectorAll('.clisha_float')  ; 
+
+      
+        if(float.length) {
+            float.forEach((f)=> {
+                 f.style.display = "none";
+            })
         }
+        if(overlay)overlay.style.display = "none";
         var error = chrome.runtime.lastError;
         if (error) console.error(error);  throw error; 
     });

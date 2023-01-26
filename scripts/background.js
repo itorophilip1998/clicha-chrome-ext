@@ -1,19 +1,21 @@
 console.log("Extention Started Successfully v2");
 
 const mode = 'TESTING';
-const baseUrl = (mode == 'TESTING') ? 'https://clisha-testing-server.herokuapp.com/api' : 'https://app.clisha.me/api' ;
+const baseUrl = (mode == 'CLIENT') ? 'https://clisha-client-server.herokuapp.com/api' : 'https://app.clisha.me/api' ;
 
 var formTracker = null, responseTracker = null;
 // chrome.tabs.onActivated.addListener( function(activeInfo){
 //     console.log('Active Info',activeInfo.tabId);
 // });
 
+
+
 chrome.tabs.onCreated.addListener( function(activeInfo){
-    console.log('Tab Opend', activeInfo.id); 
+    // console.log('Tab Opend', activeInfo.id); 
     chrome.tabs.get(activeInfo.id, function(tab){
         url = (tab && tab.pendingUrl) ? tab.pendingUrl :
             (tab && tab.url) ? tab.url : false;
-        console.log('Current Url', url);
+        // console.log('Current Url', url);
         if(url && url.includes('tk=') && url.includes('cd=')){
             chrome.storage.sync.get('task', (item) =>{
                 url = url.split('?');
@@ -48,7 +50,7 @@ function getTaskDetails(query){
                 let step = (task.task_type == 'journey') ? 1 : 0;
 
                 chrome.storage.sync.set({ "task": task, "step": step}, function(items){
-                    console.log('Task Activated', step,task);
+                    // console.log('Task Activated', step,task);
                     chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
                         chrome.tabs.sendMessage(tabs[0].id, { "task": task, "step": step}, function(response) { 			}); 		
                     });
@@ -118,7 +120,6 @@ function trackJourneyForm(link){
     ); 
 } 
 
-
 function getPageResponse(req){  
     // console.log('Waiting for response')
     responseTracker = chrome.webRequest.onHeadersReceived.addListener(function(res) {
@@ -137,7 +138,7 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
       if (message == 'version') {
         sendResponse({
           type: 'success', 
-          version: '1.0.4'
+          version: '1.1.0'
         });
         return true;
       }
@@ -157,5 +158,3 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
       return true;
     }
 ); 
-
- 

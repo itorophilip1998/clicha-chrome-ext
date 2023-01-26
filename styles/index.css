@@ -38,32 +38,35 @@
     background:rgba(0,0,0,0.8) !important;
     position: fixed !important;
     z-index: 99;
-    bottom: 10px !important;
+    bottom: 18px !important;
     padding-bottom: 10px;
     right:0 !important;
     left:0 !important;
-    height: 75px;
+    height: 88px;
     text-align: center !important;
-}
+} 
+
 .clisha_timer{
     color: rgba(250, 190, 26, 0.945);
-    font-size: 50px !important;
+    font-size: 38px !important;
     text-align: center !important;
     width: 100%;
     font-family: 'Roboto', sans-serif  !important;
+    margin-bottom: 4px;
 }
+
 #clisha_warning{
     color: rgba(250, 190, 26, 0.945);
-    font-size: 12px !important;
+    font-size: 14px !important;
     font-family: 'Roboto', sans-serif  !important;
 }
 
 .clisha_float, .clisha-vid-tracker {
 	position:fixed;
-	bottom:40px;
+	bottom:80px;
 	right:40px;
-	width:60px;
-	height:60px;
+	width:55px;
+	height:55px;
   background-position: center;
 	/* background-color:rgba(250, 190, 26, 0.8) !important; */
 	color:#FFF; 
@@ -73,21 +76,30 @@
   display: block;
   clear: both;
   border: none;
-  z-index: 101 !important;
+  z-index: 1001 !important;
   cursor: pointer;
   font-family: 'Roboto', sans-serif  !important;
 }
-.clisha_float{
-  background-image: url('https://i.ibb.co/q0r0Dgw/pointer-1.png');
-   animation-name: shake;
+.float_helper{
+  background-image: url('https://clisha.me/images/popup/Group%2076566.png');
+  animation-name: shake;
   animation-duration: 5s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
   animation-delay: 0s;
+  background-size: 25px;
+  background-repeat: no-repeat;
+  background-color: #74019B;
 }
 .clisha-vid-tracker {
   background-image: url('https://i.ibb.co/1LryJPj/layer-circle.png');
   background-position: center;
+}
+.float_answer{
+  background-image: url('https://i.ibb.co/q0r0Dgw/pointer-1.png');
+  animation: none;
+  bottom:150px;
+	right:40px;
 } 
 
 .clisha_float .floater{
