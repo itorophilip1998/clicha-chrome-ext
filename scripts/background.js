@@ -139,7 +139,7 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
       if (message == 'version') {
         sendResponse({
           type: 'success', 
-          version: '1.0.4'
+          version: '1.1.0'
         });
         return true;
       }
