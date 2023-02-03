@@ -1,12 +1,7 @@
 {
   "name": "clisha-extension",
-<<<<<<< HEAD
-  "version": "1.0.3",
-  "description": "Clisha Testing",
-=======
   "version": "1.1.0",
   "description": "Clisha Extention",
->>>>>>> master
   "main": "background.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
