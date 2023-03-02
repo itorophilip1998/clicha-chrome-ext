@@ -110,7 +110,6 @@ function trackJourneyForm(link){
             domain = domain[0]+'//'+domain[2];
             let options = ['POST', 'PUT', 'PATCH'],
                 links = [link , link +'/'];
-            // console.log(domain, link);
             if(options.includes(req.method) && (links.includes(req.url)  || req.url.includes(domain))) { 
                 // console.log('Form Submitted');
                 getPageResponse(req);

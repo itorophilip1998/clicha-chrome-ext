@@ -11,7 +11,8 @@ domain = domain.replace('http://', '').replace('https://', '').replace('www.', '
 
 // Silent Clisha extension if neccesary
 function silentClishaExtension(){
-    if(domain[0] == 'clisha.me') return true;
+    const clisha = 'clisha.me'; 
+    if(  domain[0].includes(clisha)  ) return true;
     return false;
 }
 
@@ -46,8 +47,7 @@ chrome.storage.sync.get(null, (item) => {
     } 
 });
 
-
-// Hanshaje
+// Confirm if given link match up
 function handshake(link){
     link = link.split(/[?#]/)[0];
     var  links = [link , link +'/'];
@@ -231,7 +231,6 @@ function showModal(open = 1, content = {}){
              active_modal.classList.add("clisha_modal_open")
          });
 }
- 
 
 function parseQueryParam(url) {  
     var query = {};
