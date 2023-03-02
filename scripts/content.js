@@ -1,8 +1,7 @@
 // Global Variable
 const mode = 'PRODUCTION';
 const dashboardUrl = (mode == 'TESTING') ? 'https://clisha-testing-user.netlify.app/dashboard/' : 'https://clisha.me/dashboard/';
-
-console.log('Content Page Loaded')        
+     
 var task, step = null, 
     active_modal, toggle_modal,
     currentJourney = {};
@@ -10,40 +9,53 @@ var domain = window.location.href,
     currentUrl = window.location;
 domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
 
-// Run Task
-chrome.storage.sync.get(null, (item) => {
-    if (Object.keys(item).length) {
-        console.log('Sync with ', task);   
-        task = item.task;
-        step = item.step;
-        if (task.task_type == "google_search" || task.task_type == "search_journey") activateGoogleSearch()
-        if (task.task_type == "journey") activateJourneyTask()
-    } 
-});
+// Silent Clisha extension if neccesary
+function silentClishaExtension(){
+    if(domain[0] == 'clisha.me') return true;
+    return false;
+}
 
 // Sync Task with Backround 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
-    // console.log('Content Task',message);
+    // 
     if(message.form == true) return handleNextJourney()
     if(message.vid_completed == true) return handleNextJourney();
-    task = message.task; 
-    step = message.step;
-    if (task.task_type == "google_search" || task.task_type == "search_journey") activateGoogleSearch()
-    if (task.task_type == "journey") activateJourneyTask()
+    // Start Extension
+    const isSilent =  silentClishaExtension();
+    if(!isSilent){
+        task = message.task; 
+        step = message.step;
+        if (task.task_type == "google_search" || task.task_type == "search_journey") activateGoogleSearch()
+        if (task.task_type == "journey") activateJourneyTask()
+    }
     return true; 
 });
 
+// Run available task in the store 
+chrome.storage.sync.get(null, (item) => {
+    if (Object.keys(item).length) { 
+        // Start Extension
+        const isSilent =  silentClishaExtension();
+        if(!isSilent){
+            task = item.task;
+            step = item.step;
+            if (task.task_type == "google_search" || task.task_type == "search_journey") activateGoogleSearch()
+            if (task.task_type == "journey") activateJourneyTask();
+        } 
+        return true;
+    } 
+});
+
+
+// Hanshaje
 function handshake(link){
     link = link.split(/[?#]/)[0];
     var  links = [link , link +'/'];
-    // console.log('Handshake ',currentUrl.href.match(link) ); 
     return(currentUrl.href.match(link) || links.includes(currentUrl.href));
 }
 
 function activateGoogleSearch(){
-    let clisha_search =  JSON.parse(task.google_search);
-
-
+    const clisha_search =  JSON.parse(task.google_search);
     if(domain[0] == 'google.com') {
         if(domain[0] == 'google.com' && currentUrl.href.includes('search?q=')){
             let url = currentUrl.href.split('?'),
@@ -91,9 +103,7 @@ function activateGoogleSearch(){
 function activateJourneyTask() {
     let journeyTask = task.journey;
     currentJourney = journeyTask[step - 1];
-    
-    // if(currentUrl.href.includes('completed=vid') ) return handleNextJourney()
-    // 
+
     if(handshake(currentJourney.link)){
         runJourneyInteraction();
     }else{
@@ -342,13 +352,10 @@ function multiChoiceJourney() {
 }    
 
 function completeExtensionTask(){
-    let current = currentJourney;
-    // console.log(current.link_type);
-
     chrome.storage.sync.clear(function() { 
-        let url = `${dashboardUrl}reward?t=${task.id}&p=${task.points}`
+        const url = `${dashboardUrl}reward?t=${task.id}&p=${task.points}`
         chrome.runtime.sendMessage( { completed: 'true' }, (response) => {  });
-        let features = "right=100,top=100,width=600,height=450";
+        const features = "right=100,top=100,width=600,height=450";
         window.open(url, '_blank', features);
 
 
@@ -362,6 +369,7 @@ function completeExtensionTask(){
             })
         }
         if(overlay)overlay.style.display = "none";
+
         var error = chrome.runtime.lastError;
         if (error) console.error(error);  throw error; 
     });
