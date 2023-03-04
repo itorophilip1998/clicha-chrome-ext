@@ -3,7 +3,8 @@ const mode = 'PRODUCTION';
 const dashboardUrl = (mode == 'TESTING') ? 'https://clisha-testing-user.netlify.app/dashboard/' : 'https://clisha.me/dashboard/';
      
 var task, step = null, 
-    active_modal, toggle_modal,
+    active_modal, question_modal,
+    toggle_modal,
     currentJourney = {};
 var domain = window.location.href,
     currentUrl = window.location;

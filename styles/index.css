@@ -81,7 +81,7 @@
   font-family: 'Roboto', sans-serif  !important;
 }
 .float_helper{
-  background-image: url('https://clisha.me/images/popup/Group%2076566.png');
+  background-image: url('https://clisha-assets.fra1.digitaloceanspaces.com/images%2Fclisha-question-mark.png');
   animation-name: shake;
   animation-duration: 5s;
   animation-iteration-count: infinite;

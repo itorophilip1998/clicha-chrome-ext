@@ -16,8 +16,8 @@ document.body.addEventListener( 'click', function ( e ) {
     }
 
     if(e.target && e.target.id == 'clisha-answer') {
-        active_modal = document.querySelector('#clishaModelMulti');
-        active_modal.classList.add("clisha_modal_open")
+        question_modal = document.querySelector('#clishaModelMulti');
+        question_modal.classList.add("clisha_modal_open")
         // $('#clishaModelMulti').modal('show');;
         // active_modal.classList.remove("clisha_modal_close")  
     }
@@ -63,13 +63,17 @@ document.body.addEventListener( 'click', function ( e ) {
 
 function closeActiveModal(){
     // active_modal.classList.add("clisha_modal_close")  
-    active_modal.classList.remove("clisha_modal_open")
+    active_modal.classList.remove("clisha_modal_open");
+    if(question_modal) question_modal.classList.remove("clisha_modal_open");
 }
 
+// Deactivate plugin by detaching it from chrome
 function handleDeactivateModal() {
     chrome.storage.sync.clear(function() {
         chrome.runtime.sendMessage( { reload: 'true' }, (response) => {  
+            // Close all modals
             active_modal.classList.remove("clisha_modal_open");
+            if(question_modal) question_modal.classList.remove("clisha_modal_open");
         });
         var error = chrome.runtime.lastError;
         if (error) console.error(error);  throw error; 
@@ -100,7 +104,7 @@ function prepareAnswer(){
             document.body.insertAdjacentHTML('beforeend', html);
             let step_info = document.querySelector('#next-step-info');
             step_info.innerHTML = `When you are done, click on  <span class="clisha_text_secondary"> ${task.journey[step].description} </span> on this page to continue.`
-            active_modal = document.querySelector('#clishaModelNextStep')
+            active_modal = document.querySelector('#clishaModelNextStep');
             active_modal.classList.add("clisha_modal_open");
             
             chrome.storage.sync.set(({ "step": step + 1 }));
