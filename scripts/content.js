@@ -2,11 +2,11 @@
 const mode = 'PRODUCTION';
 const dashboardUrl = (mode == 'TESTING') ? 'https://clisha-testing-user.netlify.app/dashboard/' : 'https://clisha.me/dashboard/';
      
-var task, step = null, 
+let task, step = null, 
     active_modal, question_modal,
     toggle_modal,
     currentJourney = {};
-var domain = window.location.href,
+let domain = window.location.href,
     currentUrl = window.location;
 domain = domain.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)
 
@@ -19,10 +19,10 @@ function silentClishaExtension(){
 
 // Sync Task with Backround 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => { 
-    // 
+    // Start Extension
     if(message.form == true) return handleNextJourney()
     if(message.vid_completed == true) return handleNextJourney();
-    // Start Extension
+    // Silent Extension in some url
     const isSilent =  silentClishaExtension();
     if(!isSilent){
         task = message.task; 
@@ -50,6 +50,9 @@ chrome.storage.sync.get(null, (item) => {
 
 // Confirm if given link match up
 function handshake(link){
+    // Remove unwannted string fron url
+    link = link.replace('http://', '').replace('https://', '').replace('www.', '');
+    //Split Url and parameter 
     link = link.split(/[?#]/)[0];
     var  links = [link , link +'/'];
     return(currentUrl.href.match(link) || links.includes(currentUrl.href));
@@ -116,7 +119,7 @@ function  activateSearchJourneyTask(){
     // const currentUrl = window.location; 
     currentJourney = task.journey[0]; 
     let clisha_search = JSON.parse(task.google_search);
-    let links = [currentJourney.link, currentJourney.link+'?completed=vid' ];
+    let links = [currentJourney.link, currentJourney.link+'?completed=vid'];
     
     if(step <= 1  && handshake(currentJourney.link)){
         step = 1;

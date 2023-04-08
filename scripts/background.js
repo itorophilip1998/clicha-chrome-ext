@@ -1,14 +1,13 @@
 console.log("Extention Started Successfully v2");
 
 const mode = 'PRODUCTION';
-const baseUrl = (mode == 'TESTING') ? 'https://clisha-testing-server.herokuapp.com/api' : 'https://app.clisha.me/api' ;
+const baseUrl = (mode == 'TESTING') ? 'https://clisha-testing-server.herokuapp.com/api' : 'https://server.clisha.me/task' ;
 const dashboardUrl = (mode == 'TESTING') ? 'https://clisha-testing-user.netlify.app/dashboard/' : 'https://clisha.me/dashboard/';
 
 var formTracker = null, responseTracker = null;
 // chrome.tabs.onActivated.addListener( function(activeInfo){
 //     console.log('Active Info',activeInfo.tabId);
 // });
-
 
 
 chrome.tabs.onCreated.addListener( function(activeInfo){
@@ -42,6 +41,7 @@ function parseQueryParam(url) {
     return query;
 }   
 
+// 
 function getTaskDetails(query){
     fetch(`${baseUrl}/task/${query.tk}?code=${query.cd}`)
         .then(response => response.json())
@@ -51,9 +51,12 @@ function getTaskDetails(query){
                 let step = (task.task_type == 'journey') ? 1 : 0;
 
                 chrome.storage.sync.set({ "task": task, "step": step}, function(items){
-                    // console.log('Task Activated', step,task);
+                    
                     chrome.tabs.query({active: true,currentWindow: true}, function(tabs){  		  
-                        chrome.tabs.sendMessage(tabs[0].id, { "task": task, "step": step}, function(response) { 			}); 		
+                        chrome.tabs.sendMessage(tabs[0].id, 
+                            { "task": task, "step": step}, 
+                            function(response) { 			
+                        }); 		
                     });
 
                     let timer = (task.task_type == 'google_search') ? 20
@@ -138,7 +141,7 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
       if (message == 'version') {
         sendResponse({
           type: 'success', 
-          version: '1.1.2'
+          version: '1.5.0'
         });
         return true;
       }

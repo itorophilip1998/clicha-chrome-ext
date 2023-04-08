@@ -3,9 +3,11 @@
 const mode = 'PRODUCTION';
 const dashboardUrl = (mode == 'TESTING') ? 'https://clisha-testing-user.netlify.app/dashboard/' : 'https://clisha.me/dashboard/';
 
-var task,     step = null, currentJourney = {};
+let task,     
+    step = null, 
+    currentJourney = {};
 
-var popDetail =  document.querySelector("#popInfo"),
+let popDetail =  document.querySelector("#popInfo"),
     taskActive =  document.querySelector("#taskActive"),
     taskInactive =  document.querySelector("#taskInactive"),
     taskUrl = document.querySelector('#clisha-task'),
@@ -18,7 +20,6 @@ chrome.storage.sync.get(null, (item) => {
         task = item.task;
         step = item.step;
         activateTask(task);
-        //  popDetail.innerHTML=`Task #${task.task_code} is currently active. <a href="#" id="clisha-deactivate">Click here</a>  to  deactivate the task `;
     }
 });
 
