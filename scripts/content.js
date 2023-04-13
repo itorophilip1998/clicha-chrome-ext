@@ -12,7 +12,7 @@ domain = domain.replace('http://', '').replace('https://', '').replace('www.', '
 
 // Silent Clisha extension if neccesary
 function silentClishaExtension(){
-    const clisha = 'clisha.me'; 
+    const clisha = 'clisha'; 
     if(  domain[0].includes(clisha)  ) return true;
     return false;
 }
