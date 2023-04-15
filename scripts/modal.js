@@ -76,7 +76,7 @@ function handleDeactivateModal() {
             if(question_modal) question_modal.classList.remove("clisha_modal_open");
         });
         var error = chrome.runtime.lastError;
-        if (error) console.error(error);  throw error; 
+        if (error) return error; 
     });
 } 
 

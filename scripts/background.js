@@ -12,11 +12,10 @@ let formTracker = null,
 // });
 
 chrome.tabs.onCreated.addListener( function(activeInfo){
-    console.log('Tab Opend', activeInfo.id); 
     chrome.tabs.get(activeInfo.id, function(tab){
         url = (tab && tab.pendingUrl) ? tab.pendingUrl :
             (tab && tab.url) ? tab.url : false;
-        console.log('Current Url', url);
+            
         if(url && url.includes('tk=') && url.includes('cd=')){
             chrome.storage.sync.get('task', (item) =>{
                 url = url.split('?');
@@ -48,7 +47,7 @@ function getTaskDetails(query){
     fetch(`${baseUrl}/clisha/task/${query.tk}?code=${query.cd}`)
         .then(response => response.json())
         .then((data) => {
-            console.log(`${baseUrl}/clisha/task/${query.tk}?code=${query.cd}`,data);
+            // console.log(`${baseUrl}/clisha/task/${query.tk}?code=${query.cd}`,data);
             if(data.status) {
                 let task = data.data;
                 let step = (task.task_type == 'journey') ? 1 : 0;

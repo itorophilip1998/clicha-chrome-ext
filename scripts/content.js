@@ -79,17 +79,19 @@ function activateGoogleSearch(){
         }
         return showModal(1, {head: `Please enter the copied Search Phrase into the Google Search Bar and hit enter`});
     } else{
-        // console.log(document.referrer, currentUrl.href+'/' , task.url)
         if(task.task_type == "google_search"){
             if(handshake(task.url) && document.referrer == 'https://www.google.com/'){
-                if(task.interactionId && task.interaction && task.interaction.interaction_type == 'multichoice' || task.interaction.interaction_type == 'multistep'){
+                if( task.interactionId && task.interaction && 
+                    task.interaction.interaction_type == 'multichoice' 
+                        || task.interaction.interaction_type == 'multistep'
+                ){
+
                     showModal(1, {
                         head: `Great! Please read the question below and click on the answer button to answer it `,
                         question: (task.interaction) ? task.interaction.question : ''
                     });
-    
-                    multiChoiceInteraction()
-                     
+
+                    multiChoiceInteraction();
                 } else{
                     showModal(1, { head: `You have clicked on the right page! Please interact with this page until the timer went down `});
                     timerInteraction()
@@ -108,6 +110,7 @@ function activateJourneyTask() {
     let journeyTask = task.journey;
     currentJourney = journeyTask[step - 1];
 
+
     if(handshake(currentJourney.link)){
         runJourneyInteraction();
     }else{
@@ -120,7 +123,9 @@ function  activateSearchJourneyTask(){
     currentJourney = task.journey[0]; 
     let clisha_search = JSON.parse(task.google_search);
     let links = [currentJourney.link, currentJourney.link+'?completed=vid'];
-    
+
+    console.log(currentJourney, step, task.task_type); 
+
     if(step <= 1  && handshake(currentJourney.link)){
         step = 1;
         if(step == 0) chrome.storage.sync.set(({ "step": step + 1 }));
@@ -136,6 +141,7 @@ function  activateSearchJourneyTask(){
 function runJourneyInteraction(){ 
     let start = (step == 1) ? "Great! Let's go," : (step == task.journey.length) ? "Great! Almost done," : "Let's continue";
     let type =  "", question = null, interaction = null; 
+
     if(currentJourney.link_type == "video") {
          type = "Kindly watch the video on this page. Watch up to 40% of the video to complete this step. Thanks ";
         //  console.log('Video Journey', currentUrl.href); 
@@ -148,10 +154,22 @@ function runJourneyInteraction(){
     }
 
     if(currentJourney.link_type == "content"){
-        type = "Please Read the question below. You will find the answer on this Page! For answering it click on the button in the bottom right hand corner.";  
+      
         question = currentJourney.step_interaction.question;
         interaction = currentJourney.step_interaction;
-        multiChoiceJourney();
+
+        // console.log('Journey Interaction ',interaction.interaction_type == 'timer');
+        if(
+            interaction && 
+            interaction.interaction_type == 'multichoice' 
+            || interaction.interaction_type == 'multistep'
+        ){
+            type = "Please Read the question below. You will find the answer on this Page! For answering it click on the button in the bottom right hand corner.";  
+            multiChoiceJourney();
+        }else{
+            type = `You have clicked on the right page! Please interact with this page until the timer went down`;
+            timerInteraction(); 
+        }
     }
     // console.log(question, interaction);
     return  showModal(1, { step,  head: start, body: type, question, interaction });
@@ -265,15 +283,21 @@ function timerInteraction() {
         let warning=document.getElementById("clisha_warning");
         let clisha_timer=document.getElementById("clisha_timer");
 
-        var timeValue = (task.interaction) ? task.interaction.duration: 45; 
+        var timeValue = (task?.interaction) ? task.interaction.duration:  
+                        (currentJourney?.step_interaction) ? currentJourney.step_interaction.duration :   45; 
+                        
+        // console.log(currentJourney); 
+
         let intervalId=  setInterval(()=> {
             let currentTab = window.location.href;
-            // console.log(document.visibilityState);
-            if(currentTab.match(task.url) && document.visibilityState === 'visible'){
+            let url = (task.url) ? task.url : (currentJourney) ? currentJourney.link : '';
+          
+             
+            if(handshake(url) && document.visibilityState === 'visible'){
                 timeValue--;
                 warning.innerText =  "Hello! Do not close or leave this window ";
                 clisha_timer.innerText =  timeValue;
-                if (timeValue==0) {
+                if (timeValue==0) { 
                     clearInterval(intervalId)
                     completeExtensionTask();
                 }
