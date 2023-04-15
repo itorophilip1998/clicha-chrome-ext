@@ -1,6 +1,6 @@
 {
   "name": "clisha-extension",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Clisha Extention",
   "main": "background.js",
   "scripts": {
@@ -16,3 +16,4 @@
     "axios": "^0.27.2"
   }
 }
+ 
